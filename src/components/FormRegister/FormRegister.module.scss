@@ -64,18 +64,19 @@
 .content p {
   margin: 10px 0 40px;
 }
-.content a {
-  text-decoration: none;
+.btn-start {
   color: #fff;
   border: 2px solid #ff6633;
   font-weight: 500;
   padding: 10px 40px;
   border-radius: 40px;
   transition: 0.5s;
+  background-color: transparent;
 }
-.content a:hover {
+.btn-start:hover {
   background-color: rgba(229, 9, 20, 1);
   border-color: transparent;
+  cursor: pointer;
 }
 .login {
   position: relative;
@@ -148,14 +149,23 @@
   }
 
   input[value]:not([value='']) {
+    box-shadow: none;
+    border-color: transparent transparent #ced4da transparent;
+    border-radius: 0px 0px 0px 10px;
     & + .title-input {
-      background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+      background-color: transparent;
       font-size: 12px;
       padding: 0 10px;
       top: 0;
       transform: translateY(-50%);
     }
   }
+}
+
+.check {
+  width: 11px;
+  height: 11px;
+  margin-right: 3px;
 }
 
 .remember-forgot {
@@ -211,4 +221,11 @@
 }
 .register-link a:hover {
   text-decoration: underline;
+}
+
+.err {
+  color: rgba(229, 9, 20, 1);
+  font-size: 1.4rem;
+  float: right;
+  margin: -4px 8px 16px 0;
 }

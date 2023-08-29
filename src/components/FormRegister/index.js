@@ -1,22 +1,86 @@
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faSignature, faUser, faUserPen } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styles from './FormRegister.module.scss';
-// import logo from '../../assets/images/Untitled_logo_2_free-file.jpg';
 import classNames from 'classnames/bind';
+import { useRef, useState, useCallback, useEffect } from 'react';
+import { userService } from '~/services';
+import Loader from '../Loader';
 const cx = classNames.bind(styles);
 
 function FormRegister() {
+  const btnSubmitRef = useRef();
+  const fullNameRef = useRef();
+  const navigate = useNavigate();
+  const [fullName, setFullName] = useState('');
+  const [userInput, setUserInput] = useState('');
+  const [passInput, setPassInput] = useState('');
+  const [confPass, setConfPass] = useState('');
+  const [isCheckBox, setIsCheckBox] = useState(true);
+  const [errInput, setErrInput] = useState('');
+  const [isLoader, setIsloader] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
+
+  const handleChange = (e, type) => {
+    if (type === 'user') {
+      setUserInput(e.target.value);
+    } else if (type === 'pass') {
+      setPassInput(e.target.value);
+    } else if (type === 'fullName') {
+      setFullName(e.target.value);
+    } else if (type === 'confPass') {
+      setConfPass(e.target.value);
+    } else if (type === 'checkbox') {
+      setIsCheckBox((isCheckBox) => !isCheckBox);
+    }
+  };
+
+  const handelSubmit = async () => {
+    setIsloader(true);
+    var idLoader = await setTimeout(async () => {
+      const res = await userService.register(fullName, userInput, passInput, confPass);
+      setErrInput(res.errMessage);
+      setIsloader(false);
+      clearTimeout(idLoader);
+      if (res.errCode === 0) {
+        setIsRegister(true);
+      } else {
+        setUserInput('');
+        setPassInput('');
+        setConfPass('');
+        fullNameRef.current.focus();
+      }
+    }, 500);
+  };
+
+  const handleNavigate = useCallback(() => {
+    if (isRegister) {
+      alert('Đăng ký tài khoản thành công!');
+      navigate('/login');
+    }
+  }, [isRegister, navigate]);
+
+  const handleKeyDownSubmit = (e) => {
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') btnSubmitRef.current.click();
+    });
+  };
+
+  useEffect(() => {
+    handleNavigate();
+    handleKeyDownSubmit();
+  }, [handleNavigate, isRegister]);
+
   return (
     <>
+      {isLoader && <Loader />}
       <Row className={cx('header')}>
         <Col sm={3}>
           <Link to="/" className={cx('logo')}>
             <FontAwesomeIcon icon={faSignature} bounce />
             NTFBook
-            {/* <img src={logo} className={cx('logo')}></img> */}
           </Link>
         </Col>
 
@@ -40,36 +104,69 @@ function FormRegister() {
               đều có trên TFBook với giá chỉ từ 90.000₫. Bạn đã có tài khoản chưa? Nhấn ngay nút "Bắt đầu" để tạo hoặc
               kích hoạt lại tư cách thành viên của bạn.
             </p>
-            <Link to="#"> Bắt đầu </Link>
+            <Button
+              className={cx('btn-start')}
+              onClick={() => {
+                fullNameRef.current.focus();
+              }}
+            >
+              {' '}
+              Bắt đầu{' '}
+            </Button>
           </div>
         </Col>
         <Col sm={8}>
           <div className={cx('login')}>
             <h2> Đăng ký </h2>
-            <Form action="/login">
+            <Form>
               <Form.Group className={cx('mb-4', 'form-gr')}>
-                <Form.Control required id="fullName" autoComplete="off" />
+                <Form.Control
+                  required
+                  ref={fullNameRef}
+                  id="fullName"
+                  autoComplete="off"
+                  value={fullName}
+                  onChange={(e) => handleChange(e, 'fullName')}
+                />
                 <Form.Label className={cx('title-input')} htmlFor="fullName">
                   <FontAwesomeIcon icon={faUserPen} bounce />
                   Họ và tên
                 </Form.Label>
               </Form.Group>
               <Form.Group className={cx('mb-4', 'form-gr')}>
-                <Form.Control required id="user" autoComplete="off" />
+                <Form.Control
+                  required
+                  id="user"
+                  autoComplete="off"
+                  value={userInput}
+                  onChange={(e) => handleChange(e, 'user')}
+                />
                 <Form.Label className={cx('title-input')} htmlFor="user">
                   <FontAwesomeIcon icon={faUser} bounce />
                   Tên đăng nhập
                 </Form.Label>
               </Form.Group>
               <Form.Group className={cx('mb-4', 'form-gr')}>
-                <Form.Control required type="password" id="password" />
+                <Form.Control
+                  required
+                  type="password"
+                  id="password"
+                  value={passInput}
+                  onChange={(e) => handleChange(e, 'pass')}
+                />
                 <Form.Label className={cx('title-input')} htmlFor="password">
                   <FontAwesomeIcon icon={faLock} bounce />
                   Mật khẩu
                 </Form.Label>
               </Form.Group>
               <Form.Group className={cx('mb-4', 'form-gr')}>
-                <Form.Control required type="password" id="password-confirm" />
+                <Form.Control
+                  required
+                  type="password"
+                  id="password-confirm"
+                  value={confPass}
+                  onChange={(e) => handleChange(e, 'confPass')}
+                />
                 <Form.Label className={cx('title-input')} htmlFor="password-confirm">
                   <FontAwesomeIcon icon={faLock} bounce />
                   Nhập lại mật khẩu
@@ -77,13 +174,19 @@ function FormRegister() {
               </Form.Group>
               <Form.Group className={cx('remember-forgot')}>
                 <Form.Label>
-                  <Form.Control required type="checkbox" /> Tôi đồng ý với điều khoản dịch vụ
+                  <Form.Control
+                    className={cx('check')}
+                    type="checkbox"
+                    checked={isCheckBox}
+                    onChange={(e) => handleChange(e, 'checkbox')}
+                  />
+                  <span>Tôi đồng ý với điều khoản dịch vụ</span>
                 </Form.Label>
               </Form.Group>
+              <span className={cx('err')}>{errInput}</span>
               <div>
-                <Button className={cx('submit')} type="submit">
-                  {' '}
-                  Đăng ký{' '}
+                <Button ref={btnSubmitRef} className={cx('submit')} onClick={handelSubmit}>
+                  Đăng ký
                 </Button>
               </div>
               <div className={cx('register-link')}>
