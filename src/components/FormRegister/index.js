@@ -1,13 +1,14 @@
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faSignature, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faSignature, faUser, faUserPen } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-import styles from './FormLogin.module.scss';
+import styles from './FormRegister.module.scss';
+// import logo from '../../assets/images/Untitled_logo_2_free-file.jpg';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
-function FormLogin() {
+function FormRegister() {
   return (
     <>
       <Row className={cx('header')}>
@@ -15,6 +16,7 @@ function FormLogin() {
           <Link to="/" className={cx('logo')}>
             <FontAwesomeIcon icon={faSignature} bounce />
             NTFBook
+            {/* <img src={logo} className={cx('logo')}></img> */}
           </Link>
         </Col>
 
@@ -43,8 +45,15 @@ function FormLogin() {
         </Col>
         <Col sm={8}>
           <div className={cx('login')}>
-            <h2> Đăng nhập </h2>
-            <Form action="/">
+            <h2> Đăng ký </h2>
+            <Form action="/login">
+              <Form.Group className={cx('mb-4', 'form-gr')}>
+                <Form.Control required id="fullName" autoComplete="off" />
+                <Form.Label className={cx('title-input')} htmlFor="fullName">
+                  <FontAwesomeIcon icon={faUserPen} bounce />
+                  Họ và tên
+                </Form.Label>
+              </Form.Group>
               <Form.Group className={cx('mb-4', 'form-gr')}>
                 <Form.Control required id="user" autoComplete="off" />
                 <Form.Label className={cx('title-input')} htmlFor="user">
@@ -52,7 +61,6 @@ function FormLogin() {
                   Tên đăng nhập
                 </Form.Label>
               </Form.Group>
-
               <Form.Group className={cx('mb-4', 'form-gr')}>
                 <Form.Control required type="password" id="password" />
                 <Form.Label className={cx('title-input')} htmlFor="password">
@@ -60,22 +68,27 @@ function FormLogin() {
                   Mật khẩu
                 </Form.Label>
               </Form.Group>
+              <Form.Group className={cx('mb-4', 'form-gr')}>
+                <Form.Control required type="password" id="password-confirm" />
+                <Form.Label className={cx('title-input')} htmlFor="password-confirm">
+                  <FontAwesomeIcon icon={faLock} bounce />
+                  Nhập lại mật khẩu
+                </Form.Label>
+              </Form.Group>
               <Form.Group className={cx('remember-forgot')}>
                 <Form.Label>
-                  {' '}
-                  <Form.Control required type="checkbox" /> Ghi nhớ tôi
+                  <Form.Control required type="checkbox" /> Tôi đồng ý với điều khoản dịch vụ
                 </Form.Label>
-                <Link to="/"> Quên mật khẩu? </Link>
               </Form.Group>
               <div>
                 <Button className={cx('submit')} type="submit">
                   {' '}
-                  Đăng nhập{' '}
+                  Đăng ký{' '}
                 </Button>
               </div>
               <div className={cx('register-link')}>
-                <p> Bạn mới tham gia TFBook?</p>
-                <Link to="/register"> Đăng ký ngay</Link>
+                <p> Bạn đã có tài khoản trước đó?</p>
+                <Link to="/login"> Đăng nhập ngay</Link>
               </div>
             </Form>
           </div>
@@ -85,4 +98,4 @@ function FormLogin() {
   );
 }
 
-export default FormLogin;
+export default FormRegister;
