@@ -66,6 +66,7 @@
 }
 .btn-start {
   color: #fff;
+  font-size: 1.3rem;
   border: 2px solid #ff6633;
   font-weight: 500;
   padding: 10px 40px;
@@ -87,6 +88,7 @@
   text-align: center;
   color: #ff6633;
   font-size: 2em;
+  margin-bottom: 24px;
 }
 
 .form-gr {
@@ -152,6 +154,8 @@
     box-shadow: none;
     border-color: transparent transparent #ced4da transparent;
     border-radius: 0px 0px 0px 10px;
+    color: #fff;
+    caret-color: #fff;
     & + .title-input {
       background-color: transparent;
       font-size: 12px;
@@ -210,6 +214,7 @@
   font-size: 1.3rem;
   color: #fff;
   font-weight: 500;
+  margin-top: 10px;
 }
 .register-link a {
   display: flex;

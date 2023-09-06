@@ -1,7 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faSignature, faUser } from '@fortawesome/free-solid-svg-icons';
 import styles from './FormLogin.module.scss';
@@ -64,9 +64,9 @@ function FormLogin() {
     }
   }, [isLogined, navigate]);
 
-  const handleKeyDownSubmit = (e) => {
+  const handleKeyDownSubmit = () => {
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') btnSubmitRef.current.click();
+      if (e.keyCode === 13) btnSubmitRef.current.click();
     });
   };
 
@@ -78,15 +78,15 @@ function FormLogin() {
   return (
     <>
       {isLoader && <Loader />}
-      <Row className={cx('header')}>
-        <Col sm={3}>
+      <div className={cx('header')}>
+        <div>
           <Link to="/" className={cx('logo')}>
             <FontAwesomeIcon icon={faSignature} bounce />
             NTFBook
           </Link>
-        </Col>
+        </div>
 
-        <Col sm={9}>
+        <div>
           <nav className={cx('nav')}>
             <Link to="/"> Home </Link>
             <Link to="/"> About </Link>
@@ -94,11 +94,11 @@ function FormLogin() {
             <Link to="/"> Review </Link>
             <Link to="/"> Contact </Link>
           </nav>
-        </Col>
-      </Row>
+        </div>
+      </div>
 
-      <Row className={cx('home')}>
-        <Col sm={4}>
+      <div className={cx('home')}>
+        <div sm={4}>
           <div className={cx('content')}>
             <h2> Welcome!!!</h2>
             <p>
@@ -115,8 +115,8 @@ function FormLogin() {
               Bắt đầu
             </Button>
           </div>
-        </Col>
-        <Col sm={8}>
+        </div>
+        <div>
           <div className={cx('login')}>
             <h2> Đăng nhập </h2>
             <Form>
@@ -150,12 +150,12 @@ function FormLogin() {
               </Form.Group>
               <Form.Group className={cx('remember-forgot')}>
                 <Form.Label>
-                  <Form.Control
+                  <input
                     className={cx('check')}
                     checked={isCheckBox}
                     onChange={(e) => handleChange(e, 'checkbox')}
                     type="checkbox"
-                  />{' '}
+                  />
                   Ghi nhớ tôi
                 </Form.Label>
                 <Link to="/"> Quên mật khẩu? </Link>
@@ -172,8 +172,8 @@ function FormLogin() {
               </div>
             </Form>
           </div>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </>
   );
 }

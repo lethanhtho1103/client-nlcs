@@ -9,7 +9,6 @@ const userSlice = createSlice({
   },
   reducers: {
     toggleUserLogin(state, actions) {
-      console.log('toggle user login', actions);
       if (actions.payload === true) {
         state.isLogined = actions.payload;
       } else {

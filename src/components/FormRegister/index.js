@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faSignature, faUser, faUserPen } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
@@ -62,7 +62,7 @@ function FormRegister() {
     }
   }, [isRegister, navigate]);
 
-  const handleKeyDownSubmit = (e) => {
+  const handleKeyDownSubmit = () => {
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') btnSubmitRef.current.click();
     });
@@ -76,15 +76,15 @@ function FormRegister() {
   return (
     <>
       {isLoader && <Loader />}
-      <Row className={cx('header')}>
-        <Col sm={3}>
+      <div className={cx('header')}>
+        <div>
           <Link to="/" className={cx('logo')}>
             <FontAwesomeIcon icon={faSignature} bounce />
             NTFBook
           </Link>
-        </Col>
+        </div>
 
-        <Col sm={9}>
+        <div>
           <nav className={cx('nav')}>
             <Link to="/"> Home </Link>
             <Link to="/"> About </Link>
@@ -92,11 +92,11 @@ function FormRegister() {
             <Link to="/"> Review </Link>
             <Link to="/"> Contact </Link>
           </nav>
-        </Col>
-      </Row>
+        </div>
+      </div>
 
-      <Row className={cx('home')}>
-        <Col sm={4}>
+      <div className={cx('home')}>
+        <div>
           <div className={cx('content')}>
             <h2> Welcome!!!</h2>
             <p>
@@ -110,12 +110,11 @@ function FormRegister() {
                 fullNameRef.current.focus();
               }}
             >
-              {' '}
-              Bắt đầu{' '}
+              Bắt đầu
             </Button>
           </div>
-        </Col>
-        <Col sm={8}>
+        </div>
+        <div>
           <div className={cx('login')}>
             <h2> Đăng ký </h2>
             <Form>
@@ -174,7 +173,7 @@ function FormRegister() {
               </Form.Group>
               <Form.Group className={cx('remember-forgot')}>
                 <Form.Label>
-                  <Form.Control
+                  <input
                     className={cx('check')}
                     type="checkbox"
                     checked={isCheckBox}
@@ -195,8 +194,8 @@ function FormRegister() {
               </div>
             </Form>
           </div>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </>
   );
 }
