@@ -81,11 +81,13 @@ function FormLogin() {
       <div className={cx('header')}>
         <div>
           <Link to="/" className={cx('logo')}>
-            <FontAwesomeIcon icon={faSignature} bounce />
-            NTFBook
+            <span>
+              <FontAwesomeIcon icon={faSignature} bounce />
+              NTF
+            </span>
+            Movie
           </Link>
         </div>
-
         <div>
           <nav className={cx('nav')}>
             <Link to="/"> Home </Link>
@@ -96,14 +98,13 @@ function FormLogin() {
           </nav>
         </div>
       </div>
-
       <div className={cx('home')}>
         <div sm={4}>
           <div className={cx('content')}>
             <h2> Welcome!!!</h2>
             <p>
               Những tựa phim Việt Nam và quốc tế đình đám, hấp dẫn, hài hước, kịnh tính, kinh dị, lôi cuống,... Tất cả
-              đều có trên TFBook với giá chỉ từ 90.000₫. Bạn đã có tài khoản chưa? Nhấn ngay nút "Bắt đầu" để tạo hoặc
+              đều có trên NTFMovie với giá chỉ từ 60.000₫. Bạn đã có tài khoản chưa? Nhấn ngay nút "Bắt đầu" để tạo hoặc
               kích hoạt lại tư cách thành viên của bạn.
             </p>
             <Button
@@ -167,7 +168,7 @@ function FormLogin() {
                 </Button>
               </div>
               <div className={cx('register-link')}>
-                <p> Bạn mới tham gia TFBook?</p>
+                <p> Bạn mới tham gia NTFMovie?</p>
                 <Link to="/register"> Đăng ký ngay</Link>
               </div>
             </Form>

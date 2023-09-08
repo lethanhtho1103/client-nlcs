@@ -10,10 +10,14 @@
   z-index: 99;
 }
 .header .logo {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: #fff;
   text-decoration: none;
+}
+
+.header .logo span {
+  color: #ff6633;
 }
 
 .header .nav a {

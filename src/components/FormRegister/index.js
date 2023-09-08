@@ -80,7 +80,7 @@ function FormRegister() {
         <div>
           <Link to="/" className={cx('logo')}>
             <FontAwesomeIcon icon={faSignature} bounce />
-            NTFBook
+            NTFMovie
           </Link>
         </div>
 
@@ -101,7 +101,7 @@ function FormRegister() {
             <h2> Welcome!!!</h2>
             <p>
               Những tựa phim Việt Nam và quốc tế đình đám, hấp dẫn, hài hước, kịnh tính, kinh dị, lôi cuống,... Tất cả
-              đều có trên TFBook với giá chỉ từ 90.000₫. Bạn đã có tài khoản chưa? Nhấn ngay nút "Bắt đầu" để tạo hoặc
+              đều có trên NTFMovie với giá chỉ từ 60.000₫. Bạn đã có tài khoản chưa? Nhấn ngay nút "Bắt đầu" để tạo hoặc
               kích hoạt lại tư cách thành viên của bạn.
             </p>
             <Button
