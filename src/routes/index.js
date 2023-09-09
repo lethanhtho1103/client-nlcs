@@ -1,6 +1,7 @@
 import Home from '~/pages/Home';
 import Login from '~/pages/Login';
 import Register from '~/pages/Register';
+import Details from '~/pages/Details';
 
 const publicRoutes = [
   {
@@ -14,6 +15,10 @@ const publicRoutes = [
   {
     path: '/register',
     component: Register,
+  },
+  {
+    path: '/details',
+    component: Details,
   },
 ];
 
