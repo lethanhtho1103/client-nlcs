@@ -8,6 +8,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import Footer from '~/components/Footer';
 import Header from '~/components/Header';
+import FilmPlaying from '~/components/FilmPlaying';
 
 const cx = classNames.bind(style);
 
@@ -85,7 +86,7 @@ function HomeUser() {
             />
           </Col>
         </Row>
-        <Row className={cx('moviesPlaying')}>
+        {/* <Row className={cx('moviesPlaying')}>
           <Col sm={12} className={cx('playing-movie')}>
             <h1 className={cx('heading-movie')}>Phim đang chiếu</h1>
             <Row className={cx('list-movie')}>
@@ -340,7 +341,8 @@ function HomeUser() {
               </Col>
             </Row>
           </Col>
-        </Row>
+        </Row> */}
+        <FilmPlaying />
         <Row className={cx('moviesUpcoming')}>
           <Col sm={12} className={cx('playing-movie')}>
             <h1 className={cx('heading-movie')}>Phim sắp chiếu</h1>
