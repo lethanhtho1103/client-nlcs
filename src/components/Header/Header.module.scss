@@ -66,7 +66,6 @@
 
       .icon-out {
         font-size: 14px;
-        margin-right: 100px;
         color: #fff;
 
         .logout {
@@ -213,10 +212,6 @@
     right: 43px;
     background-color: #888888;
     height: calc(40px - (9px * 2));
-  }
-
-  &:focus-within {
-    border-color: blue;
   }
 
   &:hover {

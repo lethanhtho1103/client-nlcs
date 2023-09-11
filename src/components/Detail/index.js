@@ -74,6 +74,10 @@ function Deatail() {
                 <li className={cx('title-item')}>2023</li>
                 <li className={cx('title-item', 'item-center')}>.</li>
                 <li className={cx('title-item')}>130 phút</li>
+                <li className={cx('title-item', 'item-center')}>.</li>
+                <li className={cx('title-item')}>Viễn tưởng, Chính kịch</li>
+                <li className={cx('title-item', 'item-center')}>.</li>
+                <li className={cx('title-item')}>Hàn Quốc</li>
               </ul>
               <div className={cx('info-evaluate')}>
                 <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
@@ -96,20 +100,33 @@ function Deatail() {
                   <div className={cx('item-content')}>10/9/2023</div>
                 </div>
                 <div className={cx('item')}>
-                  <div className={cx('item-title')}>Thể loại</div>
-                  <div className={cx('item-content')}>Khoa Học Viễn Tưởng, Chính Kịch</div>
+                  <div className={cx('item-title')}>Giờ chiếu</div>
+                  <div className={cx('item-content')}>19:00 ~ 21:10</div>
                 </div>
                 <div className={cx('item')}>
-                  <div className={cx('item-title')}>Quốc gia</div>
-                  <div className={cx('item-content')}>Hàn Quốc</div>
+                  <div className={cx('item-title')}>Phòng chiếu</div>
+                  <div className={cx('item-content')}>03</div>
                 </div>
+                <div className={cx('item')}>
+                  <div className={cx('item-title')}>Giá vé</div>
+                  <div className={cx('item-content')}>79.000đ</div>
+                </div>
+                <div className={cx('item')}>
+                  <div className={cx('item-title')}>Số vé còn lại</div>
+                  <div className={cx('item-content')}>20</div>
+                </div>
+              </div>
+              <div className={cx('book-ticket')}>
+                <Button className={cx('btn-book-ticket')}>Đặt vé</Button>
+                <span>Số lượng:</span>
+                <input type="number" name="quantity" className={cx('quantity')} />
               </div>
             </Col>
           </div>
         </Row>
         <Row className={cx('moviesTop')}>
           <Col className={cx('playing-movie')}>
-            <h1 className={cx('heading-movie')}>Top phim hay trên NTFMovie</h1>
+            <h1 className={cx('heading-movie')}>Danh sách top phim nổi bật</h1>
             <Row className={cx('list-movie')}>
               <Col className={cx('movie-item')}>
                 <a href="/" className={cx('home-product-item-link')}>
@@ -257,8 +274,29 @@ function Deatail() {
                 </a>
               </Col>
             </Row>
-            <Button className={cx('btn-more')}>Xem nhiều hơn!</Button>
+            {/* <Button className={cx('btn-more')}>Xem nhiều hơn!</Button> */}
           </Col>
+        </Row>
+        <Row className={cx('block')}>
+          <h1 className={cx('title')}>Khám phá Top Phim Hay - Trải nghiệm không thể bỏ qua!</h1>
+          <div className={cx('descriptions')}>
+            <div className={cx('description-item')}>
+              "Top phim hay" là một thuật ngữ để chỉ đến danh sách hoặc bảng xếp hạng các bộ phim được đánh giá cao về
+              chất lượng, nghệ thuật, diễn xuất, kịch bản và/hoặc giải trí. Nó thường dựa trên sự đánh giá của khán giả,
+              nhà phê bình hoặc các tổ chức điện ảnh uy tín.
+            </div>
+            <div className={cx('description-item')}>
+              Tuy "Top phim hay" là một khái niệm tương đối và có thể thay đổi theo thời gian và từng nguồn đánh giá,
+              nhưng một số danh sách phim nổi tiếng như "100 phim hay nhất mọi thời đại" của American Film Institute
+              (AFI) hoặc "IMDb Top 250" (dựa trên đánh giá của cộng đồng người dùng trên IMDb) có thể được coi là ví dụ
+              cho "top phim hay".
+            </div>
+            <div className={cx('description-item')}>
+              Chính vì vậy, với đông đảo người dùng sử dụng NTFMovie để đặt vé xem phim, đánh giá phim thì NTFBook xin
+              phép được tổng hợp và liệt kê ra những danh sách phim hay được đánh giá tốt nhất với đầy đủ các thể loại,
+              quốc gia cũng như chất lượng của mỗi bộ phim.
+            </div>
+          </div>
         </Row>
       </Container>
       <Footer />
