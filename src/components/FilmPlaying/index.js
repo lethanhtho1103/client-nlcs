@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { filmService } from '~/services';
-import Moment from 'react-moment';
+import { Link } from 'react-router-dom';
+// import Moment from 'react-moment';
 const cx = classNames.bind(style);
 
 function FilmPlaying() {
@@ -30,7 +31,7 @@ function FilmPlaying() {
           {films.map((film, index) => {
             return (
               <Col key={film.id} className={cx('movie-item')}>
-                <a href="/" className={cx('home-product-item-link')}>
+                <Link to={`http://localhost:3000/details/${film.id}`} className={cx('home-product-item-link')}>
                   <div className={cx('home-product-item')}>
                     <div
                       style={{
@@ -80,7 +81,7 @@ function FilmPlaying() {
                       <span className={cx('home-product-item__sale-off-label')}>ĐẶT TRƯỚC</span>
                     </div>
                   </div>
-                </a>
+                </Link>
               </Col>
             );
           })}

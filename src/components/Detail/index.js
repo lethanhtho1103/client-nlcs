@@ -7,10 +7,34 @@ import { faEye } from '@fortawesome/free-regular-svg-icons';
 import Footer from '~/components/Footer';
 import Header from '~/components/Header';
 import { faChevronRight, faHouse, faStar } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import Moment from 'react-moment';
 
 const cx = classNames.bind(style);
 
 function Deatail() {
+  const [filmInfo, setFilmInfo] = useState({});
+
+  // const handleClickFilm = async (filmId) => {
+  //   const res = await filmService.getOneFilm({ filmId });
+  //   if (res.errCode === 0) {
+  //     setFilmInfo(res.data);
+  //   } else {
+  //     console.log(filmId);
+  //   }
+  //   console.log(filmInfo);
+  // };
+  const { filmId } = useParams();
+  useEffect(() => {
+    const url = 'http://localhost:8082/api/v1/film/get-one?filmId=' + filmId;
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setFilmInfo(data.data);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className={cx('wrap')}>
       <Header />
@@ -33,22 +57,17 @@ function Deatail() {
               </li>
               <li className={cx('path-item')}>
                 <FontAwesomeIcon className={cx('iconRight')} icon={faChevronRight} />
-                <span>Địa bàn sụp đổ</span>
+                <span>{filmInfo.name}</span>
               </li>
             </ul>
           </div>
         </div>
-        <Row
-          style={{
-            background: 'url(https://cinema.momocdn.net/img/17498479334159640-g8kCHQzfogy1t1dE9nPBtiFkz64.jpg)',
-          }}
-          className={cx('detail-movie')}
-        >
+        <Row style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
           <div className={cx('contain')}>
             <Col className={cx('detail-img')}>
               <div
                 style={{
-                  background: 'url(https://cinema.momocdn.net/img/17498461059164213-poster.jpg)',
+                  background: `url(${filmInfo.image})`,
                 }}
                 className={cx('img')}
               ></div>
@@ -66,38 +85,34 @@ function Deatail() {
               </div>
             </Col>
             <Col className={cx('info')}>
-              <div className={cx('info-old')}>16+</div>
-              <h1 className={cx('info-title')}>Địa Đàng Sụp Đổ</h1>
+              <div className={cx(`info-old${filmInfo.ageAllowed}`)}>{filmInfo.ageAllowed}+</div>
+              <h1 className={cx('info-title')}>{filmInfo.name}</h1>
               <ul className={cx('list-title')}>
-                <li className={cx('title-item')}>Concrete Utopia</li>
+                <li className={cx('title-item')}>{filmInfo.type}</li>
+                <li className={cx('title-item', 'item-center')}>.</li>
+                <li className={cx('title-item')}>{filmInfo.origin}</li>
                 <li className={cx('title-item', 'item-center')}>.</li>
                 <li className={cx('title-item')}>2023</li>
                 <li className={cx('title-item', 'item-center')}>.</li>
-                <li className={cx('title-item')}>130 phút</li>
-                <li className={cx('title-item', 'item-center')}>.</li>
-                <li className={cx('title-item')}>Viễn tưởng, Chính kịch</li>
-                <li className={cx('title-item', 'item-center')}>.</li>
-                <li className={cx('title-item')}>Hàn Quốc</li>
+                <li className={cx('title-item')}>{filmInfo.totalTime} phút</li>
               </ul>
               <div className={cx('info-evaluate')}>
                 <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
-                <div className={cx('numberStar')}>7.7</div>
+                <div className={cx('numberStar')}>{filmInfo.evaluate}</div>
                 <div className={cx('numberEvaluate')}>
                   <div>372</div>
                   <span>đánh giá</span>
                 </div>
               </div>
-              <p>Chúng ta tin là những người được chọn</p>
+              <p>{filmInfo.title}</p>
               <h3>Nội dung</h3>
-              <div className={cx('content')}>
-                Được nhận xét là một “chuẩn mực mới về phản địa đàng trong dòng phim thảm họa Hàn Quốc”, bom tấn ĐỊA
-                ĐÀNG SỤP ĐỔ xoay quanh cơn đại địa chấn san bằng Seoul thành bình địa và hành trình sinh tồn của những
-                người sống sót.
-              </div>
+              <div className={cx('content')}>{filmInfo.content}</div>
               <div className={cx('type-date-origin')}>
                 <div className={cx('item')}>
                   <div className={cx('item-title')}>Ngày chiếu</div>
-                  <div className={cx('item-content')}>10/9/2023</div>
+                  <div className={cx('item-content')}>
+                    <Moment local="vi" format="DD/MM/YYYY" date={filmInfo.startDate} />
+                  </div>
                 </div>
                 <div className={cx('item')}>
                   <div className={cx('item-title')}>Giờ chiếu</div>

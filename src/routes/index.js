@@ -17,7 +17,7 @@ const publicRoutes = [
     component: Register,
   },
   {
-    path: '/details',
+    path: '/details/:filmId',
     component: Details,
   },
 ];
