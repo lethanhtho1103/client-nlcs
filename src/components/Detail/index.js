@@ -14,18 +14,9 @@ import Moment from 'react-moment';
 const cx = classNames.bind(style);
 
 function Deatail() {
-  const [filmInfo, setFilmInfo] = useState({});
-
-  // const handleClickFilm = async (filmId) => {
-  //   const res = await filmService.getOneFilm({ filmId });
-  //   if (res.errCode === 0) {
-  //     setFilmInfo(res.data);
-  //   } else {
-  //     console.log(filmId);
-  //   }
-  //   console.log(filmInfo);
-  // };
+  const [filmInfo, setFilmInfo] = useState([]);
   const { filmId } = useParams();
+  console.log(filmInfo);
   useEffect(() => {
     const url = 'http://localhost:8082/api/v1/film/get-one?filmId=' + filmId;
     fetch(url)
@@ -57,88 +48,100 @@ function Deatail() {
               </li>
               <li className={cx('path-item')}>
                 <FontAwesomeIcon className={cx('iconRight')} icon={faChevronRight} />
-                <span>{filmInfo.name}</span>
+                <span>{filmInfo[0]?.name}</span>
               </li>
             </ul>
           </div>
         </div>
-        <Row style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
-          <div className={cx('contain')}>
-            <Col className={cx('detail-img')}>
-              <div
-                style={{
-                  background: `url(${filmInfo.image})`,
-                }}
-                className={cx('img')}
-              ></div>
-              <div className={cx('pauseIcon')}>
-                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="none" fillRule="evenodd">
-                    <circle stroke="#FFF" strokeWidth="2" fillOpacity=".24" fill="#000" cx="24" cy="24" r="23"></circle>
-                    <path
-                      d="M34.667 24.335c0 .515-.529.885-.529.885l-14.84 9.133c-1.08.704-1.965.182-1.965-1.153V15.467c0-1.338.884-1.856 1.968-1.153L34.14 23.45c-.002 0 .527.37.527.885Z"
-                      fill="#FFF"
-                      fillRule="nonzero"
-                    ></path>
-                  </g>
-                </svg>
-              </div>
-            </Col>
-            <Col className={cx('info')}>
-              <div className={cx(`info-old${filmInfo.ageAllowed}`)}>{filmInfo.ageAllowed}+</div>
-              <h1 className={cx('info-title')}>{filmInfo.name}</h1>
-              <ul className={cx('list-title')}>
-                <li className={cx('title-item')}>{filmInfo.type}</li>
-                <li className={cx('title-item', 'item-center')}>.</li>
-                <li className={cx('title-item')}>{filmInfo.origin}</li>
-                <li className={cx('title-item', 'item-center')}>.</li>
-                <li className={cx('title-item')}>2023</li>
-                <li className={cx('title-item', 'item-center')}>.</li>
-                <li className={cx('title-item')}>{filmInfo.totalTime} phút</li>
-              </ul>
-              <div className={cx('info-evaluate')}>
-                <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
-                <div className={cx('numberStar')}>{filmInfo.evaluate}</div>
-                <div className={cx('numberEvaluate')}>
-                  <div>372</div>
-                  <span>đánh giá</span>
-                </div>
-              </div>
-              <p>{filmInfo.title}</p>
-              <h3>Nội dung</h3>
-              <div className={cx('content')}>{filmInfo.content}</div>
-              <div className={cx('type-date-origin')}>
-                <div className={cx('item')}>
-                  <div className={cx('item-title')}>Ngày chiếu</div>
-                  <div className={cx('item-content')}>
-                    <Moment local="vi" format="DD/MM/YYYY" date={filmInfo.startDate} />
+        {filmInfo.map((filmInfo, index) => {
+          return (
+            <Row key={index} style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
+              <div className={cx('contain')}>
+                <Col className={cx('detail-img')}>
+                  <div
+                    style={{
+                      background: `url(${filmInfo.image})`,
+                    }}
+                    className={cx('img')}
+                  ></div>
+                  <div className={cx('pauseIcon')}>
+                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                      <g fill="none" fillRule="evenodd">
+                        <circle
+                          stroke="#FFF"
+                          strokeWidth="2"
+                          fillOpacity=".24"
+                          fill="#000"
+                          cx="24"
+                          cy="24"
+                          r="23"
+                        ></circle>
+                        <path
+                          d="M34.667 24.335c0 .515-.529.885-.529.885l-14.84 9.133c-1.08.704-1.965.182-1.965-1.153V15.467c0-1.338.884-1.856 1.968-1.153L34.14 23.45c-.002 0 .527.37.527.885Z"
+                          fill="#FFF"
+                          fillRule="nonzero"
+                        ></path>
+                      </g>
+                    </svg>
                   </div>
-                </div>
-                <div className={cx('item')}>
-                  <div className={cx('item-title')}>Giờ chiếu</div>
-                  <div className={cx('item-content')}>19:00 ~ 21:10</div>
-                </div>
-                <div className={cx('item')}>
-                  <div className={cx('item-title')}>Phòng chiếu</div>
-                  <div className={cx('item-content')}>03</div>
-                </div>
-                <div className={cx('item')}>
-                  <div className={cx('item-title')}>Giá vé</div>
-                  <div className={cx('item-content')}>79.000đ</div>
-                </div>
-                <div className={cx('item')}>
-                  <div className={cx('item-title')}>Số vé còn lại</div>
-                  <div className={cx('item-content')}>20</div>
-                </div>
+                </Col>
+                <Col className={cx('info')}>
+                  <div className={cx(`info-old${filmInfo.ageAllowed}`)}>{filmInfo.ageAllowed}+</div>
+                  <h1 className={cx('info-title')}>{filmInfo.name}</h1>
+                  <ul className={cx('list-title')}>
+                    <li className={cx('title-item')}>{filmInfo.type}</li>
+                    <li className={cx('title-item', 'item-center')}>.</li>
+                    <li className={cx('title-item')}>{filmInfo.origin}</li>
+                    <li className={cx('title-item', 'item-center')}>.</li>
+                    <li className={cx('title-item')}>2023</li>
+                    <li className={cx('title-item', 'item-center')}>.</li>
+                    <li className={cx('title-item')}>{filmInfo.totalTime} phút</li>
+                  </ul>
+                  <div className={cx('info-evaluate')}>
+                    <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
+                    <div className={cx('numberStar')}>{filmInfo.evaluate}</div>
+                    <div className={cx('numberEvaluate')}>
+                      <div>372</div>
+                      <span>đánh giá</span>
+                    </div>
+                  </div>
+                  <p>{filmInfo.title}</p>
+                  <h3>Nội dung</h3>
+                  <div className={cx('content')}>{filmInfo.content}</div>
+                  <div className={cx('type-date-origin')}>
+                    <div className={cx('item')}>
+                      <div className={cx('item-title')}>Ngày chiếu</div>
+                      <div className={cx('item-content')}>
+                        <Moment local="vi" format="DD/MM/YYYY" date={filmInfo.startDate} />
+                      </div>
+                    </div>
+                    <div className={cx('item')}>
+                      <div className={cx('item-title')}>Giờ chiếu</div>
+                      <div className={cx('item-content')}>{filmInfo.filmShowTime.startTime}</div>
+                    </div>
+                    <div className={cx('item')}>
+                      <div className={cx('item-title')}>Phòng chiếu</div>
+                      <div className={cx('item-content')}>0{filmInfo.filmShowTime.roomId}</div>
+                    </div>
+                    <div className={cx('item')}>
+                      <div className={cx('item-title')}>Giá vé</div>
+                      <div className={cx('item-content')}>{filmInfo.filmShowTime.roomShowTime.priceTicket}đ</div>
+                    </div>
+                    <div className={cx('item')}>
+                      <div className={cx('item-title')}>Số vé còn lại</div>
+                      <div className={cx('item-content')}>20</div>
+                    </div>
+                  </div>
+                  <div className={cx('book-ticket')}>
+                    <Button className={cx('btn-book-ticket')}>Đặt vé</Button>
+                    <span>Số lượng:</span>
+                    <input type="number" name="quantity" className={cx('quantity')} />
+                  </div>
+                </Col>
               </div>
-              <div className={cx('book-ticket')}>
-                <Button className={cx('btn-book-ticket')}>Đặt vé</Button>
-                <span>Số lượng:</span>
-                <input type="number" name="quantity" className={cx('quantity')} />
-              </div>
-            </Col>
-          </div>
-        </Row>
+            </Row>
+          );
+        })}
         <Row className={cx('moviesTop')}>
           <Col className={cx('playing-movie')}>
             <h1 className={cx('heading-movie')}>Danh sách top phim nổi bật</h1>

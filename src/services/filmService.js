@@ -3,12 +3,22 @@ import axios from '~/axios';
 const filmService = {
   async getAllFilm() {
     try {
-      const res = await axios.get('/api/v1/film/get-all');
+      const res = await axios.get('/api/v1/film/get-all-playing');
       return res.data;
     } catch (error) {
       console.log('Lỗi');
     }
   },
+
+  async getAllFilmUpComing() {
+    try {
+      const res = await axios.get('/api/v1/film/get-all-upcoming');
+      return res.data;
+    } catch (error) {
+      console.log('Lỗi');
+    }
+  },
+
   async getOneFilm({ filmId }) {
     if (filmId) {
       const res = await axios.get('/api/v1/film/get-one', {

@@ -1,43 +1,41 @@
 import classNames from 'classnames/bind';
-import style from './FilmPlaying.module.scss';
-import { Col, Row } from 'react-bootstrap';
+import style from './FilmUpcoming.module.scss';
+import { Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { filmService } from '~/services';
 import { Link } from 'react-router-dom';
-// import Moment from 'react-moment';
+
 const cx = classNames.bind(style);
 
-function FilmPlaying() {
+function FilmUpcoming() {
   const [films, setFilms] = useState([]);
-
   const getFilms = useCallback(async () => {
-    const res = await filmService.getAllFilm();
+    const res = await filmService.getAllFilmUpComing();
     if (res.errCode === 0) {
       setFilms(res.data);
     }
   }, []);
-
   useEffect(() => {
     getFilms();
   }, [getFilms]);
 
   return (
-    <Row className={cx('moviesPlaying')}>
+    <Row className={cx('moviesUpcoming')}>
       <Col sm={12} className={cx('playing-movie')}>
-        <h1 className={cx('heading-movie')}>Phim đang chiếu</h1>
+        <h1 className={cx('heading-movie')}>Phim sắp chiếu</h1>
         <Row className={cx('list-movie')}>
           {films.map((film, index) => {
             return (
-              <Col key={film.id} className={cx('movie-item')}>
+              <Col key={index} className={cx('movie-item')}>
                 <Link to={`http://localhost:3000/details/${film.id}`} className={cx('home-product-item-link')}>
-                  <div className={cx('home-product-item')}>
+                  <div className={cx('home-product-item-up')}>
                     <div
                       style={{
                         backgroundImage: `url(${film.image})`,
                       }}
-                      className={cx('home-product-item__img')}
+                      className={cx('home-product-item__img-up')}
                     >
                       <div className={cx('home-product-item__pause')}>
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -59,9 +57,8 @@ function FilmPlaying() {
                           </g>
                         </svg>
                       </div>
-                      <div className={cx('home-product-item__number')}>{index + 1}</div>
                     </div>
-                    <h4 className={cx('home-product-item__name')}>{film.name}</h4>
+                    <h4 className={cx('home-product-item__name-black')}>{film.name}</h4>
                     <div className={cx('home-product-item__price')}>
                       <span className={cx('home-product-item__price-old')}>{film.type}</span>
                     </div>
@@ -69,16 +66,11 @@ function FilmPlaying() {
                       <div className={cx('home-product-item__rating')}>
                         <FontAwesomeIcon className={cx('home-product-item__rating-gold')} icon={faStar} />
                       </div>
-
-                      {/* <Moment local="vi" format="DD/MM/YYYY" date={film.evaluate} /> */}
-                      <div className={cx('home-product-item__sold')}>{film.evaluate}</div>
+                      <div className={cx('home-product-item__sold-black')}>{film.evaluate}</div>
                     </div>
 
                     <div className={cx('home-product-item__favourite')}>
                       <span className={cx(`age${film.ageAllowed}`)}>{film.ageAllowed}+</span>
-                    </div>
-                    <div className={cx(`home-product-item__sale-off${film.ageAllowed}`)}>
-                      <span className={cx(`home-product-item__sale-off-label${film.ageAllowed}`)}>ĐẶT TRƯỚC</span>
                     </div>
                   </div>
                 </Link>
@@ -86,9 +78,10 @@ function FilmPlaying() {
             );
           })}
         </Row>
+        <Button className={cx('btn-search-movie')}>Tìm phim chiếu rạp</Button>
       </Col>
     </Row>
   );
 }
 
-export default FilmPlaying;
+export default FilmUpcoming;
