@@ -31,6 +31,20 @@ const filmService = {
 
     return 'Thiếu tham số truyền vào';
   },
+
+  async buyTicket(userId, filmId, ticket) {
+    const res = await axios.post('/api/v1/film/register', {
+      filmId,
+      userId,
+      ticket,
+    });
+    return res.data;
+  },
+
+  async totalTicket(filmId) {
+    const res = await axios.get('/api/v1/film/total-ticket?filmId=' + filmId);
+    return res.data;
+  },
 };
 
 export default filmService;

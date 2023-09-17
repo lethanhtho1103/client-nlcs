@@ -10,13 +10,77 @@ import { faChevronRight, faHouse, faStar } from '@fortawesome/free-solid-svg-ico
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Moment from 'react-moment';
+import ModalBuyTicket from '../ModalBuyTicket';
+import { useSelector } from 'react-redux';
+import { userSelector } from '~/redux/selector';
+import { filmService } from '~/services';
+import ToastMassage from '../ToastMassage';
 
 const cx = classNames.bind(style);
 
 function Deatail() {
   const [filmInfo, setFilmInfo] = useState([]);
+  const [totalTicket, setTotalTicket] = useState([]);
+  const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
+  const [ticket, setTicket] = useState(1);
+  // const [ticketBuy, setTicketBuy] = useState([]);
+  const currUser = useSelector(userSelector);
+  const [obToast, setObToast] = useState({
+    isShow: false,
+    header: '',
+    content: '',
+  });
   const { filmId } = useParams();
-  console.log(filmInfo);
+
+  const handelShowBuyTicket = (maxUser) => {
+    if (ticket > 0 && ticket <= maxUser) {
+      setIsShowModalBuyTicket(true);
+    } else {
+      alert('Số vé không hợp lệ! Vui lòng chọn số vé phù hợp.');
+    }
+  };
+
+  const handelClickX = () => {
+    setIsShowModalBuyTicket(false);
+  };
+
+  const toggleShowToast = () => {
+    setObToast((ob) => {
+      return {
+        isShow: !ob.isShow,
+        header: '',
+        content: '',
+      };
+    });
+  };
+
+  const buyTicket = (res) => {
+    setObToast(() => {
+      return {
+        isShow: true,
+        herder: 'Xong',
+        content: res.errMessage,
+      };
+    });
+  };
+
+  const handleBuyTicket = async (filmId) => {
+    const res = await filmService.buyTicket(currUser.id, filmId, ticket);
+    buyTicket(res);
+    setTimeout(() => {
+      setObToast({
+        isShow: false,
+        header: '',
+        content: '',
+      });
+    }, 2000);
+  };
+
+  const handelTotalTicket = async (filmId) => {
+    const res = await filmService.totalTicket(filmId);
+    setTotalTicket(res.data);
+  };
+
   useEffect(() => {
     const url = 'http://localhost:8082/api/v1/film/get-one?filmId=' + filmId;
     fetch(url)
@@ -24,11 +88,18 @@ function Deatail() {
       .then((data) => {
         setFilmInfo(data.data);
       });
+    handelTotalTicket(filmId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currUser.id, isShowModalBuyTicket]);
   return (
     <div className={cx('wrap')}>
       <Header />
+      <ToastMassage
+        handelClose={toggleShowToast}
+        isShow={obToast.isShow}
+        header={obToast.header}
+        content={obToast.content}
+      />
       <Container className={cx('main')}>
         <div className={cx('breadcrumb')}>
           <div className={cx('details-path')}>
@@ -54,8 +125,18 @@ function Deatail() {
           </div>
         </div>
         {filmInfo.map((filmInfo, index) => {
+          var remaining = 0;
           return (
             <Row key={index} style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
+              {isShowModalBuyTicket && (
+                <ModalBuyTicket
+                  filmInfo={filmInfo}
+                  ticket={ticket}
+                  toggleShow={handelClickX}
+                  byTicket={handleBuyTicket}
+                />
+              )}
+
               <div className={cx('contain')}>
                 <Col className={cx('detail-img')}>
                   <div
@@ -100,10 +181,10 @@ function Deatail() {
                   <div className={cx('info-evaluate')}>
                     <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
                     <div className={cx('numberStar')}>{filmInfo.evaluate}</div>
-                    <div className={cx('numberEvaluate')}>
+                    {/* <div className={cx('numberEvaluate')}>
                       <div>372</div>
                       <span>đánh giá</span>
-                    </div>
+                    </div> */}
                   </div>
                   <p>{filmInfo.title}</p>
                   <h3>Nội dung</h3>
@@ -129,13 +210,26 @@ function Deatail() {
                     </div>
                     <div className={cx('item')}>
                       <div className={cx('item-title')}>Số vé còn lại</div>
-                      <div className={cx('item-content')}>20</div>
+                      <div className={cx('item-content')}>
+                        {totalTicket.map((ticket) => {
+                          remaining = filmInfo.filmShowTime.roomShowTime.maxUser - ticket.totalTicket;
+                          return remaining;
+                        })}
+                      </div>
                     </div>
                   </div>
                   <div className={cx('book-ticket')}>
-                    <Button className={cx('btn-book-ticket')}>Đặt vé</Button>
+                    <Button className={cx('btn-book-ticket')} onClick={() => handelShowBuyTicket(remaining)}>
+                      Đặt vé ngay
+                    </Button>
                     <span>Số lượng:</span>
-                    <input type="number" name="quantity" className={cx('quantity')} />
+                    <input
+                      value={ticket}
+                      onChange={(e) => setTicket(e.target.value)}
+                      type="number"
+                      name="quantity"
+                      className={cx('quantity')}
+                    />
                   </div>
                 </Col>
               </div>
