@@ -75,9 +75,24 @@
         display: flex;
         justify-content: flex-start;
         .detail-img {
-          // position: relative;
+          position: relative;
           max-width: 256px;
           z-index: 3;
+          .pauseIcon {
+            position: relative;
+            max-width: 60px;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99900;
+            &.show {
+              transform: translate(-50%, 50%);
+            }
+            svg:hover {
+              cursor: pointer;
+              animation: 0.5s scaleM ease-in-out;
+            }
+          }
           .img {
             overflow: hidden;
             width: 254px;
@@ -88,18 +103,7 @@
             border: 1px solid hsla(0, 0%, 100%, 0.2) !important;
           }
         }
-        .pauseIcon {
-          position: relative;
-          max-width: 60px;
-          top: -50%;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 400;
-          svg:hover {
-            cursor: pointer;
-            animation: 0.5s scaleM ease-in-out;
-          }
-        }
+
         @keyframes scaleM {
           50% {
             transform: scale(1.2);
@@ -190,10 +194,40 @@
             color: rgba(255, 255, 255, 0.9);
           }
           .content {
+            // display: inline-flex;
             margin-top: 4px;
             font-size: 1.32rem;
             line-height: 2.4rem;
             color: rgba(255, 255, 255, 0.7);
+            text-align: justify;
+            div {
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              &.show {
+                -webkit-box-orient: horizontal;
+                text-overflow: unset;
+                // overflow: auto;
+              }
+            }
+            span {
+              color: rgb(252 211 77);
+              &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+              }
+              &.hidden {
+                display: none;
+              }
+            }
+            span:last-child {
+              display: none;
+              &.show {
+                display: block;
+              }
+            }
           }
           .type-date-origin {
             margin-top: 16px;

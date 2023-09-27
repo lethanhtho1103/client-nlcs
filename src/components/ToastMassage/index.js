@@ -1,6 +1,8 @@
 import { Toast, ToastContainer } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 import styles from './ToastMassage.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -15,6 +17,8 @@ function ToastMassage({ header, content, handleClose, isShow, dur = 3200 }) {
             <small>Vừa xong</small>
           </Toast.Header>
           <Toast.Body>
+            <FontAwesomeIcon className={cx('icon')} icon={faCircleCheck} />
+
             <span className={cx('content')}>{content}</span>
           </Toast.Body>
         </Toast>

@@ -1,9 +1,11 @@
 import axios from '~/axios';
 
 const filmService = {
-  async getAllFilm() {
+  async getAllFilm(limit) {
     try {
-      const res = await axios.get('/api/v1/film/get-all-playing');
+      const res = await axios.get('/api/v1/film/get-all-playing', {
+        limit,
+      });
       return res.data;
     } catch (error) {
       console.log('Lỗi');
@@ -44,6 +46,19 @@ const filmService = {
   async totalTicket(filmId) {
     const res = await axios.get('/api/v1/film/total-ticket?filmId=' + filmId);
     return res.data;
+  },
+
+  async searchFilm(name) {
+    try {
+      const res = await axios.get('/api/v1/film/search-films', {
+        params: {
+          name,
+        },
+      });
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 

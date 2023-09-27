@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { userSelector } from '~/redux/selector';
 import { filmService } from '~/services';
 import ToastMassage from '../ToastMassage';
+import Calendar from '../Calendar';
 
 const cx = classNames.bind(style);
 
@@ -22,6 +23,8 @@ function Deatail() {
   const [filmInfo, setFilmInfo] = useState([]);
   const [totalTicket, setTotalTicket] = useState([]);
   const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
+  const [isShowContent, setIsShowContent] = useState(false);
+
   const [ticket, setTicket] = useState(1);
   // const [ticketBuy, setTicketBuy] = useState([]);
   const currUser = useSelector(userSelector);
@@ -62,6 +65,14 @@ function Deatail() {
         content: res.errMessage,
       };
     });
+  };
+
+  const handelShowContent = () => {
+    setIsShowContent(true);
+  };
+
+  const handelHiddenContent = () => {
+    setIsShowContent(false);
   };
 
   const handleBuyTicket = async (filmId) => {
@@ -145,7 +156,11 @@ function Deatail() {
                     }}
                     className={cx('img')}
                   ></div>
-                  <div className={cx('pauseIcon')}>
+                  <div
+                    className={cx('pauseIcon', {
+                      show: isShowContent === true,
+                    })}
+                  >
                     <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                       <g fill="none" fillRule="evenodd">
                         <circle
@@ -188,7 +203,32 @@ function Deatail() {
                   </div>
                   <p>{filmInfo.title}</p>
                   <h3>Nội dung</h3>
-                  <div className={cx('content')}>{filmInfo.content}</div>
+                  <div className={cx('content')}>
+                    <div
+                      className={cx({
+                        show: isShowContent === true,
+                      })}
+                    >
+                      {filmInfo.content}
+                    </div>
+                    <span
+                      className={cx({
+                        hidden: isShowContent === true,
+                      })}
+                      onClick={handelShowContent}
+                    >
+                      Xem thêm
+                    </span>
+                    <span
+                      className={cx({
+                        show: isShowContent === true,
+                      })}
+                      onClick={handelHiddenContent}
+                    >
+                      Thu gọn
+                    </span>
+                  </div>
+
                   <div className={cx('type-date-origin')}>
                     <div className={cx('item')}>
                       <div className={cx('item-title')}>Ngày chiếu</div>
@@ -227,6 +267,8 @@ function Deatail() {
                       value={ticket}
                       onChange={(e) => setTicket(e.target.value)}
                       type="number"
+                      min={1}
+                      max={remaining}
                       name="quantity"
                       className={cx('quantity')}
                     />
@@ -236,6 +278,7 @@ function Deatail() {
             </Row>
           );
         })}
+        <Calendar />
         <Row className={cx('moviesTop')}>
           <Col className={cx('playing-movie')}>
             <h1 className={cx('heading-movie')}>Danh sách top phim nổi bật</h1>
