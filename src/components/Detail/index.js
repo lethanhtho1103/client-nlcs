@@ -16,6 +16,7 @@ import { userSelector } from '~/redux/selector';
 import { filmService } from '~/services';
 import ToastMassage from '../ToastMassage';
 import Calendar from '../Calendar';
+import Review from '../Review';
 
 const cx = classNames.bind(style);
 
@@ -23,6 +24,7 @@ function Deatail() {
   const [filmInfo, setFilmInfo] = useState([]);
   const [totalTicket, setTotalTicket] = useState([]);
   const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
+  const [isShowReview, setIsShowReview] = useState(false);
   const [isShowContent, setIsShowContent] = useState(false);
 
   const [ticket, setTicket] = useState(1);
@@ -35,6 +37,10 @@ function Deatail() {
   });
   const { filmId } = useParams();
 
+  const handleShowReview = () => {
+    setIsShowReview(true);
+  };
+
   const handelShowBuyTicket = (maxUser) => {
     if (ticket > 0 && ticket <= maxUser) {
       setIsShowModalBuyTicket(true);
@@ -45,6 +51,7 @@ function Deatail() {
 
   const handelClickX = () => {
     setIsShowModalBuyTicket(false);
+    setIsShowReview(false);
   };
 
   const toggleShowToast = () => {
@@ -107,6 +114,7 @@ function Deatail() {
   return (
     <div className={cx('wrap')}>
       <Header />
+      {isShowReview && <Review toggleShow={handelClickX} />}
       <ToastMassage
         handelClose={toggleShowToast}
         isShow={obToast.isShow}
@@ -162,6 +170,7 @@ function Deatail() {
                     className={cx('pauseIcon', {
                       show: isShowContent === true,
                     })}
+                    onClick={handleShowReview}
                   >
                     <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                       <g fill="none" fillRule="evenodd">
