@@ -1,30 +1,42 @@
 .wrapper {
-  display: flex;
-  align-items: center;
-  padding: 6px 16px;
+  padding: 0px 16px;
   cursor: pointer;
+}
 
-  &:hover {
-    background: rgba(22, 24, 35, 0.03);
+.content {
+  display: flex;
+  padding: 12px 0;
+  text-decoration: none;
+}
+
+.wrapper + .wrapper {
+  .content {
+    border-top: 1px solid #e5e5e5;
   }
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 50px;
+  height: 76px;
+  border-radius: 4px;
   object-fit: cover;
 }
 
 .info {
-  margin-left: 6px;
+  margin-left: 8px;
   flex: 1;
 }
 
 .name {
-  font-size: 1.6rem;
-  font-weight: 500;
-  text-decoration-line: none;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgb(38 38 38);
+  line-height: 1.25;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  &:hover {
+    color: var(--pri-color);
+  }
 }
 
 .check {
@@ -32,7 +44,26 @@
   color: rgb(32, 213, 236);
 }
 
-.username {
-  font-size: 1.4rem;
+.type {
+  font-size: 1.3rem;
+  line-height: 1.25;
   color: rgba(22, 24, 35, 0.5);
+}
+
+.evaluate {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  line-height: 1.25;
+  margin-top: 4px;
+}
+.starIcon {
+  font-size: 1.3rem;
+  color: #ddbc3f;
+  transform: translateY(-10%);
+}
+.numberStar {
+  font-size: 1.3rem;
+  margin-left: 6px;
+  color: rgb(109 109 109);
 }

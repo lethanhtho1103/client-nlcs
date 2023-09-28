@@ -19,6 +19,7 @@ function Search() {
   const [loading, setLoading] = useState(false);
 
   const inputRef = useRef();
+
   const debouncedValue = useDebounce(searchValue, 500);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ function Search() {
         render={(attrs) => (
           <div className={cx('search-results')} tabIndex="-1" {...attrs}>
             <Wrapper>
-              <h4 className={cx('search-title')}>Phim đang chiếu</h4>
+              <h5 className={cx('search-title')}>PHIM ĐANG CHIẾU</h5>
               {searchResult.map((result) => (
                 <FilmItem key={result.id} data={result} />
               ))}

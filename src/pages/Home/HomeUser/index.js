@@ -13,6 +13,7 @@ import FilmUpcoming from '~/components/FilmUpcoming';
 const cx = classNames.bind(style);
 
 function HomeUser() {
+  const handelSearchFilms = () => {};
   return (
     <div className={cx('wrap')}>
       <Header />
@@ -76,7 +77,9 @@ function HomeUser() {
                   <strong>Lịch sử đặt vé&nbsp;</strong>được lưu lại ngay
                 </li>
               </ul>
-              <Button className={cx('btn')}>ĐẶT VÉ NGAY</Button>
+              <Button onClick={handelSearchFilms} className={cx('btn')}>
+                ĐẶT VÉ NGAY
+              </Button>
             </div>
           </Col>
           <Col md={6} className={cx('landing-item')}>
