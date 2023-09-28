@@ -99,9 +99,11 @@ function Deatail() {
       .then((data) => {
         setFilmInfo(data.data);
       });
+
     handelTotalTicket(filmId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currUser.id, isShowModalBuyTicket]);
+
   return (
     <div className={cx('wrap')}>
       <Header />

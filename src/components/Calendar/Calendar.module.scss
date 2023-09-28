@@ -1,8 +1,9 @@
 .contain {
-  padding: 3.6rem 2.2rem 0;
+  padding: 3.6rem 2.2rem 4rem;
   max-width: 113rem;
   margin-left: auto;
   margin-right: auto;
+  border-bottom: 1px solid rgb(229, 229, 229);
 
   .show-times {
     padding-right: 5rem;
@@ -288,7 +289,7 @@
           padding-left: 1.6rem;
           position: relative;
 
-          .age18 {
+          .age {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -298,12 +299,19 @@
             font-weight: 600;
             line-height: 1.6rem;
             margin-bottom: 0.6rem;
-            background-color: #9b2020;
+
             color: #fff;
             padding-left: 0.4rem;
             padding-right: 0.4rem;
             border-radius: 0.2rem;
+            &.age18 {
+              background-color: #9b2020;
+            }
+            &.age16 {
+              background-color: #e88021;
+            }
           }
+
           a {
             text-decoration: none;
             .name {

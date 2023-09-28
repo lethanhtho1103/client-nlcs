@@ -7,17 +7,27 @@ import { faLocationDot, faStar } from '@fortawesome/free-solid-svg-icons';
 import Week from '../Week';
 import classNames from 'classnames/bind';
 import style from './Calendar.module.scss';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ToastMassage from '../ToastMassage';
+import { filmService } from '~/services';
 const cx = classNames.bind(style);
 
 function Calendar() {
   const [currComponent, setCurrComponent] = useState(-1);
   const [isShowCopy, setIsShowCopy] = useState(false);
+  const [filmsPlaying, setFilmsPlaying] = useState([]);
+
   const weekDays = [0, 1, 2, 3, 4, 5, 6];
 
   dayjs.extend(relativeTime);
   const filmTime = dayjs();
+
+  const getFilmsPlaying = useCallback(async () => {
+    const res = await filmService.getAllFilm();
+    if (res.errCode === 0) {
+      setFilmsPlaying(res.data);
+    }
+  }, []);
 
   const handleFilmDate = (week) => {
     console.log(filmTime.set('date', filmTime.date() + week).format('DD/MM/YYYY'));
@@ -30,6 +40,10 @@ function Calendar() {
       setIsShowCopy(false);
     }, 2000);
   };
+
+  useEffect(() => {
+    getFilmsPlaying();
+  }, [getFilmsPlaying]);
 
   return (
     <Row className={cx('contain')}>
@@ -110,69 +124,38 @@ function Calendar() {
       <Col md={4} className={cx('film-playing')}>
         <h3>Phim đang chiếu</h3>
         <div className={cx('list-film-playing')}>
-          <div className={cx('film-item')}>
-            <div className={cx('image-film')}>
-              <a href="/">
-                <img alt="" src="https://cinema.momocdn.net/img/20013131594490411-jHhz0kj0cprinj97fcxh8wQppuG.jpg" />
-              </a>
-              <div className={cx('number')}>1</div>
-            </div>
-            <div className={cx('detail-film')}>
-              <div className={cx('age18')}>18+</div>
-              <a href="/">
-                <div className={cx('name')}>Ác Quỷ Ma Sơ 2</div>
-              </a>
-              <div className={cx('type')}>Hài, Khoa học viễn tưởng</div>
-              <div className={cx('evaluate')}>
-                <span>
-                  <FontAwesomeIcon icon={faStar} />
-                </span>
-                <div>9</div>
+          {filmsPlaying.map((film, index) => {
+            return (
+              <div key={index} className={cx('film-item')}>
+                <div className={cx('image-film')}>
+                  <a href={`http://localhost:3000/details/${film.id}`}>
+                    <img alt={film.name} src={film.image} />
+                  </a>
+                  <div className={cx('number')}>{index + 1}</div>
+                </div>
+                <div className={cx('detail-film')}>
+                  <div
+                    className={cx('age', {
+                      age18: film.ageAllowed === 18,
+                      age16: film.ageAllowed === 16,
+                    })}
+                  >
+                    {film.ageAllowed}+
+                  </div>
+                  <a href="/">
+                    <div className={cx('name')}>{film.name}</div>
+                  </a>
+                  <div className={cx('type')}>{film.type}</div>
+                  <div className={cx('evaluate')}>
+                    <span>
+                      <FontAwesomeIcon icon={faStar} />
+                    </span>
+                    <div>{film.evaluate}</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className={cx('film-item')}>
-            <div className={cx('image-film')}>
-              <a href="/">
-                <img alt="" src="https://cinema.momocdn.net/img/20013131594490411-jHhz0kj0cprinj97fcxh8wQppuG.jpg" />
-              </a>
-              <div className={cx('number')}>1</div>
-            </div>
-            <div className={cx('detail-film')}>
-              <div className={cx('age18')}>18+</div>
-              <a href="/">
-                <div className={cx('name')}>Ác Quỷ Ma Sơ 2</div>
-              </a>
-              <div className={cx('type')}>Hài, Khoa học viễn tưởng</div>
-              <div className={cx('evaluate')}>
-                <span>
-                  <FontAwesomeIcon icon={faStar} />
-                </span>
-                <div>9</div>
-              </div>
-            </div>
-          </div>
-          <div className={cx('film-item')}>
-            <div className={cx('image-film')}>
-              <a href="/">
-                <img alt="" src="https://cinema.momocdn.net/img/20013131594490411-jHhz0kj0cprinj97fcxh8wQppuG.jpg" />
-              </a>
-              <div className={cx('number')}>1</div>
-            </div>
-            <div className={cx('detail-film')}>
-              <div className={cx('age18')}>18+</div>
-              <a href="/">
-                <div className={cx('name')}>Ác Quỷ Ma Sơ 2</div>
-              </a>
-              <div className={cx('type')}>Hài, Khoa học viễn tưởng</div>
-              <div className={cx('evaluate')}>
-                <span>
-                  <FontAwesomeIcon icon={faStar} />
-                </span>
-                <div>9</div>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </Col>
     </Row>
