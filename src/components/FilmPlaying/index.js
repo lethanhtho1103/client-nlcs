@@ -13,7 +13,7 @@ function FilmPlaying() {
   const [films, setFilms] = useState([]);
 
   const getFilms = useCallback(async () => {
-    const res = await filmService.getAllFilm();
+    const res = await filmService.getAllFilm(5);
     if (res.errCode === 0) {
       setFilms(res.data);
     }

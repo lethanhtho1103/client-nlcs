@@ -12,6 +12,18 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isChecked, setIsChecked] = useState(true);
 
+  const [isHidden, setIsHidden] = useState(false);
+
+  const handleMouseLeave = () => {
+    setIsHidden(true);
+  };
+
+  const handelClickHidden = () => {
+    if (isHidden) {
+      toggleShow();
+    }
+  };
+
   const handleClickX = () => {
     toggleShow();
   };
@@ -33,9 +45,9 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
   };
 
   return (
-    <div className={cx('wrap')}>
+    <div onClick={handelClickHidden} className={cx('wrap')}>
       {isShowCopy && <ToastMassage header={''} content={'Copy mã thành công'} />}
-      <div className={cx('ticket')}>
+      <div onMouseLeave={handleMouseLeave} className={cx('ticket')}>
         <Button className={cx('exit')} onClick={handleClickX}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -6,10 +6,11 @@
   background-size: contain;
   background-position: 50%;
   color: #fff;
-  height: 574px;
+  min-height: 574px;
   background-color: rgba(0, 0, 0, 1);
   .playing-movie {
     padding: 0 200px;
+
     .heading-movie {
       font-weight: 700;
       margin-bottom: 32px;
@@ -18,11 +19,8 @@
     .list-movie {
       display: flex;
       justify-content: center;
-      align-items: center;
       width: 100%;
-
       transform: translate3d(0px, 0px, 0px);
-
       .movie-item {
         width: 20%;
         justify-content: center;

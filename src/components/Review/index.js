@@ -1,15 +1,28 @@
 import classNames from 'classnames/bind';
 import style from './Review.module.scss';
+import { useState } from 'react';
 
 const cx = classNames.bind(style);
 
 function Review({ toggleShow }) {
+  const [isHidden, setIsHidden] = useState(false);
+
+  const handleMouseLeave = () => {
+    setIsHidden(true);
+  };
+
+  const handelClickHidden = () => {
+    if (isHidden) {
+      toggleShow();
+    }
+  };
+
   const handelHidden = () => {
     toggleShow();
   };
   return (
-    <div className={cx('wrap')}>
-      <div className={cx('review')}>
+    <div onClick={handelClickHidden} className={cx('wrap')}>
+      <div onMouseLeave={handleMouseLeave} className={cx('review')}>
         <div className={cx('video')}>
           <iframe
             title="dia dang sup do"

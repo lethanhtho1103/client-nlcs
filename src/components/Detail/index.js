@@ -45,7 +45,7 @@ function Deatail() {
     if (ticket > 0 && ticket <= maxUser) {
       setIsShowModalBuyTicket(true);
     } else {
-      alert('Số vé không hợp lệ! Vui lòng chọn số vé phù hợp.');
+      alert('Số lượng vé không hợp lệ. Vui lòng đặt lại số vé!');
     }
   };
 
@@ -109,7 +109,7 @@ function Deatail() {
 
     handelTotalTicket(filmId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currUser.id, isShowModalBuyTicket]);
+  }, [currUser.id, isShowModalBuyTicket, totalTicket]);
 
   return (
     <div className={cx('wrap')}>
