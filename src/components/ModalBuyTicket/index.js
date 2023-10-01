@@ -11,7 +11,6 @@ const cx = classNames.bind(style);
 function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isChecked, setIsChecked] = useState(true);
-
   const [isHidden, setIsHidden] = useState(false);
 
   const handleMouseLeave = () => {

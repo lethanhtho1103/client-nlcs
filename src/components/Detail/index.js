@@ -242,7 +242,7 @@ function Deatail() {
 
                   <div className={cx('type-date-origin')}>
                     <div className={cx('item')}>
-                      <div className={cx('item-title')}>Ngày chiếu</div>
+                      <div className={cx('item-title')}>Khởi chiếu</div>
                       <div className={cx('item-content')}>
                         <Moment local="vi" format="DD/MM/YYYY" date={filmInfo.startDate} />
                       </div>

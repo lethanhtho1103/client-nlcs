@@ -74,6 +74,8 @@
     }
     section {
       padding-top: 2.2rem;
+      padding-bottom: 2.2rem;
+
       .name-province {
         display: flex;
         justify-content: space-between;
@@ -104,6 +106,7 @@
       .info-cinema {
         position: relative;
         margin-top: 1.6rem;
+        margin-bottom: 2.6rem;
         border: solid 1px rgb(229, 229, 229);
         .date-time {
           padding-top: 8px;

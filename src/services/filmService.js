@@ -62,6 +62,28 @@ const filmService = {
       console.log(error);
     }
   },
+
+  async userComment(userId, filmId, comment, rate) {
+    try {
+      const data = {
+        comment,
+        rate,
+      };
+      const res = await axios.patch(`/api/v1/user-comment?userId=${userId}&filmId=${filmId}`, data);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async getAllCommentFilm(filmId) {
+    if (filmId) {
+      const res = await axios.get(`/api/v1/film/get-all-comments?filmId=${filmId}`);
+      return res.data;
+    }
+    console.log(filmId);
+    return 'Thiếu tham số truyền vào';
+  },
 };
 
 export default filmService;
