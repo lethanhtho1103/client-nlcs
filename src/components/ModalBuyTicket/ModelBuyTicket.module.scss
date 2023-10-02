@@ -225,10 +225,9 @@
     .payment {
       max-width: 354px;
       max-height: 542px;
-      background: url(https://homepage.momocdn.net/jk/momo2020/img/intro/qrcode-pattern.png) 10px 10px no-repeat,
-        linear-gradient(to top, rgb(193, 23, 124), rgb(225, 27, 144));
-
-      div {
+      .payment-qrCode {
+        background: url(https://homepage.momocdn.net/jk/momo2020/img/intro/qrcode-pattern.png) 10px 10px no-repeat,
+          linear-gradient(to top, rgb(193, 23, 124), rgb(225, 27, 144));
         padding: 4.2rem 3.2rem;
         text-align: center;
         h4 {
@@ -357,15 +356,22 @@
 
         .direct-payment {
           padding: 0;
-          margin-top: 1.5rem;
+          margin-top: 1.2rem;
           // margin-left: 1rem;
           display: flex;
-          justify-content: center;
+          justify-content: flex-start;
           align-items: center;
           font-size: 1.6rem;
           color: #fff;
           input {
-            margin-right: 4px;
+            margin-right: 6px;
+          }
+          .img-vnpay {
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
           }
         }
 
@@ -384,6 +390,16 @@
           }
         }
       }
+    }
+
+    .paypal {
+      height: 100%;
+      min-width: 354px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: #add8e6;
     }
 
     .exit {

@@ -6,6 +6,9 @@ import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import Moment from 'react-moment';
 import { useState } from 'react';
 import ToastMassage from '../ToastMassage';
+import vnpay from '../../assets/images/vnpay.png';
+import Paypal from '../PayPal';
+
 const cx = classNames.bind(style);
 
 function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
@@ -60,6 +63,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </Button>
+
         <div className={cx('info-ticket')}>
           <div className={cx('info-film')}>
             <ul className={cx('header-film')}>
@@ -127,7 +131,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
               <li>
                 <div></div>
                 <div className={cx('price')}>
-                  <b>{filmInfo.filmShowTime.roomShowTime.priceTicket * ticket}đ</b>
+                  <b>{filmInfo.filmShowTime.roomShowTime.priceTicket * ticket}&nbsp;VND</b>
                 </div>
               </li>
             </ul>
@@ -140,7 +144,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
                 </div>
               </div>
               <div>
-                <b>{filmInfo.filmShowTime.roomShowTime.priceTicket * ticket}đ</b>
+                <b>{filmInfo.filmShowTime.roomShowTime.priceTicket * ticket}&nbsp;VND</b>
               </div>
             </li>
           </ul>
@@ -158,8 +162,9 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
             </div>
           </div>
         </div>
+
         <div className={cx('payment')}>
-          <div>
+          {/* <div className={cx('payment-qrCode')}>
             <h4>Quét mã QR bằng MoMo để thanh toán</h4>
             <div className={cx('qr-container')}>
               <div className={cx('qr-scan')}>
@@ -197,11 +202,19 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
             </div>
             <div className={cx('direct-payment')}>
               <input checked={isChecked} onChange={toggleChecked} type="checkbox" id="check" />
-              <label htmlFor="check">Thanh toán trực tiếp tại quầy</label>
+              <label htmlFor="check">
+                <img alt="VnPay" src={vnpay} className={cx('img-vnpay')} />{' '}
+                <a href="http://localhost:8888/order/create_payment_url">Thanh toán tiền bằng ví VNPAY</a>
+              </label>
             </div>
+
             <Button className={cx('book-ticket')} onClick={handleBuyTicket}>
               Đặt vé
             </Button>
+          </div> */}
+          <div className={cx('paypal')}>
+            <h2>Thanh toán tiền bằng PayPal</h2>
+            <Paypal />
           </div>
         </div>
       </div>

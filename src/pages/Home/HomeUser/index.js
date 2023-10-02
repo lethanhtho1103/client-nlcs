@@ -9,6 +9,7 @@ import Footer from '~/components/Footer';
 import Header from '~/components/Header';
 import FilmPlaying from '~/components/FilmPlaying';
 import FilmUpcoming from '~/components/FilmUpcoming';
+import Paypal from '~/components/PayPal';
 
 const cx = classNames.bind(style);
 
@@ -279,6 +280,7 @@ function HomeUser() {
           </div>
         </Row>
       </Container>
+      <Paypal />
       <Footer />
     </div>
   );
