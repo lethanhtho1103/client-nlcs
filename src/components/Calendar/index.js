@@ -13,7 +13,7 @@ import { filmService } from '~/services';
 import Comment from '../Comment';
 const cx = classNames.bind(style);
 
-function Calendar() {
+function Calendar({ filmComments, filmId, userId, avgRate, countComment }) {
   const [currComponent, setCurrComponent] = useState(-1);
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [filmsPlaying, setFilmsPlaying] = useState([]);
@@ -124,7 +124,13 @@ function Calendar() {
             </div>
           </div>
         </section>
-        <Comment />
+        <Comment
+          filmId={filmId}
+          userId={userId}
+          filmComments={filmComments}
+          countComment={countComment}
+          avgRate={avgRate}
+        />
       </Col>
       <Col md={4} className={cx('film-playing')}>
         <h3>Phim đang chiếu</h3>

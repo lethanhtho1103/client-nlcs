@@ -23,10 +23,10 @@ const cx = classNames.bind(style);
 function Deatail() {
   const [filmInfo, setFilmInfo] = useState([]);
   const [totalTicket, setTotalTicket] = useState([]);
+  const [filmComments, setFilmComment] = useState([]);
   const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
   const [isShowReview, setIsShowReview] = useState(false);
   const [isShowContent, setIsShowContent] = useState(false);
-
   const [ticket, setTicket] = useState(1);
   // const [ticketBuy, setTicketBuy] = useState([]);
   const currUser = useSelector(userSelector);
@@ -36,6 +36,14 @@ function Deatail() {
     content: '',
   });
   const { filmId } = useParams();
+
+  let countComment = 0;
+  countComment = filmComments.filter((userComment) => userComment.comment !== null).length;
+  let arrRate = filmComments.filter((userComment) => userComment.rate !== null);
+  let initRate = 0;
+  let totalRate = arrRate.reduce((accumulator, current) => accumulator + current.rate, initRate);
+
+  const avgRate = (totalRate / countComment).toFixed(1);
 
   const handleShowReview = () => {
     setIsShowReview(true);
@@ -99,6 +107,11 @@ function Deatail() {
     setTotalTicket(res.data);
   };
 
+  const handleShowCommentOfUser = async () => {
+    const res = await filmService.getAllCommentFilm(filmId);
+    setFilmComment(res.data);
+  };
+
   useEffect(() => {
     const url = 'http://localhost:8082/api/v1/film/get-one?filmId=' + filmId;
     fetch(url)
@@ -108,9 +121,10 @@ function Deatail() {
       });
 
     handelTotalTicket(filmId);
+    handleShowCommentOfUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currUser.id, isShowModalBuyTicket, totalTicket]);
-
+  }, [currUser.id, filmId]);
+  console.log(123);
   return (
     <div className={cx('wrap')}>
       <Header />
@@ -204,14 +218,21 @@ function Deatail() {
                     <li className={cx('title-item', 'item-center')}>.</li>
                     <li className={cx('title-item')}>{filmInfo.totalTime} phút</li>
                   </ul>
-                  <div className={cx('info-evaluate')}>
-                    <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
-                    <div className={cx('numberStar')}>{filmInfo.evaluate}</div>
-                    {/* <div className={cx('numberEvaluate')}>
-                      <div>372</div>
-                      <span>đánh giá</span>
-                    </div> */}
-                  </div>
+                  {countComment !== 0 ? (
+                    <div className={cx('info-evaluate')}>
+                      <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
+                      <div className={cx('numberStar')}>{avgRate}</div>
+                      <div className={cx('numberEvaluate')}>
+                        <div>{countComment}</div>
+                        <span>đánh giá</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={cx('info-evaluate')}>
+                      <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
+                      <span>Hiện tại chưa có đánh giá nào.</span>
+                    </div>
+                  )}
                   <p>{filmInfo.title}</p>
                   <h3>Nội dung</h3>
                   <div className={cx('content')}>
@@ -289,7 +310,13 @@ function Deatail() {
             </Row>
           );
         })}
-        <Calendar />
+        <Calendar
+          filmComments={filmComments}
+          filmId={filmId}
+          userId={currUser.id}
+          avgRate={avgRate}
+          countComment={countComment}
+        />
         <Row className={cx('moviesTop')}>
           <Col className={cx('playing-movie')}>
             <h1 className={cx('heading-movie')}>Danh sách top phim nổi bật</h1>

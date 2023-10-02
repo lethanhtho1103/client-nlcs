@@ -1,28 +1,27 @@
 import classNames from 'classnames/bind';
 import style from './Comment.module.scss';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ToastMassage from '../ToastMassage';
 import { Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { userSelector } from '~/redux/selector';
 import { filmService } from '~/services';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 const cx = classNames.bind(style);
 
-function Comment() {
+function Comment({ filmComments, filmId, userId, avgRate, countComment }) {
   const [isShowComment, setIsShowComment] = useState(false);
   const [isShowToastMessage, setIsShowToastMessage] = useState(false);
   const [comment, setComment] = useState('');
   const [rate, setRate] = useState(0);
-  const [filmComments, setFilmComment] = useState([]);
+
   const [obToast, setObToast] = useState({
     isShow: false,
     header: '',
     content: '',
   });
 
-  const { filmId } = useParams();
-  const currUser = useSelector(userSelector);
+  dayjs.extend(relativeTime);
 
   const handleShowComments = () => {
     setIsShowComment(true);
@@ -32,13 +31,7 @@ function Comment() {
     setIsShowComment(false);
   };
 
-  const handleShowCommentOfUser = async () => {
-    const res = await filmService.getAllCommentFilm(filmId);
-    setFilmComment(res.data);
-  };
-
   const handleSubmitComment = async () => {
-    let userId = currUser.id;
     const res = await filmService.userComment(userId, filmId, comment, rate);
     if (res.errCode === 0) {
       setIsShowComment(false);
@@ -53,88 +46,106 @@ function Comment() {
       setTimeout(() => {
         setIsShowToastMessage(false);
       }, 1500);
-      console.log(res.errMessage);
     }
   };
-
-  useEffect(() => {
-    handleShowCommentOfUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filmId, filmComments]);
 
   return (
     <div className={cx('comment')}>
       {isShowToastMessage && <ToastMassage header={obToast.header} content={obToast.content} />}
       <h3>Bình luận từ người xem</h3>
-      <div className={cx('evaluate')}>
-        <svg
-          aria-hidden="true"
-          focusable="false"
-          data-prefix="fas"
-          data-icon="star"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 576 512"
-        >
-          <path
-            fill="currentColor"
-            d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
-          ></path>
-        </svg>
-        <div className={cx('number')}>9</div>
-        <div className={cx('per-ten')}>/10</div>
-        <span>
-          <div>.</div>
-          &nbsp;
-          <span>&nbsp;{filmComments.length} đánh giá</span>
-        </span>
-      </div>
+      {countComment !== 0 ? (
+        <div className={cx('evaluate')}>
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fas"
+            data-icon="star"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 576 512"
+          >
+            <path
+              fill="currentColor"
+              d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+            ></path>
+          </svg>
+          <div className={cx('number')}>{avgRate}</div>
+          <div className={cx('per-ten')}>/10</div>
+          <span>
+            <div>.</div>
+            &nbsp;
+            <span>&nbsp;{countComment} đánh giá</span>
+          </span>
+        </div>
+      ) : (
+        <div className={cx('empty-rate')}>
+          Hiện tại chưa có bình luận nào. Hãy là người đầu tiên bình luận trên website NTFMovie.
+        </div>
+      )}
       <ul className={cx('list-user-comment')}>
         {filmComments.map((comment) => {
+          let commentTime = dayjs(comment.updatedAt).fromNow();
           return (
-            <li key={comment.id} className={cx('user-comment-item')}>
-              <div className={cx('info-user')}>
-                <div className={cx('user-avatar')}>{comment.userFilm.name.charAt(0)}</div>
-                <div className={cx('user-name')}>
-                  <div>{comment.userFilm.name}</div>
-                  <span>{comment.updatedAt}</span>
+            comment.comment !== null && (
+              <li key={comment.id} className={cx('user-comment-item')}>
+                <div className={cx('info-user')}>
+                  <div className={cx('user-avatar')}>{comment.userFilm.name.charAt(0)}</div>
+                  <div className={cx('user-name')}>
+                    <div>{comment.userFilm.name}</div>
+                    <span>{commentTime}</span>
+                  </div>
                 </div>
-              </div>
-              <div className={cx('user-evaluate')}>
-                <svg
-                  aria-hidden="true"
-                  focusable="false"
-                  data-prefix="fas"
-                  data-icon="star"
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 576 512"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
-                  ></path>
-                </svg>
-                <div className={cx('number')}>{comment.rate}</div>
-                <div className={cx('per-ten')}>/10</div>
-                <span>
-                  <div>.</div>
-                  <span>Đáng xem</span>
-                </span>
-              </div>
-              <div className={cx('content-comment')}>{comment.comment}</div>
-            </li>
+                <div className={cx('user-evaluate')}>
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="star"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 576 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+                    ></path>
+                  </svg>
+                  <div className={cx('number')}>{comment.rate}</div>
+                  <div className={cx('per-ten')}>/10</div>
+                  <span>
+                    <div>.</div>
+                    <span>
+                      {comment.rate >= 9
+                        ? 'Cực phẩm!'
+                        : comment.rate >= 7
+                        ? 'Đáng xem'
+                        : comment.rate >= 5
+                        ? 'Tạm ổn'
+                        : 'Chưa ưng lắm'}
+                    </span>
+                  </span>
+                </div>
+                <div className={cx('content-comment')}>{comment.comment}</div>
+              </li>
+            )
           );
         })}
       </ul>
-      <Button
-        onClick={handleShowComments}
-        className={cx('btn-show-evaluate', {
-          hiddenComment: isShowComment === true,
-        })}
-      >
-        Viết đánh giá
-      </Button>
+      {filmComments.map(
+        (comment) =>
+          comment.userId === userId &&
+          comment.comment === null && (
+            <Button
+              key={comment.id}
+              onClick={handleShowComments}
+              className={cx('btn-show-evaluate', {
+                hiddenComment: isShowComment === true,
+              })}
+            >
+              Viết đánh giá
+            </Button>
+          ),
+      )}
       <div
         className={cx('write-evaluate', {
           showComment: isShowComment === true,
