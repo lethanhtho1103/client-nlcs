@@ -77,7 +77,9 @@ function HomeUser() {
                   <strong>Lịch sử đặt vé&nbsp;</strong>được lưu lại ngay
                 </li>
               </ul>
-              <Button className={cx('btn')}>ĐẶT VÉ NGAY</Button>
+              <a href="/start" className={cx('btn')}>
+                ĐẶT VÉ NGAY
+              </a>
             </div>
           </Col>
           <Col md={6} className={cx('landing-item')}>

@@ -6,15 +6,19 @@ import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import Moment from 'react-moment';
 import { useState } from 'react';
 import ToastMassage from '../ToastMassage';
-import vnpay from '../../assets/images/vnpay.png';
+// import vnpay from '../../assets/images/vnpay.png';
 import Paypal from '../PayPal';
 
 const cx = classNames.bind(style);
 
 function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
-  const [isChecked, setIsChecked] = useState(true);
+  // const [isChecked, setIsChecked] = useState(true);
   const [isHidden, setIsHidden] = useState(false);
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
 
   const handleMouseLeave = () => {
     setIsHidden(true);
@@ -30,9 +34,9 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
     toggleShow();
   };
 
-  const toggleChecked = () => {
-    setIsChecked(!isChecked);
-  };
+  // const toggleChecked = () => {
+  //   setIsChecked(!isChecked);
+  // };
 
   const handleBuyTicket = (e) => {
     byTicket(filmInfo.id);
@@ -131,7 +135,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
               <li>
                 <div></div>
                 <div className={cx('price')}>
-                  <b>{filmInfo.filmShowTime.roomShowTime.priceTicket * ticket}&nbsp;VND</b>
+                  <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VND</b>
                 </div>
               </li>
             </ul>
@@ -144,7 +148,9 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
                 </div>
               </div>
               <div>
-                <b>{filmInfo.filmShowTime.roomShowTime.priceTicket * ticket}&nbsp;VND</b>
+                <b className={cx('color-red')}>
+                  {numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VND
+                </b>
               </div>
             </li>
           </ul>
@@ -152,7 +158,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
           <div className={cx('discount')}>
             <div>
               <div>
-                <div className={cx('code')}>Nhận ngay mã giảm giá 10000Đ khi đặt vé trên website NTFMovie</div>
+                <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VND khi đặt vé trên website NTFMovie</div>
                 <div className={cx('limit-useful')}>HSD: 30-12-2023</div>
               </div>
               <Button onClick={handleReceive} className={cx('receive')}>
@@ -214,7 +220,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
           </div> */}
           <div className={cx('paypal')}>
             <h2>Thanh toán tiền bằng PayPal</h2>
-            <Paypal />
+            <Paypal handleBuyTicket={handleBuyTicket} />
           </div>
         </div>
       </div>

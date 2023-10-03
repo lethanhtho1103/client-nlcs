@@ -99,7 +99,7 @@ function Deatail() {
         header: '',
         content: '',
       });
-    }, 2000);
+    }, 3500);
   };
 
   const handelTotalTicket = async (filmId) => {
@@ -278,7 +278,7 @@ function Deatail() {
                     </div>
                     <div className={cx('item')}>
                       <div className={cx('item-title')}>Giá vé</div>
-                      <div className={cx('item-content')}>{filmInfo.filmShowTime.roomShowTime.priceTicket}đ</div>
+                      <div className={cx('item-content')}>{filmInfo.filmShowTime.roomShowTime.priceTicket} VND</div>
                     </div>
                     <div className={cx('item')}>
                       <div className={cx('item-title')}>Số vé còn lại</div>

@@ -1,12 +1,13 @@
 import { PayPalButton } from 'react-paypal-button-v2';
 
-function Paypal() {
+function Paypal({ handleBuyTicket }) {
   return (
     <PayPalButton
       amount="0.01"
       // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
       onSuccess={(details, data) => {
-        alert('Transaction completed by ' + details.payer.name.given_name);
+        handleBuyTicket();
+        // alert('Transaction completed by ' + details.payer.name.given_name);
 
         // OPTIONAL: Call your server to save the transaction
         return fetch('/paypal-transaction-complete', {
@@ -17,7 +18,7 @@ function Paypal() {
         });
       }}
       onError={() => {
-        alert('Error');
+        alert('Thanh toán thất bại. Vui lòng thanh toán lại!');
       }}
       options={{
         clientId: 'PRODUCTION_CLIENT_ID',

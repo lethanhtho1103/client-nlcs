@@ -32,6 +32,7 @@ function Calendar({ filmComments, filmId, userId, avgRate, countComment }) {
 
   const handleFilmDate = (week) => {
     console.log(filmTime.set('date', filmTime.date() + week).format('DD/MM/YYYY'));
+
     setCurrComponent(week);
   };
 
@@ -53,7 +54,7 @@ function Calendar({ filmComments, filmId, userId, avgRate, countComment }) {
         <div className={cx('code-discount')}>
           <div>
             <div>
-              <div className={cx('code')}>Nhận ngay mã giảm giá 10000Đ khi đặt vé trên website NTFMovie</div>
+              <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VND khi đặt vé trên website NTFMovie</div>
               <div className={cx('limit-useful')}>HSD: 30-12-2023</div>
             </div>
             <div className={cx('receive')}>

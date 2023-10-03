@@ -66,7 +66,7 @@ function FormLogin() {
 
   const handleKeyDownSubmit = () => {
     window.addEventListener('keydown', (e) => {
-      if (e.keyCode === 13) btnSubmitRef.current.click();
+      if (e.keyCode === 13) btnSubmitRef?.current.click();
     });
   };
 
@@ -104,8 +104,8 @@ function FormLogin() {
             <h2> Welcome!!!</h2>
             <p>
               Những tựa phim Việt Nam và quốc tế đình đám, hấp dẫn, hài hước, kịnh tính, kinh dị, lôi cuống,... Tất cả
-              đều có trên NTFMovie với giá chỉ từ 60.000₫. Bạn đã có tài khoản chưa? Nhấn ngay nút "Bắt đầu" để tạo hoặc
-              kích hoạt lại tư cách thành viên của bạn.
+              đều có trên NTFMovie với giá chỉ từ 60.000 VND. Bạn đã có tài khoản chưa? Nhấn ngay nút "Bắt đầu" để tạo
+              hoặc kích hoạt lại tư cách thành viên của bạn.
             </p>
             <Button
               className={cx('btn-start')}

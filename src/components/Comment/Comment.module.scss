@@ -91,6 +91,7 @@
           div {
             font-size: 1.5rem;
             color: rgb(38 38 38);
+            font-weight: 500;
           }
           span {
             font-size: 1.2rem;
@@ -186,8 +187,17 @@
         margin-left: 8px;
       }
     }
-    h5 {
+    .feel {
       margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      font-weight: 700;
+      span {
+        margin-top: -4px;
+      }
+    }
+    h5 {
+      margin-top: 4px;
       margin-bottom: 0;
       font-size: 1.6rem;
       line-height: 2.4rem;

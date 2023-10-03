@@ -9,7 +9,7 @@ function Home() {
   const navigate = useNavigate();
   const handleNavigate = useCallback(() => {
     if (!isLogined) {
-      // navigate('/login');
+      navigate('/login');
     }
   }, [isLogined, navigate]);
   useEffect(() => {

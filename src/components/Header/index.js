@@ -3,9 +3,15 @@ import style from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faSignature, faUser } from '@fortawesome/free-solid-svg-icons';
 import Search from '../Search';
+import { useDispatch } from 'react-redux';
+import { userSlice } from '~/redux/reducer';
 
 const cx = classNames.bind(style);
 function Header() {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(userSlice.actions.toggleUserLogin());
+  };
   return (
     <div className={cx('header')}>
       <div className={cx('header-nav')}>
@@ -44,7 +50,7 @@ function Header() {
                     B2014791
                   </h2>
                   <ul>
-                    <li>Đăng xuất</li>
+                    <li onClick={handleLogout}>Đăng xuất</li>
                   </ul>
                 </div>
               </div>

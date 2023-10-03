@@ -32,6 +32,10 @@ function Comment({ filmComments, filmId, userId, avgRate, countComment }) {
   };
 
   const handleSubmitComment = async () => {
+    if (rate === 0) {
+      alert('Vui lòng chọn đánh giá sao cho bộ phim!');
+      return;
+    }
     const res = await filmService.userComment(userId, filmId, comment, rate);
     if (res.errCode === 0) {
       setIsShowComment(false);
@@ -45,7 +49,7 @@ function Comment({ filmComments, filmId, userId, avgRate, countComment }) {
       setIsShowToastMessage(true);
       setTimeout(() => {
         setIsShowToastMessage(false);
-      }, 1500);
+      }, 3000);
     }
   };
 
@@ -121,7 +125,9 @@ function Comment({ filmComments, filmId, userId, avgRate, countComment }) {
                         ? 'Đáng xem'
                         : comment.rate >= 5
                         ? 'Tạm ổn'
-                        : 'Chưa ưng lắm'}
+                        : comment.rate >= 3
+                        ? 'Chưa ưng lắm'
+                        : 'Kén người mê'}
                     </span>
                   </span>
                 </div>
@@ -151,7 +157,7 @@ function Comment({ filmComments, filmId, userId, avgRate, countComment }) {
           showComment: isShowComment === true,
         })}
       >
-        <div className={cx('title')}>Nhấp để đánh giá</div>
+        <div className={cx('title')}>Chạm để đánh giá</div>
         <div className={cx('list-start')}>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => {
             return (
@@ -180,6 +186,19 @@ function Comment({ filmComments, filmId, userId, avgRate, countComment }) {
               </div>
             );
           })}
+        </div>
+        <div className={cx('feel')}>
+          <div>{rate}/10&nbsp;</div>
+          <span>.</span>&nbsp;
+          {rate >= 9
+            ? 'Cực phẩm!'
+            : rate >= 7
+            ? 'Đáng xem'
+            : rate >= 5
+            ? 'Tạm ổn'
+            : rate >= 3
+            ? 'Chưa ưng lắm'
+            : 'Kén người mê'}
         </div>
         <h5>Cảm nhận thêm về bộ phim</h5>
         <textarea

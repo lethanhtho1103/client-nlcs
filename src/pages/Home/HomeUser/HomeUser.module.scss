@@ -20,16 +20,16 @@
     .landing-content {
       text-align: left;
       .btn {
-        display: flex;
+        display: inline-block;
         padding: 9px 12px;
         background-color: var(--pri-color);
         border-radius: 5px;
         border-color: transparent;
         margin-top: 24px;
-        color: #fff;
         font-size: 1.4rem;
         font-weight: 700;
-
+        text-decoration: none;
+        color: #fff;
         &:hover {
           background-color: rgba(216, 45, 139, 0.8);
         }
