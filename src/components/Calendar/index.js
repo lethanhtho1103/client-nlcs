@@ -13,7 +13,7 @@ import { filmService } from '~/services';
 import Comment from '../Comment';
 const cx = classNames.bind(style);
 
-function Calendar({ filmComments, filmId, userId, avgRate, countComment }) {
+function Calendar({ filmComments, filmId, userId, avgRate, countComment, handleShowCommentOfUser }) {
   const [currComponent, setCurrComponent] = useState(-1);
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [filmsPlaying, setFilmsPlaying] = useState([]);
@@ -54,7 +54,7 @@ function Calendar({ filmComments, filmId, userId, avgRate, countComment }) {
         <div className={cx('code-discount')}>
           <div>
             <div>
-              <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VND khi đặt vé trên website NTFMovie</div>
+              <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VNĐ khi đặt vé trên website NTFMovie</div>
               <div className={cx('limit-useful')}>HSD: 30-12-2023</div>
             </div>
             <div className={cx('receive')}>
@@ -131,6 +131,7 @@ function Calendar({ filmComments, filmId, userId, avgRate, countComment }) {
           filmComments={filmComments}
           countComment={countComment}
           avgRate={avgRate}
+          handleShowCommentOfUser={handleShowCommentOfUser}
         />
       </Col>
       <Col md={4} className={cx('film-playing')}>

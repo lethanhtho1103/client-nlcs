@@ -1,16 +1,17 @@
 import axios from '~/axios';
 
 const filmService = {
-  async getAllFilm(limit) {
+  async getAllFilm(limit, offset) {
     try {
       const res = await axios.get('/api/v1/film/get-all-playing', {
         params: {
           limit: limit,
+          offset: offset,
         },
       });
       return res.data;
     } catch (error) {
-      console.log('lỗi');
+      console.log(limit, offset);
     }
   },
 

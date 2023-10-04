@@ -11,7 +11,7 @@ import Paypal from '../PayPal';
 
 const cx = classNames.bind(style);
 
-function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
+function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, handelTotalTicket }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   // const [isChecked, setIsChecked] = useState(true);
   const [isHidden, setIsHidden] = useState(false);
@@ -135,7 +135,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
               <li>
                 <div></div>
                 <div className={cx('price')}>
-                  <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VND</b>
+                  <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VNĐ</b>
                 </div>
               </li>
             </ul>
@@ -149,7 +149,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
               </div>
               <div>
                 <b className={cx('color-red')}>
-                  {numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VND
+                  {numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VNĐ
                 </b>
               </div>
             </li>
@@ -158,7 +158,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
           <div className={cx('discount')}>
             <div>
               <div>
-                <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VND khi đặt vé trên website NTFMovie</div>
+                <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VNĐ khi đặt vé trên website NTFMovie</div>
                 <div className={cx('limit-useful')}>HSD: 30-12-2023</div>
               </div>
               <Button onClick={handleReceive} className={cx('receive')}>
@@ -220,7 +220,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
           </div> */}
           <div className={cx('paypal')}>
             <h2>Thanh toán tiền bằng PayPal</h2>
-            <Paypal handleBuyTicket={handleBuyTicket} />
+            <Paypal handleBuyTicket={handleBuyTicket} handelTotalTicket={handelTotalTicket} />
           </div>
         </div>
       </div>

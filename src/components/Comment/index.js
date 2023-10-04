@@ -9,7 +9,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 const cx = classNames.bind(style);
 
-function Comment({ filmComments, filmId, userId, avgRate, countComment }) {
+function Comment({ filmComments, filmId, userId, avgRate, countComment, handleShowCommentOfUser }) {
   const [isShowComment, setIsShowComment] = useState(false);
   const [isShowToastMessage, setIsShowToastMessage] = useState(false);
   const [comment, setComment] = useState('');
@@ -47,6 +47,7 @@ function Comment({ filmComments, filmId, userId, avgRate, countComment }) {
         };
       });
       setIsShowToastMessage(true);
+      handleShowCommentOfUser();
       setTimeout(() => {
         setIsShowToastMessage(false);
       }, 3000);

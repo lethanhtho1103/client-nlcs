@@ -6,18 +6,29 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { filmService } from '~/services';
 import { Link } from 'react-router-dom';
+
 // import Moment from 'react-moment';
 const cx = classNames.bind(style);
 
 function FilmPlaying() {
   const [films, setFilms] = useState([]);
+  // const [limit, setLimit] = useState(0);
+  const [offset, setOffset] = useState(0);
+
+  const handleSetOffsetRight = () => {
+    setOffset(5);
+  };
+
+  const handleSetOffsetLeft = () => {
+    setOffset(0);
+  };
 
   const getFilms = useCallback(async () => {
-    const res = await filmService.getAllFilm(5);
+    const res = await filmService.getAllFilm(5, offset);
     if (res.errCode === 0) {
       setFilms(res.data);
     }
-  }, []);
+  }, [offset]);
 
   useEffect(() => {
     getFilms();
@@ -28,6 +39,17 @@ function FilmPlaying() {
       <Col sm={12} className={cx('playing-movie')}>
         <h1 className={cx('heading-movie')}>Phim đang chiếu</h1>
         <Row className={cx('list-movie')}>
+          <div
+            onClick={handleSetOffsetLeft}
+            className={cx('btn', {
+              left: true,
+              hidden: offset === 0,
+            })}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+          </div>
           {films.map((film, index) => {
             return (
               <Col key={film.id} className={cx('movie-item')}>
@@ -85,6 +107,17 @@ function FilmPlaying() {
               </Col>
             );
           })}
+          <div
+            onClick={handleSetOffsetRight}
+            className={cx('btn', {
+              right: true,
+              hidden: offset !== 0,
+            })}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </div>
         </Row>
       </Col>
     </Row>

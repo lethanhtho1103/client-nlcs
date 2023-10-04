@@ -17,6 +17,7 @@
       text-align: center;
     }
     .list-movie {
+      position: relative;
       display: flex;
       justify-content: center;
       width: 100%;
@@ -24,6 +25,42 @@
       .movie-item {
         width: 20%;
         justify-content: center;
+      }
+    }
+    .btn {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 42%;
+      width: 4.4rem;
+      height: 4.4rem;
+      color: rgb(0 0 0);
+      background-color: rgb(255 255 255);
+      border: 1px solid rgb(229 229 229);
+      transform: translateY(-50%);
+      border-radius: 9999px;
+      cursor: pointer;
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 0.15s;
+      &.left {
+        left: -1.5rem;
+        z-index: 9999;
+      }
+      &.right {
+        right: -1.5rem;
+      }
+      &.hidden {
+        display: none;
+      }
+
+      &:hover {
+        background-color: #e5e5e5;
+      }
+      svg {
+        width: 2.4rem;
+        height: 2.4rem;
       }
     }
   }

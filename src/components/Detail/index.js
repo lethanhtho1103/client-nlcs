@@ -119,7 +119,6 @@ function Deatail() {
       .then((data) => {
         setFilmInfo(data.data);
       });
-
     handelTotalTicket(filmId);
     handleShowCommentOfUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -165,6 +164,7 @@ function Deatail() {
             <Row key={index} style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
               {isShowModalBuyTicket && (
                 <ModalBuyTicket
+                  handelTotalTicket={handelTotalTicket}
                   filmInfo={filmInfo}
                   ticket={ticket}
                   toggleShow={handelClickX}
@@ -278,7 +278,7 @@ function Deatail() {
                     </div>
                     <div className={cx('item')}>
                       <div className={cx('item-title')}>Giá vé</div>
-                      <div className={cx('item-content')}>{filmInfo.filmShowTime.roomShowTime.priceTicket} VND</div>
+                      <div className={cx('item-content')}>{filmInfo.filmShowTime.roomShowTime.priceTicket} VNĐ</div>
                     </div>
                     <div className={cx('item')}>
                       <div className={cx('item-title')}>Số vé còn lại</div>
@@ -316,6 +316,7 @@ function Deatail() {
           userId={currUser.id}
           avgRate={avgRate}
           countComment={countComment}
+          handleShowCommentOfUser={handleShowCommentOfUser}
         />
         <Row className={cx('moviesTop')}>
           <Col className={cx('playing-movie')}>
