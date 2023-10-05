@@ -11,7 +11,7 @@ import Paypal from '../PayPal';
 
 const cx = classNames.bind(style);
 
-function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, handelTotalTicket }) {
+function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   // const [isChecked, setIsChecked] = useState(true);
   const [isHidden, setIsHidden] = useState(false);
@@ -220,7 +220,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, handelTotalTic
           </div> */}
           <div className={cx('paypal')}>
             <h2>Thanh toán tiền bằng PayPal</h2>
-            <Paypal handleBuyTicket={handleBuyTicket} handelTotalTicket={handelTotalTicket} />
+            <Paypal handleBuyTicket={handleBuyTicket} />
           </div>
         </div>
       </div>

@@ -1,13 +1,13 @@
 import { PayPalButton } from 'react-paypal-button-v2';
 
-function Paypal({ handleBuyTicket, handelTotalTicket }) {
+function Paypal({ handleBuyTicket }) {
   return (
     <PayPalButton
       amount="0.01"
       // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
       onSuccess={(details, data) => {
         handleBuyTicket();
-        handelTotalTicket();
+
         // alert('Transaction completed by ' + details.payer.name.given_name);
 
         // OPTIONAL: Call your server to save the transaction

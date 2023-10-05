@@ -112,13 +112,21 @@ function Deatail() {
     setFilmComment(res.data);
   };
 
+  const getInfoOneFilm = async () => {
+    const res = await filmService.getOneFilm({ filmId });
+    if (res.errCode === 0) {
+      setFilmInfo(res.data);
+    }
+  };
+
   useEffect(() => {
-    const url = 'http://localhost:8082/api/v1/film/get-one?filmId=' + filmId;
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setFilmInfo(data.data);
-      });
+    // const url = 'http://localhost:8082/api/v1/film/get-one?filmId=' + filmId;
+    // fetch(url)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setFilmInfo(data.data);
+    //   });
+    getInfoOneFilm();
     handelTotalTicket(filmId);
     handleShowCommentOfUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,7 +172,6 @@ function Deatail() {
             <Row key={index} style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
               {isShowModalBuyTicket && (
                 <ModalBuyTicket
-                  handelTotalTicket={handelTotalTicket}
                   filmInfo={filmInfo}
                   ticket={ticket}
                   toggleShow={handelClickX}
