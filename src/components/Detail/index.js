@@ -7,10 +7,9 @@ import { faEye } from '@fortawesome/free-regular-svg-icons';
 import Footer from '~/components/Footer';
 import Header from '~/components/Header';
 import { faChevronRight, faHouse, faStar } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Moment from 'react-moment';
-import ModalBuyTicket from '../ModalBuyTicket';
 import { useSelector } from 'react-redux';
 import { userSelector } from '~/redux/selector';
 import { filmService } from '~/services';
@@ -24,11 +23,10 @@ function Deatail() {
   const [filmInfo, setFilmInfo] = useState([]);
   const [totalTicket, setTotalTicket] = useState([]);
   const [filmComments, setFilmComment] = useState([]);
-  const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
+  const [filmsPlaying, setFilmsPlaying] = useState([]);
   const [isShowReview, setIsShowReview] = useState(false);
   const [isShowContent, setIsShowContent] = useState(false);
   const [ticket, setTicket] = useState(1);
-  // const [ticketBuy, setTicketBuy] = useState([]);
   const currUser = useSelector(userSelector);
   const [obToast, setObToast] = useState({
     isShow: false,
@@ -51,14 +49,13 @@ function Deatail() {
 
   const handelShowBuyTicket = (maxUser) => {
     if (ticket > 0 && ticket <= maxUser) {
-      setIsShowModalBuyTicket(true);
+      // setIsShowModalBuyTicket(true);
     } else {
       alert('Số lượng vé không hợp lệ. Vui lòng đặt lại số vé!');
     }
   };
 
   const handelClickX = () => {
-    setIsShowModalBuyTicket(false);
     setIsShowReview(false);
   };
 
@@ -72,34 +69,12 @@ function Deatail() {
     });
   };
 
-  const buyTicket = (res) => {
-    setObToast(() => {
-      return {
-        isShow: true,
-        herder: 'Xong',
-        content: res.errMessage,
-      };
-    });
-  };
-
   const handelShowContent = () => {
     setIsShowContent(true);
   };
 
   const handelHiddenContent = () => {
     setIsShowContent(false);
-  };
-
-  const handleBuyTicket = async (filmId) => {
-    const res = await filmService.buyTicket(currUser.id, filmId, ticket);
-    buyTicket(res);
-    setTimeout(() => {
-      setObToast({
-        isShow: false,
-        header: '',
-        content: '',
-      });
-    }, 3500);
   };
 
   const handelTotalTicket = async (filmId) => {
@@ -119,19 +94,22 @@ function Deatail() {
     }
   };
 
+  const getFilmsPlaying = useCallback(async () => {
+    const res = await filmService.getAllFilm(7);
+    if (res.errCode === 0) {
+      setFilmsPlaying(res.data);
+    }
+  }, []);
+
   useEffect(() => {
-    // const url = 'http://localhost:8082/api/v1/film/get-one?filmId=' + filmId;
-    // fetch(url)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setFilmInfo(data.data);
-    //   });
     getInfoOneFilm();
     handelTotalTicket(filmId);
     handleShowCommentOfUser();
+    getFilmsPlaying();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currUser.id, filmId]);
-  console.log(123);
+
   return (
     <div className={cx('wrap')}>
       <Header />
@@ -170,15 +148,6 @@ function Deatail() {
           var remaining = 0;
           return (
             <Row key={index} style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
-              {isShowModalBuyTicket && (
-                <ModalBuyTicket
-                  filmInfo={filmInfo}
-                  ticket={ticket}
-                  toggleShow={handelClickX}
-                  byTicket={handleBuyTicket}
-                />
-              )}
-
               <div className={cx('contain')}>
                 <Col className={cx('detail-img')}>
                   <div
@@ -323,6 +292,10 @@ function Deatail() {
           userId={currUser.id}
           avgRate={avgRate}
           countComment={countComment}
+          filmsPlaying={filmsPlaying}
+          filmInfo={filmInfo[0]}
+          currUser={currUser}
+          ticket={ticket}
           handleShowCommentOfUser={handleShowCommentOfUser}
         />
         <Row className={cx('moviesTop')}>

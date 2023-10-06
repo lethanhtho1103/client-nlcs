@@ -221,6 +221,9 @@
                 border: 1px solid rgb(56 189 248);
                 border-radius: 0.6rem;
                 cursor: pointer;
+                :first-child {
+                  margin-right: 8px;
+                }
                 &:hover {
                   color: rgb(14 165 233);
                   background-color: rgb(255 255 255);
@@ -230,11 +233,31 @@
                   font-size: 1.2rem;
                 }
               }
-              .btn-time:nth-child(1) {
-                margin-right: 8px;
-              }
+
               .btn-time + .btn-time {
                 margin-right: 8px;
+              }
+
+              .btn-time:nth-child(2) {
+                margin-right: 8px;
+              }
+            }
+            .empty-start-time {
+              padding-top: 2rem;
+              padding-bottom: 2rem;
+              text-align: center;
+              border-top: 1px solid #e5e5e5;
+              h3 {
+                font-size: 1.8rem;
+                line-height: 2.8rem;
+                font-weight: 600;
+                margin-top: 1.2rem;
+                margin-bottom: 0;
+              }
+              span {
+                color: rgb(115 115 115);
+                font-size: 1.3rem;
+                line-height: 1.8rem;
               }
             }
           }

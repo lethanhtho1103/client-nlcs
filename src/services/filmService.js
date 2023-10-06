@@ -85,6 +85,20 @@ const filmService = {
     console.log(filmId);
     return 'Thiếu tham số truyền vào';
   },
+
+  async getStartTimeFilm({ filmId, startDate }) {
+    if (filmId) {
+      const res = await axios.get('/api/v1/film/get-all-start-time', {
+        params: {
+          filmId: filmId,
+          startDate: startDate,
+        },
+      });
+      return res.data;
+    }
+
+    return 'Thiếu tham số truyền vào';
+  },
 };
 
 export default filmService;

@@ -11,9 +11,8 @@ import Paypal from '../PayPal';
 
 const cx = classNames.bind(style);
 
-function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
+function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, startTime, handleLongTime }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
-  // const [isChecked, setIsChecked] = useState(true);
   const [isHidden, setIsHidden] = useState(false);
 
   function numberWithCommas(x) {
@@ -33,10 +32,6 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
   const handleClickX = () => {
     toggleShow();
   };
-
-  // const toggleChecked = () => {
-  //   setIsChecked(!isChecked);
-  // };
 
   const handleBuyTicket = (e) => {
     byTicket(filmInfo.id);
@@ -83,7 +78,9 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket }) {
                 <div>
                   <span>THỜI GIAN</span>
                   <div>
-                    <b>{filmInfo.filmShowTime.startTime}</b>
+                    <b>
+                      {startTime} ~ {handleLongTime(startTime, filmInfo.totalTime)}
+                    </b>
                   </div>
                 </div>
               </li>
