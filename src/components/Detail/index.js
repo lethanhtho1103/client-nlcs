@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import style from './Detail.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import Footer from '~/components/Footer';
 import Header from '~/components/Header';
@@ -26,7 +26,7 @@ function Deatail() {
   const [filmsPlaying, setFilmsPlaying] = useState([]);
   const [isShowReview, setIsShowReview] = useState(false);
   const [isShowContent, setIsShowContent] = useState(false);
-  const [ticket, setTicket] = useState(1);
+
   const currUser = useSelector(userSelector);
   const [obToast, setObToast] = useState({
     isShow: false,
@@ -35,6 +35,7 @@ function Deatail() {
   });
   const { filmId } = useParams();
 
+  var remainingTicket = 0;
   let countComment = 0;
   countComment = filmComments.filter((userComment) => userComment.comment !== null).length;
   let arrRate = filmComments.filter((userComment) => userComment.rate !== null);
@@ -45,14 +46,6 @@ function Deatail() {
 
   const handleShowReview = () => {
     setIsShowReview(true);
-  };
-
-  const handelShowBuyTicket = (maxUser) => {
-    if (ticket > 0 && ticket <= maxUser) {
-      // setIsShowModalBuyTicket(true);
-    } else {
-      alert('Số lượng vé không hợp lệ. Vui lòng đặt lại số vé!');
-    }
   };
 
   const handelClickX = () => {
@@ -145,7 +138,6 @@ function Deatail() {
           </div>
         </div>
         {filmInfo.map((filmInfo, index) => {
-          var remaining = 0;
           return (
             <Row key={index} style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
               <div className={cx('contain')}>
@@ -260,26 +252,11 @@ function Deatail() {
                       <div className={cx('item-title')}>Số vé còn lại</div>
                       <div className={cx('item-content')}>
                         {totalTicket.map((ticket) => {
-                          remaining = filmInfo.filmShowTime.roomShowTime.maxUser - ticket.totalTicket;
-                          return remaining;
+                          remainingTicket = filmInfo.filmShowTime.roomShowTime.maxUser - ticket.totalTicket;
+                          return remainingTicket;
                         })}
                       </div>
                     </div>
-                  </div>
-                  <div className={cx('book-ticket')}>
-                    <Button className={cx('btn-book-ticket')} onClick={() => handelShowBuyTicket(remaining)}>
-                      Đặt vé ngay
-                    </Button>
-                    <span>Số lượng:</span>
-                    <input
-                      value={ticket}
-                      onChange={(e) => setTicket(e.target.value)}
-                      type="number"
-                      min={1}
-                      max={remaining}
-                      name="quantity"
-                      className={cx('quantity')}
-                    />
                   </div>
                 </Col>
               </div>
@@ -295,7 +272,7 @@ function Deatail() {
           filmsPlaying={filmsPlaying}
           filmInfo={filmInfo[0]}
           currUser={currUser}
-          ticket={ticket}
+          remainingTicket={remainingTicket}
           handleShowCommentOfUser={handleShowCommentOfUser}
         />
         <Row className={cx('moviesTop')}>

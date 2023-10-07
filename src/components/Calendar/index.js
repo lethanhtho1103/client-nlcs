@@ -13,6 +13,7 @@ import Comment from '../Comment';
 import { filmService } from '~/services';
 import Loader from '../Loader';
 import ModalBuyTicket from '../ModalBuyTicket';
+import ModalComboCornWater from '../ModalComboCornWater';
 const cx = classNames.bind(style);
 
 function Calendar({
@@ -24,19 +25,23 @@ function Calendar({
   handleShowCommentOfUser,
   filmsPlaying,
   filmInfo,
-  ticket,
   currUser,
+  remainingTicket,
 }) {
   const filmTime = dayjs();
   dayjs.extend(relativeTime);
 
-  const [currComponent, setCurrComponent] = useState(0);
+  const [currDate, setCurrDate] = useState(0);
+  const [currTime, setCurrTime] = useState(-1);
+  const [ticket, setTicket] = useState(1);
   const [startDate, setStartDate] = useState(filmTime.format('YYYY-MM-DD'));
-  const [startTime, setStartTime] = useState();
+  const [startTime, setStartTime] = useState('');
   const [startTimes, setStartTimes] = useState([]);
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
   const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
+  const [isShowModalComboCornWater, setIsShowModalComboCornWater] = useState(false);
+
   const [obToast, setObToast] = useState({
     isShow: false,
     header: '',
@@ -46,7 +51,7 @@ function Calendar({
   const weekDays = [0, 1, 2, 3, 4, 5, 6];
 
   const handleFilmDate = (week) => {
-    setCurrComponent(week);
+    setCurrDate(week);
     setStartDate(filmTime.set('date', filmTime.date() + week).format('YYYY-MM-DD'));
   };
 
@@ -60,11 +65,20 @@ function Calendar({
   };
 
   const handleLongTime = (startTime, totalTime) => {
-    const time = parseInt(startTime.slice(0, 2));
+    const time = parseInt(startTime?.slice(0, 2));
     const endHour = Math.floor(time + totalTime / 60);
+    const endHour24 = endHour % 24;
     const endMinutes = totalTime % 60;
-    if (endMinutes < 10) {
-      return `${endHour}:0${endMinutes}`;
+    if (endHour24 < 10) {
+      if (endMinutes < 10) {
+        return `0${endHour24}:0${endMinutes}`;
+      } else {
+        return `0${endHour24}:${endMinutes}`;
+      }
+    } else if (endHour24 >= 10) {
+      if (endMinutes < 10) {
+        return `${endHour}:0${endMinutes}`;
+      }
     }
     return `${endHour}:${endMinutes}`;
   };
@@ -86,18 +100,25 @@ function Calendar({
     });
   };
 
-  const handelShowBuyTicket = (startTime) => {
-    // if (ticket > 0 && ticket <= maxUser) {
-    //   setIsShowModalBuyTicket(true);
-    // } else {
-    //   alert('Số lượng vé không hợp lệ. Vui lòng đặt lại số vé!');
-    // }
-    if (ticket > 0 && ticket <= 123) {
-      setIsShowModalBuyTicket(true);
-      setStartTime(startTime);
+  const handleSelectTime = (startTime, index) => {
+    setStartTime(startTime);
+    setCurrTime(index);
+  };
+
+  const handelShowBuyComboCornWater = (remainingTicket) => {
+    if (!startTime) {
+      alert('Vui lòng chọn khung giờ chiếu phim.');
+      return;
+    }
+    if (ticket > 0 && ticket <= remainingTicket) {
+      setIsShowModalComboCornWater(true);
     } else {
       alert('Số lượng vé không hợp lệ. Vui lòng đặt lại số vé!');
     }
+  };
+
+  const handelShowBuyTicket = () => {
+    setIsShowModalBuyTicket(true);
   };
 
   const handleBuyTicket = async (filmId) => {
@@ -116,6 +137,10 @@ function Calendar({
     setIsShowModalBuyTicket(false);
   };
 
+  const handelClickBack = () => {
+    setIsShowModalComboCornWater(false);
+  };
+
   useEffect(() => {
     handleGetStartTime();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,11 +154,15 @@ function Calendar({
         <ModalBuyTicket
           handleLongTime={handleLongTime}
           startTime={startTime}
+          startDate={startDate}
           filmInfo={filmInfo}
           ticket={ticket}
           toggleShow={handelClickX}
           byTicket={handleBuyTicket}
         />
+      )}
+      {isShowModalComboCornWater && (
+        <ModalComboCornWater handelShowBuyTicket={handelShowBuyTicket} toggleShow={handelClickBack} />
       )}
       <Col md={8} className={cx('show-times')}>
         <div className={cx('code-discount')}>
@@ -171,7 +200,7 @@ function Calendar({
                   return (
                     <div
                       className={cx('date-item', {
-                        active: currComponent === week,
+                        active: currDate === week,
                       })}
                       key={week}
                       onClick={() => handleFilmDate(week)}
@@ -204,15 +233,35 @@ function Calendar({
                     {startTimes.map((startTimes, index) => {
                       return (
                         <Button
-                          onClick={() => handelShowBuyTicket(startTimes.startTime)}
+                          onClick={() => handleSelectTime(startTimes.startTime, index)}
                           key={index}
-                          className={cx('btn-time')}
+                          className={cx('btn-time', {
+                            active: currTime === index,
+                          })}
                         >
                           {startTimes.startTime}{' '}
                           <span>~ {handleLongTime(startTimes.startTime, filmInfo.totalTime)}</span>
                         </Button>
                       );
                     })}
+                    <div className={cx('book-ticket')}>
+                      <Button
+                        className={cx('btn-book-ticket')}
+                        onClick={() => handelShowBuyComboCornWater(remainingTicket)}
+                      >
+                        Đặt vé ngay
+                      </Button>
+                      <span>Số lượng:</span>
+                      <input
+                        value={ticket}
+                        onChange={(e) => setTicket(e.target.value)}
+                        type="number"
+                        min={1}
+                        max={remainingTicket}
+                        name="quantity"
+                        className={cx('quantity')}
+                      />
+                    </div>
                   </div>
                 ) : (
                   <div className={cx('empty-start-time')}>

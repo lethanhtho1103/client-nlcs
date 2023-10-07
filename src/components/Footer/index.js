@@ -58,7 +58,7 @@ function Footer() {
                     </div>
                     <div>
                       <h2 className={cx('title3')}>LOCATION</h2>
-                      <span>CTU, Khu II, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ.</span>
+                      <span>NTFMovie, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ.</span>
                     </div>
                   </div>
                 </li>

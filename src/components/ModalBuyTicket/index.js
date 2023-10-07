@@ -11,7 +11,7 @@ import Paypal from '../PayPal';
 
 const cx = classNames.bind(style);
 
-function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, startTime, handleLongTime }) {
+function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, startTime, handleLongTime, startDate }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
 
@@ -89,7 +89,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, startTime, han
                   <span>NGÀY CHIẾU</span>
                   <div>
                     <b>
-                      <Moment local="vi" format="DD/MM/YYYY" date={filmInfo.startDate} />
+                      <Moment local="vi" format="DD/MM/YYYY" date={startDate} />
                     </b>
                   </div>
                 </div>
