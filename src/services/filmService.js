@@ -99,6 +99,11 @@ const filmService = {
 
     return 'Thiếu tham số truyền vào';
   },
+
+  async getAllCommentComboCornWater() {
+    const res = await axios.get('/api/v1/film/get-all-combo-corn-water');
+    return res.data;
+  },
 };
 
 export default filmService;

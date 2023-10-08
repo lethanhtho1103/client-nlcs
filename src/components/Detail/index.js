@@ -7,7 +7,7 @@ import { faEye } from '@fortawesome/free-regular-svg-icons';
 import Footer from '~/components/Footer';
 import Header from '~/components/Header';
 import { faChevronRight, faHouse, faStar } from '@fortawesome/free-solid-svg-icons';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
@@ -87,12 +87,12 @@ function Deatail() {
     }
   };
 
-  const getFilmsPlaying = useCallback(async () => {
+  const getFilmsPlaying = async () => {
     const res = await filmService.getAllFilm(7);
     if (res.errCode === 0) {
       setFilmsPlaying(res.data);
     }
-  }, []);
+  };
 
   useEffect(() => {
     getInfoOneFilm();
@@ -106,7 +106,7 @@ function Deatail() {
   return (
     <div className={cx('wrap')}>
       <Header />
-      {isShowReview && <Review toggleShow={handelClickX} />}
+
       <ToastMassage
         handelClose={toggleShowToast}
         isShow={obToast.isShow}
@@ -260,6 +260,7 @@ function Deatail() {
                   </div>
                 </Col>
               </div>
+              {isShowReview && <Review toggleShow={handelClickX} filmInfo={filmInfo} />}
             </Row>
           );
         })}

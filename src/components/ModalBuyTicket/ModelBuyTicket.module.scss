@@ -9,16 +9,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10000;
+  z-index: 100000;
   .ticket {
     // max-width: 855px;
     max-width: 770px;
     // max-height: 391px;
-    height: 542px;
+    // height: 542px;
     background-color: #fff;
     display: flex;
-    animation: totop 0.2s linear !important;
     position: relative;
+    animation: totop 0.2s linear !important;
     @keyframes totop {
       0% {
         opacity: 0;
@@ -223,8 +223,6 @@
     }
 
     .payment {
-      max-width: 354px;
-      max-height: 542px;
       .payment-qrCode {
         background: url(https://homepage.momocdn.net/jk/momo2020/img/intro/qrcode-pattern.png) 10px 10px no-repeat,
           linear-gradient(to top, rgb(193, 23, 124), rgb(225, 27, 144));

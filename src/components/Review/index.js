@@ -4,12 +4,14 @@ import { useState } from 'react';
 
 const cx = classNames.bind(style);
 
-function Review({ toggleShow }) {
+function Review({ toggleShow, filmInfo }) {
   const [isHidden, setIsHidden] = useState(false);
 
   const handleMouseLeave = () => {
     setIsHidden(true);
   };
+
+  console.log(filmInfo);
 
   const handelClickHidden = () => {
     if (isHidden) {
@@ -24,27 +26,16 @@ function Review({ toggleShow }) {
     <div onClick={handelClickHidden} className={cx('wrap')}>
       <div onMouseLeave={handleMouseLeave} className={cx('review')}>
         <div className={cx('video')}>
-          <iframe
-            title="dia dang sup do"
-            src="https://www.youtube.com/embed/4wrFjd_t1gY?autoplay=1&enablejsapi=1&origin=https%3A%2F%2Fmomo.vn&widgetid=3"
-          ></iframe>
+          <iframe title={filmInfo.name} src={`https://www.youtube.com/embed/${filmInfo.trailer}`}></iframe>
         </div>
         <div className={cx('info_film')}>
-          <img
-            src="https://cinema.momocdn.net/img/12762105029421203-esgmPNY2yqx1mnVVY8vrUWU8Zrs.jpg"
-            className={cx('avatar')}
-            alt="dia dang sup do"
-          />
+          <img src={filmInfo.image} alt={filmInfo.name} />
           <div className={cx('info')}>
             <h3 className={cx('name-type')}>
-              Địa Đàng Sụp Đổ&nbsp;
-              <span>- Khoa Học Viễn Tưởng</span>
+              {filmInfo.name}&nbsp;
+              <span>- {filmInfo.type}</span>
             </h3>
-            <div className={cx('content')}>
-              Trong tương lai, thế giới xảy ra một cuộc chiến tranh kéo dài giữa loài người và trí tuệ nhân tạo (AI).
-              Joshua (John David Washington) - 1 cựu đặc vụ lì lợm, được thuê để giết “The Creator” - kẻ được xem là đầu
-              não của AI và đã tạo ra 1 loại vũ khí bí ẩn đủ mạnh để kết thúc cuộc chiến và quét sạch
-            </div>
+            <div className={cx('content')}>{filmInfo.content}</div>
             <div className={cx('btn')}>
               <a href="/" className={cx('btn-buy')}>
                 Đặt vé

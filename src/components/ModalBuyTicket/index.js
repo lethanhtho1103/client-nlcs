@@ -11,7 +11,16 @@ import Paypal from '../PayPal';
 
 const cx = classNames.bind(style);
 
-function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, startTime, handleLongTime, startDate }) {
+function ModalBuyTicket({
+  toggleShow,
+  filmInfo,
+  byTicket,
+  ticket,
+  startTime,
+  handleLongTime,
+  startDate,
+  handelClickBack,
+}) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
 
@@ -36,6 +45,7 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, startTime, han
   const handleBuyTicket = (e) => {
     byTicket(filmInfo.id);
     toggleShow();
+    handelClickBack();
   };
 
   const handleReceive = () => {
@@ -133,6 +143,20 @@ function ModalBuyTicket({ toggleShow, filmInfo, byTicket, ticket, startTime, han
                 <div></div>
                 <div className={cx('price')}>
                   <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VNĐ</b>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <span>BẮP - NƯỚC</span>
+                  <div>
+                    <b>1 x Beta Combo 69oz</b>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div></div>
+                <div className={cx('price')}>
+                  <b>{numberWithCommas(90000)}&nbsp;VNĐ</b>
                 </div>
               </li>
             </ul>
