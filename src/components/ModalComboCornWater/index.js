@@ -1,13 +1,16 @@
 import classNames from 'classnames/bind';
 import style from './ModalComboCornWater.module.scss';
 import { Button } from 'react-bootstrap';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
+import { DetailContext } from '~/Context/DetailContext';
 
 const cx = classNames.bind(style);
 
-function ModalComboCornWater({ toggleShow, handelShowBuyTicket, comboCornWater }) {
+function ModalComboCornWater({ toggleShow, comboCornWater }) {
   const [quantity, setQuantity] = useState(0);
   // const [isHidden, setIsHidden] = useState(false);
+
+  const { handelShowBuyTicket } = useContext(DetailContext);
 
   const increase = useCallback(() => setQuantity(quantity + 1), [quantity]);
   const decrease = useCallback(() => setQuantity(quantity - 1), [quantity]);

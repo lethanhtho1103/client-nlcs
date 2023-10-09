@@ -7,43 +7,28 @@ import { faEye } from '@fortawesome/free-regular-svg-icons';
 import Footer from '~/components/Footer';
 import Header from '~/components/Header';
 import { faChevronRight, faHouse, faStar } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import Moment from 'react-moment';
-import { useSelector } from 'react-redux';
-import { userSelector } from '~/redux/selector';
-import { filmService } from '~/services';
-
+import { DetailContext } from '~/Context/DetailContext';
 import ToastMassage from '../ToastMassage';
 import Calendar from '../Calendar';
 import Review from '../Review';
 
 const cx = classNames.bind(style);
 
-function Deatail() {
-  const [filmInfo, setFilmInfo] = useState([]);
+function Detail() {
   // const [totalTicket, setTotalTicket] = useState([]);
-  const [filmComments, setFilmComment] = useState([]);
-  const [filmsPlaying, setFilmsPlaying] = useState([]);
   const [isShowReview, setIsShowReview] = useState(false);
   const [isShowContent, setIsShowContent] = useState(false);
-
-  const currUser = useSelector(userSelector);
   const [obToast, setObToast] = useState({
     isShow: false,
     header: '',
     content: '',
   });
-  const { filmId } = useParams();
+
+  const { filmInfo, countComment, avgRate } = useContext(DetailContext);
 
   // var remainingTicket = 0;
-  let countComment = 0;
-  countComment = filmComments.filter((userComment) => userComment.comment !== null).length;
-  let arrRate = filmComments.filter((userComment) => userComment.rate !== null);
-  let initRate = 0;
-  let totalRate = arrRate.reduce((accumulator, current) => accumulator + current.rate, initRate);
-
-  const avgRate = (totalRate / countComment).toFixed(1);
 
   const handleShowReview = () => {
     setIsShowReview(true);
@@ -71,47 +56,6 @@ function Deatail() {
     setIsShowContent(false);
   };
 
-  // const handelTotalTicket = async (filmId) => {
-  //   const res = await filmService.totalTicket(filmId);
-  //   setTotalTicket(res.data);
-  // };
-
-  const handleShowCommentOfUser = async () => {
-    const res = await filmService.getAllCommentFilm(filmId);
-    setFilmComment(res.data);
-  };
-
-  const getInfoOneFilm = async () => {
-    const res = await filmService.getOneFilm({ filmId });
-    if (res.errCode === 0) {
-      setFilmInfo(res.data);
-    }
-  };
-
-  const handleUpdateAvgRate = async () => {
-    const id = filmId;
-    const res = await filmService.updateAvgRate(id, avgRate);
-    if (res.errCode === 0) {
-      console.log(res.avgRate);
-    }
-  };
-
-  const getFilmsPlaying = async () => {
-    const res = await filmService.getAllFilm(10);
-    if (res.errCode === 0) {
-      setFilmsPlaying(res.data);
-    }
-  };
-
-  useEffect(() => {
-    getInfoOneFilm();
-    // handelTotalTicket(filmId);
-    handleShowCommentOfUser();
-    getFilmsPlaying();
-    handleUpdateAvgRate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currUser.id, filmId, avgRate]);
-
   return (
     <div className={cx('wrap')}>
       <Header />
@@ -121,6 +65,7 @@ function Deatail() {
         header={obToast.header}
         content={obToast.content}
       />
+
       <Container className={cx('main')}>
         <div className={cx('breadcrumb')}>
           <div className={cx('details-path')}>
@@ -242,14 +187,14 @@ function Deatail() {
                 </div>
 
                 {/* <div className={cx('item')}>
-                      <div className={cx('item-title')}>Số vé còn lại</div>
-                      <div className={cx('item-content')}>
-                        {totalTicket.map((ticket) => {
-                          remainingTicket = filmInfo.filmShowTime.roomShowTime.maxUser - ticket.totalTicket;
-                          return remainingTicket;
-                        })}
-                      </div>
-                    </div> */}
+                        <div className={cx('item-title')}>Số vé còn lại</div>
+                        <div className={cx('item-content')}>
+                          {totalTicket.map((ticket) => {
+                            remainingTicket = filmInfo.filmShowTime.roomShowTime.maxUser - ticket.totalTicket;
+                            return remainingTicket;
+                          })}
+                        </div>
+                      </div> */}
               </div>
             </Col>
           </div>
@@ -257,18 +202,7 @@ function Deatail() {
         </Row>
 
         {filmInfo.id < 'zc3ce148f0f10' ? (
-          <Calendar
-            filmComments={filmComments}
-            filmId={filmId}
-            userId={currUser.id}
-            avgRate={avgRate}
-            countComment={countComment}
-            filmsPlaying={filmsPlaying}
-            filmInfo={filmInfo}
-            currUser={currUser}
-            handleShowCommentOfUser={handleShowCommentOfUser}
-            handleUpdateAvgRate={handleUpdateAvgRate}
-          />
+          <Calendar avgRate={avgRate} countComment={countComment} filmInfo={filmInfo} />
         ) : (
           <></>
         )}
@@ -447,9 +381,10 @@ function Deatail() {
           </div>
         </Row>
       </Container>
+
       <Footer />
     </div>
   );
 }
 
-export default Deatail;
+export default Detail;

@@ -1,23 +1,16 @@
 import classNames from 'classnames/bind';
 import style from './Comment.module.scss';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ToastMassage from '../ToastMassage';
 import { Button } from 'react-bootstrap';
 import { filmService } from '~/services';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { DetailContext } from '~/Context/DetailContext';
 
 const cx = classNames.bind(style);
 
-function Comment({
-  filmComments,
-  filmId,
-  userId,
-  avgRate,
-  countComment,
-  handleShowCommentOfUser,
-  handleUpdateAvgRate,
-}) {
+function Comment() {
   const [isShowComment, setIsShowComment] = useState(false);
   const [isShowToastMessage, setIsShowToastMessage] = useState(false);
   const [comment, setComment] = useState('');
@@ -28,6 +21,9 @@ function Comment({
     header: '',
     content: '',
   });
+
+  const { userId, filmComments, filmId, handleShowCommentOfUser, avgRate, countComment, handleUpdateAvgRate } =
+    useContext(DetailContext);
 
   dayjs.extend(relativeTime);
 

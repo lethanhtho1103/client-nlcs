@@ -7,27 +7,17 @@ import { faLocationDot, faStar } from '@fortawesome/free-solid-svg-icons';
 import Week from '../Week';
 import classNames from 'classnames/bind';
 import style from './Calendar.module.scss';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ToastMassage from '../ToastMassage';
 import Comment from '../Comment';
 import { filmService } from '~/services';
 import Loader from '../Loader';
 import ModalBuyTicket from '../ModalBuyTicket';
 import ModalComboCornWater from '../ModalComboCornWater';
+import { DetailContext } from '~/Context/DetailContext';
 const cx = classNames.bind(style);
 
-function Calendar({
-  filmComments,
-  filmId,
-  userId,
-  avgRate,
-  countComment,
-  handleShowCommentOfUser,
-  handleUpdateAvgRate,
-  filmsPlaying,
-  filmInfo,
-  currUser,
-}) {
+function Calendar() {
   const filmTime = dayjs();
   dayjs.extend(relativeTime);
 
@@ -42,7 +32,7 @@ function Calendar({
 
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
-  const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
+
   const [isShowModalComboCornWater, setIsShowModalComboCornWater] = useState(false);
 
   const [obToast, setObToast] = useState({
@@ -51,9 +41,8 @@ function Calendar({
     content: '',
   });
 
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  }
+  const { userId, filmInfo, filmId, filmsPlaying, avgRate, isShowModalBuyTicket, handleLongTime, numberWithCommas } =
+    useContext(DetailContext);
 
   const weekDays = [0, 1, 2, 3, 4, 5, 6];
 
@@ -69,25 +58,6 @@ function Calendar({
       if (res.errCode === 0) setStartTimes(res.data);
       setIsLoader(false);
     }, 500);
-  };
-
-  const handleLongTime = (startTime, totalTime) => {
-    const time = parseInt(startTime?.slice(0, 2));
-    const endHour = Math.floor(time + totalTime / 60);
-    const endHour24 = endHour % 24;
-    const endMinutes = totalTime % 60;
-    if (endHour24 < 10) {
-      if (endMinutes < 10) {
-        return `0${endHour24}:0${endMinutes}`;
-      } else {
-        return `0${endHour24}:${endMinutes}`;
-      }
-    } else if (endHour24 >= 10) {
-      if (endMinutes < 10) {
-        return `${endHour}:0${endMinutes}`;
-      }
-    }
-    return `${endHour}:${endMinutes}`;
   };
 
   const handleReceive = () => {
@@ -124,12 +94,8 @@ function Calendar({
     }
   };
 
-  const handelShowBuyTicket = () => {
-    setIsShowModalBuyTicket(true);
-  };
-
   const handleBuyTicket = async (filmId) => {
-    const res = await filmService.buyTicket(currUser.id, filmId, ticket);
+    const res = await filmService.buyTicket(userId, filmId, ticket);
     buyTicket(res);
     setTimeout(() => {
       setObToast({
@@ -138,10 +104,6 @@ function Calendar({
         content: '',
       });
     }, 3500);
-  };
-
-  const handelClickX = () => {
-    setIsShowModalBuyTicket(false);
   };
 
   const handelClickBack = () => {
@@ -174,22 +136,15 @@ function Calendar({
       {isShowModalBuyTicket && (
         <ModalBuyTicket
           numberWithCommas={numberWithCommas}
-          handleLongTime={handleLongTime}
           startTime={startTime}
           startDate={startDate}
-          filmInfo={filmInfo}
           ticket={ticket}
-          toggleShow={handelClickX}
           handelClickBack={handelClickBack}
           byTicket={handleBuyTicket}
         />
       )}
       {isShowModalComboCornWater && (
-        <ModalComboCornWater
-          handelShowBuyTicket={handelShowBuyTicket}
-          toggleShow={handelClickBack}
-          comboCornWater={comboCornWater}
-        />
+        <ModalComboCornWater toggleShow={handelClickBack} comboCornWater={comboCornWater} />
       )}
       <Col md={8} className={cx('show-times')}>
         <div className={cx('code-discount')}>
@@ -327,15 +282,7 @@ function Calendar({
             </div>
           </div>
         </section>
-        <Comment
-          filmId={filmId}
-          userId={userId}
-          filmComments={filmComments}
-          countComment={countComment}
-          avgRate={avgRate}
-          handleShowCommentOfUser={handleShowCommentOfUser}
-          handleUpdateAvgRate={handleUpdateAvgRate}
-        />
+        <Comment />
       </Col>
       <Col md={4} className={cx('film-playing')}>
         <h3 id="phim-chieu">Phim đang chiếu</h3>
@@ -367,7 +314,13 @@ function Calendar({
                     <span>
                       <FontAwesomeIcon icon={faStar} />
                     </span>
-                    <div>{film.id === filmId ? avgRate : film.avgRate > 0 ? film.avgRate : 'Chưa có đánh giá nào'}</div>
+                    <div>
+                      {film.id === filmId && avgRate > 0
+                        ? avgRate
+                        : film.avgRate > 0
+                        ? film.avgRate
+                        : 'Chưa có đánh giá nào'}
+                    </div>
                   </div>
                 </div>
               </div>

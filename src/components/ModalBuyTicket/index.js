@@ -4,26 +4,19 @@ import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import Moment from 'react-moment';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ToastMassage from '../ToastMassage';
 // import vnpay from '../../assets/images/vnpay.png';
 import Paypal from '../PayPal';
+import { DetailContext } from '~/Context/DetailContext';
 
 const cx = classNames.bind(style);
 
-function ModalBuyTicket({
-  toggleShow,
-  filmInfo,
-  byTicket,
-  ticket,
-  startTime,
-  handleLongTime,
-  startDate,
-  handelClickBack,
-  numberWithCommas,
-}) {
+function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBack }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+
+  const { filmInfo, handleLongTime, handelClickX, numberWithCommas } = useContext(DetailContext);
 
   const handleMouseLeave = () => {
     setIsHidden(true);
@@ -31,17 +24,17 @@ function ModalBuyTicket({
 
   const handelClickHidden = () => {
     if (isHidden) {
-      toggleShow();
+      handelClickX();
     }
   };
 
   const handleClickX = () => {
-    toggleShow();
+    handelClickX();
   };
 
   const handleBuyTicket = (e) => {
     byTicket(filmInfo.id);
-    toggleShow();
+    handelClickX();
     handelClickBack();
   };
 
