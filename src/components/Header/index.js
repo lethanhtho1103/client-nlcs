@@ -12,6 +12,7 @@ function Header() {
   const handleLogout = () => {
     dispatch(userSlice.actions.toggleUserLogin());
   };
+
   return (
     <div className={cx('header')}>
       <div className={cx('header-nav')}>

@@ -23,10 +23,10 @@ function Calendar({
   avgRate,
   countComment,
   handleShowCommentOfUser,
+  handleUpdateAvgRate,
   filmsPlaying,
   filmInfo,
   currUser,
-  remainingTicket,
 }) {
   const filmTime = dayjs();
   dayjs.extend(relativeTime);
@@ -38,6 +38,8 @@ function Calendar({
   const [startTime, setStartTime] = useState('');
   const [startTimes, setStartTimes] = useState([]);
   const [comboCornWater, setComboCornWater] = useState([]);
+  const [totalTicket, setTotalTicket] = useState([]);
+
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
   const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
@@ -48,6 +50,10 @@ function Calendar({
     header: '',
     content: '',
   });
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
 
   const weekDays = [0, 1, 2, 3, 4, 5, 6];
 
@@ -114,7 +120,7 @@ function Calendar({
     if (ticket > 0 && ticket <= remainingTicket) {
       setIsShowModalComboCornWater(true);
     } else {
-      alert('Số lượng vé không hợp lệ. Vui lòng đặt lại số vé!');
+      alert('Số lượng vé không hợp lệ. Xin quý khách vui lòng đặt lại số vé!');
     }
   };
 
@@ -147,9 +153,17 @@ function Calendar({
     setComboCornWater(res.data);
   };
 
+  var remainingTicket;
+
+  const handelTotalTicket = async (filmId) => {
+    const res = await filmService.totalTicket(filmId);
+    setTotalTicket(res.data);
+  };
+
   useEffect(() => {
     handleGetStartTime();
     getAllComboCornWater();
+    handelTotalTicket(filmId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate]);
 
@@ -159,6 +173,7 @@ function Calendar({
       <ToastMassage isShow={obToast.isShow} header={obToast.header} content={obToast.content} />
       {isShowModalBuyTicket && (
         <ModalBuyTicket
+          numberWithCommas={numberWithCommas}
           handleLongTime={handleLongTime}
           startTime={startTime}
           startDate={startDate}
@@ -257,22 +272,43 @@ function Calendar({
                       );
                     })}
                     <div className={cx('book-ticket')}>
-                      <Button
-                        className={cx('btn-book-ticket')}
-                        onClick={() => handelShowBuyComboCornWater(remainingTicket)}
-                      >
-                        Đặt vé ngay
-                      </Button>
-                      <span>Số lượng:</span>
-                      <input
-                        value={ticket}
-                        onChange={(e) => setTicket(e.target.value)}
-                        type="number"
-                        min={1}
-                        max={remainingTicket}
-                        name="quantity"
-                        className={cx('quantity')}
-                      />
+                      <div className={cx('quantity-remaining')}>
+                        <div className={cx('quantity')}>
+                          <div>Số lượng:&nbsp;</div>
+                          <input
+                            value={ticket}
+                            onChange={(e) => setTicket(e.target.value)}
+                            type="number"
+                            min={1}
+                            max={10}
+                            name="quantity"
+                            className={cx('quantity-ticket')}
+                          />
+                        </div>
+                        <div className={cx('remaining')}>
+                          <div>Số vé còn lại:</div>
+                          <b>
+                            {totalTicket.map((ticket) => {
+                              remainingTicket = filmInfo.filmShowTime.roomShowTime.maxUser - ticket.totalTicket;
+                              return remainingTicket;
+                            })}
+                          </b>
+                        </div>
+                      </div>
+                      <div className={cx('payment')}>
+                        <div className={cx('temporary')}>
+                          <div>Tạm tính</div>
+                          <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)} VNĐ</b>
+                        </div>
+                        <div>
+                          <Button
+                            className={cx('btn-book-ticket')}
+                            onClick={() => handelShowBuyComboCornWater(remainingTicket)}
+                          >
+                            Đặt vé ngay
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -298,10 +334,11 @@ function Calendar({
           countComment={countComment}
           avgRate={avgRate}
           handleShowCommentOfUser={handleShowCommentOfUser}
+          handleUpdateAvgRate={handleUpdateAvgRate}
         />
       </Col>
       <Col md={4} className={cx('film-playing')}>
-        <h3>Phim đang chiếu</h3>
+        <h3 id="phim-chieu">Phim đang chiếu</h3>
         <div className={cx('list-film-playing')}>
           {filmsPlaying.map((film, index) => {
             return (
@@ -317,6 +354,7 @@ function Calendar({
                     className={cx('age', {
                       age18: film.ageAllowed === 18,
                       age16: film.ageAllowed === 16,
+                      age13: film.ageAllowed === 13,
                     })}
                   >
                     {film.ageAllowed}+
@@ -329,7 +367,7 @@ function Calendar({
                     <span>
                       <FontAwesomeIcon icon={faStar} />
                     </span>
-                    <div>{film.evaluate}</div>
+                    <div>{film.id === filmId ? avgRate : film.avgRate > 0 ? film.avgRate : 'Chưa có đánh giá nào'}</div>
                   </div>
                 </div>
               </div>

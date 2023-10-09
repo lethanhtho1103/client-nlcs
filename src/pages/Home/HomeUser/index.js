@@ -76,7 +76,7 @@ function HomeUser() {
                   <strong>Lịch sử đặt vé&nbsp;</strong>được lưu lại ngay
                 </li>
               </ul>
-              <a href="/start" className={cx('btn')}>
+              <a href="#filmPlaying" id="phim-chieu" className={cx('btn')}>
                 ĐẶT VÉ NGAY
               </a>
             </div>
@@ -281,7 +281,6 @@ function HomeUser() {
           </div>
         </Row>
       </Container>
-
       <Footer />
     </div>
   );

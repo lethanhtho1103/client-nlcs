@@ -37,7 +37,9 @@ function FilmPlaying() {
   return (
     <Row className={cx('moviesPlaying')}>
       <Col sm={12} className={cx('playing-movie')}>
-        <h1 className={cx('heading-movie')}>Phim đang chiếu</h1>
+        <h1 id="filmPlaying" className={cx('heading-movie')}>
+          Phim đang chiếu
+        </h1>
         <Row className={cx('list-movie')}>
           <div
             onClick={handleSetOffsetLeft}
@@ -93,7 +95,9 @@ function FilmPlaying() {
                       </div>
 
                       {/* <Moment local="vi" format="DD/MM/YYYY" date={film.evaluate} /> */}
-                      <div className={cx('home-product-item__sold')}>{film.evaluate}</div>
+                      <div className={cx('home-product-item__sold')}>
+                        {film.avgRate > 0 ? film.avgRate : 'Chưa có đánh giá nào'}
+                      </div>
                     </div>
 
                     <div className={cx('home-product-item__favourite')}>

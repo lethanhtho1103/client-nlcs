@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import style from './FilmUpcoming.module.scss';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect, useState } from 'react';
@@ -17,6 +17,7 @@ function FilmUpcoming() {
       setFilms(res.data);
     }
   }, []);
+
   useEffect(() => {
     getFilms();
   }, [getFilms]);
@@ -78,7 +79,9 @@ function FilmUpcoming() {
             );
           })}
         </Row>
-        <Button className={cx('btn-search-movie')}>Tìm phim chiếu rạp</Button>
+        <a href="#phim-chieu" className={cx('btn-search-movie')}>
+          Tìm phim chiếu rạp
+        </a>
       </Col>
     </Row>
   );

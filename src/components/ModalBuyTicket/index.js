@@ -20,13 +20,10 @@ function ModalBuyTicket({
   handleLongTime,
   startDate,
   handelClickBack,
+  numberWithCommas,
 }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  }
 
   const handleMouseLeave = () => {
     setIsHidden(true);

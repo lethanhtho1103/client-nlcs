@@ -77,6 +77,18 @@ const filmService = {
     }
   },
 
+  async updateAvgRate(id, avgRate) {
+    try {
+      const data = {
+        avgRate,
+      };
+      const res = await axios.patch(`/api/v1/film/avgRate?id=${id}`, data);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async getAllCommentFilm(filmId) {
     if (filmId) {
       const res = await axios.get(`/api/v1/film/get-all-comments?filmId=${filmId}`);

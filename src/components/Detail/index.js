@@ -13,6 +13,7 @@ import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import { userSelector } from '~/redux/selector';
 import { filmService } from '~/services';
+
 import ToastMassage from '../ToastMassage';
 import Calendar from '../Calendar';
 import Review from '../Review';
@@ -21,7 +22,7 @@ const cx = classNames.bind(style);
 
 function Deatail() {
   const [filmInfo, setFilmInfo] = useState([]);
-  const [totalTicket, setTotalTicket] = useState([]);
+  // const [totalTicket, setTotalTicket] = useState([]);
   const [filmComments, setFilmComment] = useState([]);
   const [filmsPlaying, setFilmsPlaying] = useState([]);
   const [isShowReview, setIsShowReview] = useState(false);
@@ -35,7 +36,7 @@ function Deatail() {
   });
   const { filmId } = useParams();
 
-  var remainingTicket = 0;
+  // var remainingTicket = 0;
   let countComment = 0;
   countComment = filmComments.filter((userComment) => userComment.comment !== null).length;
   let arrRate = filmComments.filter((userComment) => userComment.rate !== null);
@@ -70,10 +71,10 @@ function Deatail() {
     setIsShowContent(false);
   };
 
-  const handelTotalTicket = async (filmId) => {
-    const res = await filmService.totalTicket(filmId);
-    setTotalTicket(res.data);
-  };
+  // const handelTotalTicket = async (filmId) => {
+  //   const res = await filmService.totalTicket(filmId);
+  //   setTotalTicket(res.data);
+  // };
 
   const handleShowCommentOfUser = async () => {
     const res = await filmService.getAllCommentFilm(filmId);
@@ -87,8 +88,16 @@ function Deatail() {
     }
   };
 
+  const handleUpdateAvgRate = async () => {
+    const id = filmId;
+    const res = await filmService.updateAvgRate(id, avgRate);
+    if (res.errCode === 0) {
+      console.log(res.avgRate);
+    }
+  };
+
   const getFilmsPlaying = async () => {
-    const res = await filmService.getAllFilm(7);
+    const res = await filmService.getAllFilm(10);
     if (res.errCode === 0) {
       setFilmsPlaying(res.data);
     }
@@ -96,17 +105,16 @@ function Deatail() {
 
   useEffect(() => {
     getInfoOneFilm();
-    handelTotalTicket(filmId);
+    // handelTotalTicket(filmId);
     handleShowCommentOfUser();
     getFilmsPlaying();
-
+    handleUpdateAvgRate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currUser.id, filmId]);
+  }, [currUser.id, filmId, avgRate]);
 
   return (
     <div className={cx('wrap')}>
       <Header />
-
       <ToastMassage
         handelClose={toggleShowToast}
         isShow={obToast.isShow}
@@ -128,127 +136,112 @@ function Deatail() {
               </li>
               <li className={cx('path-item')}>
                 <FontAwesomeIcon className={cx('iconRight')} icon={faChevronRight} />
-                <a href="/details/phim-chieu">Phim chiếu</a>
+                <a href={`/details/${filmInfo.id}#phim-chieu`}>Phim chiếu</a>
               </li>
               <li className={cx('path-item')}>
                 <FontAwesomeIcon className={cx('iconRight')} icon={faChevronRight} />
-                <span>{filmInfo[0]?.name}</span>
+                <span>{filmInfo.name}</span>
               </li>
             </ul>
           </div>
         </div>
-        {filmInfo.map((filmInfo, index) => {
-          return (
-            <Row key={index} style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
-              <div className={cx('contain')}>
-                <Col className={cx('detail-img')}>
-                  <div
-                    style={{
-                      background: `url(${filmInfo.image})`,
-                    }}
-                    className={cx('img')}
-                  ></div>
-                  <div
-                    className={cx('pauseIcon', {
-                      show: isShowContent === true,
-                    })}
-                    onClick={handleShowReview}
-                  >
-                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                      <g fill="none" fillRule="evenodd">
-                        <circle
-                          stroke="#FFF"
-                          strokeWidth="2"
-                          fillOpacity=".24"
-                          fill="#000"
-                          cx="24"
-                          cy="24"
-                          r="23"
-                        ></circle>
-                        <path
-                          d="M34.667 24.335c0 .515-.529.885-.529.885l-14.84 9.133c-1.08.704-1.965.182-1.965-1.153V15.467c0-1.338.884-1.856 1.968-1.153L34.14 23.45c-.002 0 .527.37.527.885Z"
-                          fill="#FFF"
-                          fillRule="nonzero"
-                        ></path>
-                      </g>
-                    </svg>
+        <Row style={{ background: `url(${filmInfo.backgroundImage})` }} className={cx('detail-movie')}>
+          <div className={cx('contain')}>
+            <Col className={cx('detail-img')}>
+              <div
+                style={{
+                  background: `url(${filmInfo.image})`,
+                }}
+                className={cx('img')}
+              ></div>
+              <div
+                className={cx('pauseIcon', {
+                  show: isShowContent === true,
+                })}
+                onClick={handleShowReview}
+              >
+                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <g fill="none" fillRule="evenodd">
+                    <circle stroke="#FFF" strokeWidth="2" fillOpacity=".24" fill="#000" cx="24" cy="24" r="23"></circle>
+                    <path
+                      d="M34.667 24.335c0 .515-.529.885-.529.885l-14.84 9.133c-1.08.704-1.965.182-1.965-1.153V15.467c0-1.338.884-1.856 1.968-1.153L34.14 23.45c-.002 0 .527.37.527.885Z"
+                      fill="#FFF"
+                      fillRule="nonzero"
+                    ></path>
+                  </g>
+                </svg>
+              </div>
+            </Col>
+            <Col className={cx('info')}>
+              <div className={cx(`info-old${filmInfo.ageAllowed}`)}>{filmInfo.ageAllowed}+</div>
+              <h1 className={cx('info-title')}>{filmInfo.name}</h1>
+              <ul className={cx('list-title')}>
+                <li className={cx('title-item')}>NTFMovie</li>
+                <li className={cx('title-item', 'item-center')}>.</li>
+                <li className={cx('title-item')}>2023</li>
+                <li className={cx('title-item', 'item-center')}>.</li>
+                <li className={cx('title-item')}>{filmInfo.totalTime} phút</li>
+              </ul>
+              {countComment !== 0 ? (
+                <div className={cx('info-evaluate')}>
+                  <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
+                  <div className={cx('numberStar')}>{avgRate}</div>
+                  <div className={cx('numberEvaluate')}>
+                    <div>{countComment}</div>
+                    <span>đánh giá</span>
                   </div>
-                </Col>
-                <Col className={cx('info')}>
-                  <div className={cx(`info-old${filmInfo.ageAllowed}`)}>{filmInfo.ageAllowed}+</div>
-                  <h1 className={cx('info-title')}>{filmInfo.name}</h1>
-                  <ul className={cx('list-title')}>
-                    <li className={cx('title-item')}>{filmInfo.type}</li>
-                    <li className={cx('title-item', 'item-center')}>.</li>
-                    <li className={cx('title-item')}>{filmInfo.origin}</li>
-                    <li className={cx('title-item', 'item-center')}>.</li>
-                    <li className={cx('title-item')}>2023</li>
-                    <li className={cx('title-item', 'item-center')}>.</li>
-                    <li className={cx('title-item')}>{filmInfo.totalTime} phút</li>
-                  </ul>
-                  {countComment !== 0 ? (
-                    <div className={cx('info-evaluate')}>
-                      <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
-                      <div className={cx('numberStar')}>{avgRate}</div>
-                      <div className={cx('numberEvaluate')}>
-                        <div>{countComment}</div>
-                        <span>đánh giá</span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className={cx('info-evaluate')}>
-                      <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
-                      <span>Hiện tại chưa có đánh giá nào.</span>
-                    </div>
-                  )}
-                  <p>{filmInfo.title}</p>
-                  <h3>Nội dung</h3>
-                  <div className={cx('content')}>
-                    <div
-                      className={cx({
-                        show: isShowContent === true,
-                      })}
-                    >
-                      {filmInfo.content}
-                    </div>
-                    <span
-                      className={cx({
-                        hidden: isShowContent === true,
-                      })}
-                      onClick={handelShowContent}
-                    >
-                      Xem thêm
-                    </span>
-                    <span
-                      className={cx({
-                        show: isShowContent === true,
-                      })}
-                      onClick={handelHiddenContent}
-                    >
-                      Thu gọn
-                    </span>
-                  </div>
+                </div>
+              ) : (
+                <div className={cx('info-evaluate')}>
+                  <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
+                  <span>Hiện tại chưa có đánh giá nào.</span>
+                </div>
+              )}
+              <p>{filmInfo.title}</p>
+              <h3>Nội dung</h3>
+              <div className={cx('content')}>
+                <div
+                  className={cx({
+                    show: isShowContent === true,
+                  })}
+                >
+                  {filmInfo.content}
+                </div>
+                <span
+                  className={cx({
+                    hidden: isShowContent === true,
+                  })}
+                  onClick={handelShowContent}
+                >
+                  Xem thêm
+                </span>
+                <span
+                  className={cx({
+                    show: isShowContent === true,
+                  })}
+                  onClick={handelHiddenContent}
+                >
+                  Thu gọn
+                </span>
+              </div>
 
-                  <div className={cx('type-date-origin')}>
-                    <div className={cx('item')}>
-                      <div className={cx('item-title')}>Khởi chiếu</div>
-                      <div className={cx('item-content')}>
-                        <Moment local="vi" format="DD/MM/YYYY" date={filmInfo.startDate} />
-                      </div>
-                    </div>
-                    <div className={cx('item')}>
-                      <div className={cx('item-title')}>Giờ chiếu</div>
-                      <div className={cx('item-content')}>{filmInfo.filmShowTime.startTime}</div>
-                    </div>
-                    <div className={cx('item')}>
-                      <div className={cx('item-title')}>Phòng chiếu</div>
-                      <div className={cx('item-content')}>0{filmInfo.filmShowTime.roomId}</div>
-                    </div>
-                    <div className={cx('item')}>
-                      <div className={cx('item-title')}>Giá vé</div>
-                      <div className={cx('item-content')}>{filmInfo.filmShowTime.roomShowTime.priceTicket} VNĐ</div>
-                    </div>
-                    <div className={cx('item')}>
+              <div className={cx('type-date-origin')}>
+                <div className={cx('item')}>
+                  <div className={cx('item-title')}>Khởi chiếu</div>
+                  <div className={cx('item-content')}>
+                    <Moment local="vi" format="DD/MM/YYYY" date={filmInfo.startDate} />
+                  </div>
+                </div>
+                <div className={cx('item')}>
+                  <div className={cx('item-title')}>Thể loại</div>
+                  <div className={cx('item-content')}>{filmInfo.type}</div>
+                </div>
+                <div className={cx('item')}>
+                  <div className={cx('item-title')}>Quốc gia</div>
+                  <div className={cx('item-content')}>{filmInfo.origin}</div>
+                </div>
+
+                {/* <div className={cx('item')}>
                       <div className={cx('item-title')}>Số vé còn lại</div>
                       <div className={cx('item-content')}>
                         {totalTicket.map((ticket) => {
@@ -256,26 +249,29 @@ function Deatail() {
                           return remainingTicket;
                         })}
                       </div>
-                    </div>
-                  </div>
-                </Col>
+                    </div> */}
               </div>
-              {isShowReview && <Review toggleShow={handelClickX} filmInfo={filmInfo} />}
-            </Row>
-          );
-        })}
-        <Calendar
-          filmComments={filmComments}
-          filmId={filmId}
-          userId={currUser.id}
-          avgRate={avgRate}
-          countComment={countComment}
-          filmsPlaying={filmsPlaying}
-          filmInfo={filmInfo[0]}
-          currUser={currUser}
-          remainingTicket={remainingTicket}
-          handleShowCommentOfUser={handleShowCommentOfUser}
-        />
+            </Col>
+          </div>
+          {isShowReview && <Review toggleShow={handelClickX} filmInfo={filmInfo} />}
+        </Row>
+
+        {filmInfo.id < 'zc3ce148f0f10' ? (
+          <Calendar
+            filmComments={filmComments}
+            filmId={filmId}
+            userId={currUser.id}
+            avgRate={avgRate}
+            countComment={countComment}
+            filmsPlaying={filmsPlaying}
+            filmInfo={filmInfo}
+            currUser={currUser}
+            handleShowCommentOfUser={handleShowCommentOfUser}
+            handleUpdateAvgRate={handleUpdateAvgRate}
+          />
+        ) : (
+          <></>
+        )}
         <Row className={cx('moviesTop')}>
           <Col className={cx('playing-movie')}>
             <h1 className={cx('heading-movie')}>Danh sách top phim nổi bật</h1>
