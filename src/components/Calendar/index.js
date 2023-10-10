@@ -27,7 +27,6 @@ function Calendar() {
   const [startDate, setStartDate] = useState(filmTime.format('YYYY-MM-DD'));
   const [startTime, setStartTime] = useState('');
   const [startTimes, setStartTimes] = useState([]);
-  const [comboCornWater, setComboCornWater] = useState([]);
   const [totalTicket, setTotalTicket] = useState([]);
 
   const [isShowCopy, setIsShowCopy] = useState(false);
@@ -110,11 +109,6 @@ function Calendar() {
     setIsShowModalComboCornWater(false);
   };
 
-  const getAllComboCornWater = async () => {
-    const res = await filmService.getAllCommentComboCornWater();
-    setComboCornWater(res.data);
-  };
-
   var remainingTicket;
 
   const handelTotalTicket = async (filmId) => {
@@ -124,7 +118,7 @@ function Calendar() {
 
   useEffect(() => {
     handleGetStartTime();
-    getAllComboCornWater();
+
     handelTotalTicket(filmId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate]);
@@ -135,7 +129,6 @@ function Calendar() {
       <ToastMassage isShow={obToast.isShow} header={obToast.header} content={obToast.content} />
       {isShowModalBuyTicket && (
         <ModalBuyTicket
-          numberWithCommas={numberWithCommas}
           startTime={startTime}
           startDate={startDate}
           ticket={ticket}
@@ -143,9 +136,7 @@ function Calendar() {
           byTicket={handleBuyTicket}
         />
       )}
-      {isShowModalComboCornWater && (
-        <ModalComboCornWater toggleShow={handelClickBack} comboCornWater={comboCornWater} />
-      )}
+      {isShowModalComboCornWater && <ModalComboCornWater toggleShow={handelClickBack} />}
       <Col md={8} className={cx('show-times')}>
         <div className={cx('code-discount')}>
           <div>

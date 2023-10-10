@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import Moment from 'react-moment';
-import { useContext, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import ToastMassage from '../ToastMassage';
 // import vnpay from '../../assets/images/vnpay.png';
 import Paypal from '../PayPal';
@@ -16,7 +16,18 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
 
-  const { filmInfo, handleLongTime, handelClickX, numberWithCommas } = useContext(DetailContext);
+  const {
+    filmInfo,
+    handleLongTime,
+    handelClickX,
+    numberWithCommas,
+    comboCornWater,
+    getQuantityCombo,
+    quantityCombo1,
+    quantityCombo2,
+    quantityCombo3,
+    quantityCombo4,
+  } = useContext(DetailContext);
 
   const handleMouseLeave = () => {
     setIsHidden(true);
@@ -135,21 +146,22 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                   <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VNĐ</b>
                 </div>
               </li>
-              <li>
-                <div>
-                  <span>BẮP - NƯỚC</span>
-                  <div>
-                    <b>1 x Beta Combo 69oz</b>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div></div>
-                <div className={cx('price')}>
-                  <b>{numberWithCommas(90000)}&nbsp;VNĐ</b>
-                </div>
-              </li>
             </ul>
+            <div className={cx('corn-water')}>
+              <h3>BẮP - NƯỚC</h3>
+              {comboCornWater.map((combo) => {
+                if (getQuantityCombo(combo.id) > 0) {
+                  return (
+                    <div key={combo.id} className={cx('quantity-combo')}>
+                      <b className={cx('name-combo')}>{`${getQuantityCombo(combo.id)} x ${combo.name}`} </b>
+                      <b className={cx('price')}>{numberWithCommas(getQuantityCombo(combo.id) * combo.price)} VNĐ</b>
+                    </div>
+                  );
+                } else {
+                  return <Fragment key={combo.id}></Fragment>;
+                }
+              })}
+            </div>
           </div>
           <ul>
             <li>
@@ -160,7 +172,14 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
               </div>
               <div>
                 <b className={cx('color-red')}>
-                  {numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VNĐ
+                  {numberWithCommas(
+                    filmInfo.filmShowTime.roomShowTime.priceTicket * ticket +
+                      (quantityCombo1 * comboCornWater[0].price +
+                        quantityCombo2 * comboCornWater[1].price +
+                        quantityCombo3 * comboCornWater[2].price +
+                        quantityCombo4 * comboCornWater[3].price),
+                  )}
+                  &nbsp;VNĐ
                 </b>
               </div>
             </li>

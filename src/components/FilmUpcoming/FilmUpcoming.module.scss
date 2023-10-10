@@ -129,7 +129,7 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
 }
 
 .home-product-item__price {
@@ -141,6 +141,10 @@
   font-size: 1.3rem;
   color: #9e9d9d;
   margin-right: 6px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 .home-product-item__action {

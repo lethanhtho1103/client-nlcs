@@ -67,7 +67,9 @@ function FilmUpcoming() {
                       <div className={cx('home-product-item__rating')}>
                         <FontAwesomeIcon className={cx('home-product-item__rating-gold')} icon={faStar} />
                       </div>
-                      <div className={cx('home-product-item__sold-black')}>{film.evaluate}</div>
+                      <div className={cx('home-product-item__sold-black')}>
+                        {film.evaluate > 0 ? film.evaluate : 'Chưa đánh giá'}
+                      </div>
                     </div>
 
                     <div className={cx('home-product-item__favourite')}>

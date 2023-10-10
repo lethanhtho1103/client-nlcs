@@ -1,36 +1,14 @@
 import classNames from 'classnames/bind';
 import style from './ModalComboCornWater.module.scss';
 import { Button } from 'react-bootstrap';
-import { useCallback, useContext, useState } from 'react';
+import { useContext } from 'react';
 import { DetailContext } from '~/Context/DetailContext';
 
 const cx = classNames.bind(style);
 
-function ModalComboCornWater({ toggleShow, comboCornWater }) {
-  const [quantity, setQuantity] = useState(0);
+function ModalComboCornWater({ toggleShow }) {
+  // const [cornWaterId, setCornWaterId] = useState('');
   // const [isHidden, setIsHidden] = useState(false);
-
-  const { handelShowBuyTicket } = useContext(DetailContext);
-
-  const increase = useCallback(() => setQuantity(quantity + 1), [quantity]);
-  const decrease = useCallback(() => setQuantity(quantity - 1), [quantity]);
-
-  const handleDecrease = () => {
-    if (quantity <= 0) {
-      setQuantity(0);
-    } else {
-      decrease();
-    }
-  };
-
-  const handleIncrease = (quantity) => {
-    if (quantity >= 8) {
-      setQuantity(8);
-    } else {
-      increase();
-    }
-  };
-
   // const handleMouseLeave = () => {
   //   setIsHidden(true);
   // };
@@ -40,10 +18,31 @@ function ModalComboCornWater({ toggleShow, comboCornWater }) {
   //     toggleShow();
   //   }
   // };
+  const {
+    handelShowBuyTicket,
+    // filmId,
+    // userId,
+    comboCornWater,
+    numberWithCommas,
+    quantityCombo1,
+    quantityCombo2,
+    quantityCombo3,
+    quantityCombo4,
+    handleDecrease,
+    handleIncrease,
+    getQuantityCombo,
+  } = useContext(DetailContext);
 
   const handleClickX = () => {
     toggleShow();
   };
+
+  // const handleBuyComboCornWater = async () => {
+  //   const res = await filmService.buyComboCornWater(userId, filmId, cornWaterId, quantityCombo1);
+  //   if (res.errCode === 0) {
+  //     return;
+  //   }
+  // };
 
   return (
     <div className={cx('wrap')}>
@@ -85,9 +84,9 @@ function ModalComboCornWater({ toggleShow, comboCornWater }) {
                       viewBox="0 0 24 24"
                       strokeWidth="2"
                       stroke="currentColor"
-                      onClick={handleDecrease}
+                      onClick={() => handleDecrease(combo.id)}
                       className={cx({
-                        active: quantity > 0,
+                        active: getQuantityCombo(combo.id) > 0,
                       })}
                     >
                       <path
@@ -97,7 +96,7 @@ function ModalComboCornWater({ toggleShow, comboCornWater }) {
                       ></path>
                     </svg>
                     <span>
-                      <b>{quantity}</b>
+                      <b>{getQuantityCombo(combo.id)}</b>
                     </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -106,9 +105,9 @@ function ModalComboCornWater({ toggleShow, comboCornWater }) {
                       strokeWidth="2"
                       stroke="currentColor"
                       className={cx({
-                        notActive: quantity === 8,
+                        notActive: getQuantityCombo(combo.id) === 8,
                       })}
-                      onClick={() => handleIncrease(combo.quantity)}
+                      onClick={() => handleIncrease(combo.id)}
                     >
                       <path
                         strokeLinecap="round"
@@ -125,7 +124,15 @@ function ModalComboCornWater({ toggleShow, comboCornWater }) {
         <div className={cx('footer')}>
           <div className={cx('total')}>
             <span>Tổng cộng</span>
-            <b>0 VND</b>
+            <b>
+              {numberWithCommas(
+                quantityCombo1 * comboCornWater[0].price +
+                  quantityCombo2 * comboCornWater[1].price +
+                  quantityCombo3 * comboCornWater[2].price +
+                  quantityCombo4 * comboCornWater[3].price,
+              )}{' '}
+              VNĐ
+            </b>
           </div>
           <Button className={cx('btn-continue')} onClick={handelShowBuyTicket}>
             Tiếp tục

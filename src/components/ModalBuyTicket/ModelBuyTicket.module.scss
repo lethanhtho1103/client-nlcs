@@ -143,6 +143,33 @@
             }
           }
         }
+        .corn-water {
+          margin-top: 16px;
+          h3 {
+            display: block;
+            font-size: 1.1rem;
+            color: rgb(115 115 115);
+            font-weight: 600;
+            margin-bottom: 4px;
+          }
+          .quantity-combo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            b {
+              display: inline-block;
+              color: rgb(38 38 38);
+            }
+            .name-combo {
+              font-size: 1.4rem;
+              width: 60%;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+              overflow: hidden;
+            }
+          }
+        }
       }
       ul {
         list-style: none;

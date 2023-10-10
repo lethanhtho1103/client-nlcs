@@ -10,10 +10,106 @@ export const DetailProvider = ({ children }) => {
   const [filmInfo, setFilmInfo] = useState({});
   const [filmComments, setFilmComment] = useState([]);
   const [filmsPlaying, setFilmsPlaying] = useState([]);
+  const [comboCornWater, setComboCornWater] = useState([]);
+
   const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
   const { filmId } = useParams();
   const currUser = useSelector(userSelector);
   const userId = currUser.id;
+
+  const [quantityCombo1, setQuantityCombo1] = useState(0);
+  const [quantityCombo2, setQuantityCombo2] = useState(0);
+  const [quantityCombo3, setQuantityCombo3] = useState(0);
+  const [quantityCombo4, setQuantityCombo4] = useState(0);
+
+  const handleDecrease = (id) => {
+    switch (id) {
+      case 'CW01':
+        if (quantityCombo1 === 0) {
+          setQuantityCombo1(0);
+        } else {
+          setQuantityCombo1((pre) => pre - 1);
+        }
+        break;
+      case 'CW02':
+        if (quantityCombo2 === 0) {
+          setQuantityCombo2(0);
+        } else {
+          setQuantityCombo2((pre) => pre - 1);
+        }
+        break;
+      case 'CW03':
+        if (quantityCombo3 === 0) {
+          setQuantityCombo3(0);
+        } else {
+          setQuantityCombo3((pre) => pre - 1);
+        }
+        break;
+      case 'CW04':
+        if (quantityCombo4 === 0) {
+          setQuantityCombo4(0);
+        } else {
+          setQuantityCombo4((pre) => pre - 1);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleIncrease = (id) => {
+    switch (id) {
+      case 'CW01':
+        if (quantityCombo1 >= 8) {
+          setQuantityCombo1(8);
+        } else {
+          setQuantityCombo1((pre) => pre + 1);
+        }
+        break;
+      case 'CW02':
+        if (quantityCombo2 >= 8) {
+          setQuantityCombo2(8);
+        } else {
+          setQuantityCombo2((pre) => pre + 1);
+        }
+        break;
+      case 'CW03':
+        if (quantityCombo3 >= 8) {
+          setQuantityCombo3(8);
+        } else {
+          setQuantityCombo3((pre) => pre + 1);
+        }
+        break;
+      case 'CW04':
+        if (quantityCombo4 >= 8) {
+          setQuantityCombo4(8);
+        } else {
+          setQuantityCombo4((pre) => pre + 1);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const getQuantityCombo = (id) => {
+    switch (id) {
+      case 'CW01':
+        return quantityCombo1;
+
+      case 'CW02':
+        return quantityCombo2;
+
+      case 'CW03':
+        return quantityCombo3;
+
+      case 'CW04':
+        return quantityCombo4;
+
+      default:
+        return 0;
+    }
+  };
 
   let countComment = 0;
   countComment = filmComments.filter((userComment) => userComment.comment !== null).length;
@@ -48,6 +144,11 @@ export const DetailProvider = ({ children }) => {
     if (res.errCode === 0) {
       setFilmsPlaying(res.data);
     }
+  };
+
+  const getAllComboCornWater = async () => {
+    const res = await filmService.getAllCommentComboCornWater();
+    setComboCornWater(res.data);
   };
 
   const handleUpdateAvgRate = async () => {
@@ -86,6 +187,7 @@ export const DetailProvider = ({ children }) => {
     handleShowCommentOfUser();
     handleUpdateAvgRate();
     getFilmsPlaying();
+    getAllComboCornWater();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filmId, userId, avgRate]);
   return (
@@ -98,13 +200,21 @@ export const DetailProvider = ({ children }) => {
         avgRate,
         countComment,
         filmsPlaying,
+        comboCornWater,
         isShowModalBuyTicket,
+        quantityCombo1,
+        quantityCombo2,
+        quantityCombo3,
+        quantityCombo4,
         handleShowCommentOfUser,
         handleUpdateAvgRate,
         handleLongTime,
         handelClickX,
         handelShowBuyTicket,
         numberWithCommas,
+        handleDecrease,
+        handleIncrease,
+        getQuantityCombo,
       }}
     >
       {children}

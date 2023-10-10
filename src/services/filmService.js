@@ -116,6 +116,19 @@ const filmService = {
     const res = await axios.get('/api/v1/film/get-all-combo-corn-water');
     return res.data;
   },
+
+  async buyComboCornWater(userId, filmId, cornWaterId, quantityCombo) {
+    try {
+      const data = {
+        cornWaterId,
+        quantityCombo,
+      };
+      const res = await axios.patch(`/api/v1/film/buy-combo-corn-water?userId=${userId}&filmId=${filmId}`, data);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 export default filmService;
