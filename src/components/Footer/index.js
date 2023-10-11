@@ -44,8 +44,8 @@ function Footer() {
               <h2 className={cx('title2')}>Cinema</h2>
               <ul className={cx('list1')}>
                 <li>About me</li>
-                <li>Experiences</li>
-                <li>Careers</li>
+                <li>Start</li>
+                <li>Contact</li>
               </ul>
             </Col>
             <Col sm={4}>

@@ -29,18 +29,16 @@ function Header() {
         <div className={cx('controls')}>
           <ul className={cx('controls-list')}>
             <li className={cx('controls-item')}>
-              <a href="#home">NHÀ</a>
+              <a href="/start">BẮT ĐẦU</a>
             </li>
             <li className={cx('controls-item')}>
-              <a href="#stated">BẮT ĐẦU</a>
-            </li>
-            <li className={cx('controls-item')}>
-              <a href="#contact">LIÊN HỆ</a>
+              <a href="/contact">LIÊN HỆ</a>
             </li>
           </ul>
           <div className={cx('icon-out')}>
             <div className={cx('logout')}>
               <h2>Lê Thành Thọ</h2>
+
               <div className={cx('icon')}>
                 <FontAwesomeIcon icon={faCaretDown} />
                 <div className={cx('menu')}>
@@ -51,6 +49,7 @@ function Header() {
                     B2014791
                   </h2>
                   <ul>
+                    <li>Vé của tôi</li>
                     <li onClick={handleLogout}>Đăng xuất</li>
                   </ul>
                 </div>
