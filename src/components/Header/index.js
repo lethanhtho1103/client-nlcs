@@ -1,10 +1,18 @@
 import classNames from 'classnames/bind';
 import style from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faSignature, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowRightFromBracket,
+  faCaretDown,
+  faGear,
+  faSignature,
+  faTicket,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import Search from '../Search';
 import { useDispatch } from 'react-redux';
 import { userSlice } from '~/redux/reducer';
+import { faMessage } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(style);
 function Header() {
@@ -49,8 +57,23 @@ function Header() {
                     B2014791
                   </h2>
                   <ul>
-                    <li>Vé của tôi</li>
-                    <li onClick={handleLogout}>Đăng xuất</li>
+                    <li>
+                      <FontAwesomeIcon icon={faTicket} />
+                      Vé của tôi
+                    </li>
+                    <li>
+                      <FontAwesomeIcon icon={faMessage} />
+                      Phản hồi
+                    </li>
+                    <li>
+                      <FontAwesomeIcon icon={faGear} />
+                      Cài đặt
+                    </li>
+
+                    <li onClick={handleLogout}>
+                      <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                      Đăng xuất
+                    </li>
                   </ul>
                 </div>
               </div>

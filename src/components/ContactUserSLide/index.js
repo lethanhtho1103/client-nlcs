@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faMessage, faUser } from '@fortawesome/free-regular-svg-icons';
 import { Col } from 'react-bootstrap';
 import contact from '../../assets/images/contact.png';
 import styles from './ContactUserSLide.module.scss';
 import classNames from 'classnames/bind';
 import { Fragment } from 'react';
-import { faCaretDown, faPhoneAlt, faSignature } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faCaretDown, faGear, faSignature, faTicket } from '@fortawesome/free-solid-svg-icons';
 import { UilMapMarker } from '@iconscout/react-unicons';
 import { UilEnvelopeAdd } from '@iconscout/react-unicons';
 import { UilPhone } from '@iconscout/react-unicons';
@@ -49,7 +49,22 @@ function ContactUserSLide() {
                       B2014791
                     </h2>
                     <ul>
-                      <li>Đăng xuất</li>
+                      <li>
+                        <FontAwesomeIcon icon={faTicket} />
+                        Vé của tôi
+                      </li>
+                      <li>
+                        <FontAwesomeIcon icon={faMessage} />
+                        Phản hồi
+                      </li>
+                      <li>
+                        <FontAwesomeIcon icon={faGear} />
+                        Cài đặt
+                      </li>
+                      <li>
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                        Đăng xuất
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -62,7 +77,7 @@ function ContactUserSLide() {
         <div className={cx('row', 'g-5', 'header-contact')}>
           <Col md={5}>
             <div className={cx('image')}>
-              <img src={contact}></img>
+              <img alt="" src={contact}></img>
             </div>
           </Col>
           <Col md={6}>
