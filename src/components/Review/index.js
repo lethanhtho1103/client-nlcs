@@ -11,8 +11,6 @@ function Review({ toggleShow, filmInfo }) {
     setIsHidden(true);
   };
 
-  console.log(filmInfo);
-
   const handelClickHidden = () => {
     if (isHidden) {
       toggleShow();

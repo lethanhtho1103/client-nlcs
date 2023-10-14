@@ -93,7 +93,7 @@ function Calendar() {
     }
   };
 
-  const handleBuyTicket = async (filmId) => {
+  const handleBuyTicket = async (filmId, ticket) => {
     const res = await filmService.buyTicket(userId, filmId, ticket);
     buyTicket(res);
     setTimeout(() => {

@@ -37,6 +37,20 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
+  async getOneListUser({ filmId, userId }) {
+    if (filmId) {
+      const res = await axios.get('/api/v1/listuser/get-one-film-user-reg', {
+        params: {
+          filmId: filmId,
+          userId: userId,
+        },
+      });
+      return res.data;
+    }
+
+    return 'Thiếu tham số truyền vào';
+  },
+
   async buyTicket(userId, filmId, ticket) {
     const res = await axios.post('/api/v1/film/register', {
       filmId,

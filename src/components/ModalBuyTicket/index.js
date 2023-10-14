@@ -23,6 +23,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
     numberWithCommas,
     comboCornWater,
     getQuantityCombo,
+    listUserInfo,
     quantityCombo1,
     quantityCombo2,
     quantityCombo3,
@@ -43,8 +44,10 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
     handelClickX();
   };
 
+  const totalTicket = parseInt(listUserInfo.ticket) + parseInt(ticket);
+
   const handleBuyTicket = (e) => {
-    byTicket(filmInfo.id);
+    byTicket(filmInfo.id, totalTicket);
     handelClickX();
     handelClickBack();
   };

@@ -8,6 +8,7 @@ export const DetailContext = createContext();
 
 export const DetailProvider = ({ children }) => {
   const [filmInfo, setFilmInfo] = useState({});
+  const [listUserInfo, setListUserInfo] = useState();
   const [filmComments, setFilmComment] = useState([]);
   const [filmsPlaying, setFilmsPlaying] = useState([]);
   const [comboCornWater, setComboCornWater] = useState([]);
@@ -153,11 +154,17 @@ export const DetailProvider = ({ children }) => {
     setComboCornWater(res.data);
   };
 
+  const getOneListUser = async () => {
+    const res = await filmService.getOneListUser({ userId, filmId });
+    if (res.errCode === 0) {
+      setListUserInfo(res.data);
+    }
+  };
+
   const handleUpdateAvgRate = async () => {
     const id = filmId;
     const res = await filmService.updateAvgRate(id, avgRate);
     if (res.errCode === 0) {
-      console.log(res.avgRate);
     }
   };
 
@@ -190,6 +197,7 @@ export const DetailProvider = ({ children }) => {
     handleUpdateAvgRate();
     getFilmsPlaying();
     getAllComboCornWater();
+    getOneListUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filmId, userId, avgRate]);
   return (
@@ -208,6 +216,7 @@ export const DetailProvider = ({ children }) => {
         quantityCombo2,
         quantityCombo3,
         quantityCombo4,
+        listUserInfo,
         handleShowCommentOfUser,
         handleUpdateAvgRate,
         handleLongTime,
