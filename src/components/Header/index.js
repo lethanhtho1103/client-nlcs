@@ -11,12 +11,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Search from '../Search';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { userSelector } from '~/redux/selector';
 import { userSlice } from '~/redux/reducer';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(style);
 function Header() {
   const dispatch = useDispatch();
+  const currUser = useSelector(userSelector);
   const handleLogout = () => {
     dispatch(userSlice.actions.toggleUserLogin());
   };
@@ -45,7 +48,7 @@ function Header() {
           </ul>
           <div className={cx('icon-out')}>
             <div className={cx('logout')}>
-              <h2>Lê Thành Thọ</h2>
+              <h2>{currUser.name}</h2>
 
               <div className={cx('icon')}>
                 <FontAwesomeIcon icon={faCaretDown} />
@@ -54,7 +57,7 @@ function Header() {
                     <span>
                       <FontAwesomeIcon icon={faUser} />
                     </span>
-                    B2014791
+                    {currUser.id}
                   </h2>
                   <ul>
                     <li>

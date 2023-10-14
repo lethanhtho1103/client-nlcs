@@ -7,6 +7,8 @@ import { filmService } from '~/services';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { DetailContext } from '~/Context/DetailContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleMinus, faEllipsis, faWrench } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(style);
 
@@ -59,6 +61,31 @@ function Comment() {
     }
   };
 
+  const handleUpdateComment = async () => {
+    setIsShowComment(true);
+  };
+
+  const handleDeleteComment = async () => {
+    const res = await filmService.userComment(userId, filmId, '', 0);
+
+    if (res.errCode === 0) {
+      setIsShowComment(false);
+      setObToast(() => {
+        return {
+          isShow: true,
+          herder: 'Vừa xong',
+          content: 'Xóa bình luận thành công!',
+        };
+      });
+      setIsShowToastMessage(true);
+      handleShowCommentOfUser();
+      handleUpdateAvgRate();
+      setTimeout(() => {
+        setIsShowToastMessage(false);
+      }, 3000);
+    }
+  };
+
   return (
     <div className={cx('comment')}>
       {isShowToastMessage && <ToastMassage header={obToast.header} content={obToast.content} />}
@@ -96,7 +123,7 @@ function Comment() {
         {filmComments.map((comment) => {
           let commentTime = dayjs(comment.updatedAt).fromNow();
           return (
-            comment.comment !== null && (
+            comment.comment !== '' && (
               <li key={comment.id} className={cx('user-comment-item')}>
                 <div className={cx('info-user')}>
                   <div className={cx('user-avatar')}>{comment.userFilm.name.charAt(0)}</div>
@@ -104,6 +131,25 @@ function Comment() {
                     <div>{comment.userFilm.name}</div>
                     <span>{commentTime}</span>
                   </div>
+                  {comment.userId === userId ? (
+                    <div className={cx('icon-menu')}>
+                      <FontAwesomeIcon icon={faEllipsis} />
+                      <div className={cx('menu')}>
+                        <ul>
+                          <li>
+                            <FontAwesomeIcon icon={faCircleMinus} />
+                            <span onClick={handleDeleteComment}>Xóa</span>
+                          </li>
+                          <li>
+                            <FontAwesomeIcon icon={faWrench} />
+                            <span onClick={handleUpdateComment}>Chỉnh sửa</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </div>
                 <div className={cx('user-evaluate')}>
                   <svg
@@ -146,7 +192,7 @@ function Comment() {
       {filmComments.map(
         (comment) =>
           comment.userId === userId &&
-          comment.comment === null && (
+          (comment.comment === null || comment.comment === '') && (
             <Button
               key={comment.id}
               onClick={handleShowComments}

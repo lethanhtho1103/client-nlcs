@@ -112,12 +112,14 @@ export const DetailProvider = ({ children }) => {
   };
 
   let countComment = 0;
-  countComment = filmComments.filter((userComment) => userComment.comment !== null).length;
-  let arrRate = filmComments.filter((userComment) => userComment.rate !== null);
+  countComment = filmComments.filter((userComment) => userComment.comment !== '').length;
+  let arrRate = filmComments.filter((userComment) => userComment.rate > 0);
+  let lengthArrRate = arrRate.length;
+
   let initRate = 0;
   let totalRate = arrRate.reduce((accumulator, current) => accumulator + current.rate, initRate);
 
-  const avgRate = (totalRate / countComment).toFixed(1);
+  const avgRate = (totalRate / lengthArrRate).toFixed(1);
 
   const handleShowCommentOfUser = async () => {
     const res = await filmService.getAllCommentFilm(filmId);
