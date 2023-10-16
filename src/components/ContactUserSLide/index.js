@@ -9,13 +9,14 @@ import { faArrowRightFromBracket, faCaretDown, faGear, faSignature, faTicket } f
 import { UilMapMarker } from '@iconscout/react-unicons';
 import { UilEnvelopeAdd } from '@iconscout/react-unicons';
 import { UilPhone } from '@iconscout/react-unicons';
+import Header from '../Header';
 
 const cx = classNames.bind(styles);
 
 function ContactUserSLide() {
   return (
     <Fragment>
-      <div className={cx('header')}>
+      {/* <div className={cx('header')}>
         <div className={cx('header-nav')}>
           <div className={cx('logo')}>
             <a href="/">
@@ -30,10 +31,10 @@ function ContactUserSLide() {
           <div className={cx('controls')}>
             <ul className={cx('controls-list')}>
               <li className={cx('controls-item')}>
-                <a href="/start">BẮT ĐẦU</a>
+                <a href="/top-phim">Top phim</a>
               </li>
               <li className={cx('controls-item', 'active')}>
-                <a href="/contact">LIÊN HỆ</a>
+                <a href="/contact">Liên hệ</a>
               </li>
             </ul>
             <div className={cx('icon-out')}>
@@ -72,7 +73,8 @@ function ContactUserSLide() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Header contact={'contact'} />
       <div id="contact">
         <div className={cx('row', 'g-5', 'header-contact')}>
           <Col md={5}>

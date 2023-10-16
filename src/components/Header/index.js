@@ -17,7 +17,7 @@ import { userSlice } from '~/redux/reducer';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(style);
-function Header() {
+function Header({ active, contact }) {
   const dispatch = useDispatch();
   const currUser = useSelector(userSelector);
   const handleLogout = () => {
@@ -26,7 +26,7 @@ function Header() {
 
   return (
     <div className={cx('header')}>
-      <div className={cx('header-nav')}>
+      <div className={cx('header-nav', { contact })}>
         <div className={cx('logo')}>
           <a href="/">
             <span>
@@ -36,14 +36,14 @@ function Header() {
             Movie
           </a>
         </div>
-        <Search />
+        <Search contact={contact} />
         <div className={cx('controls')}>
           <ul className={cx('controls-list')}>
-            <li className={cx('controls-item')}>
-              <a href="/start">BẮT ĐẦU</a>
+            <li className={cx('controls-item', { active })}>
+              <a href="/top-phim">Top phim</a>
             </li>
-            <li className={cx('controls-item')}>
-              <a href="/contact">LIÊN HỆ</a>
+            <li className={cx('controls-item', { contact })}>
+              <a href="/contact">Liên hệ</a>
             </li>
           </ul>
           <div className={cx('icon-out')}>

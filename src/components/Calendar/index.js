@@ -297,7 +297,7 @@ function Calendar() {
                   >
                     {film.ageAllowed}+
                   </div>
-                  <a href="/">
+                  <a href={`/details/${film.id}`}>
                     <div className={cx('name')}>{film.name}</div>
                   </a>
                   <div className={cx('type')}>{film.type}</div>

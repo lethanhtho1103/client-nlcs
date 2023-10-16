@@ -3,11 +3,16 @@ import Login from '~/pages/Login';
 import Register from '~/pages/Register';
 import Details from '~/pages/Details';
 import Contact from '~/pages/Contact';
+import TopFilm from '~/pages/TopFilm';
 
 const publicRoutes = [
   {
     path: '/',
     component: Home,
+  },
+  {
+    path: '/top-phim',
+    component: TopFilm,
   },
   {
     path: '/contact',

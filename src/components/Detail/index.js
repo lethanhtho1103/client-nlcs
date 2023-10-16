@@ -356,29 +356,10 @@ function Detail() {
                 </a>
               </Col>
             </Row>
-            {/* <Button className={cx('btn-more')}>Xem nhiều hơn!</Button> */}
+            <a href="/top-phim" className={cx('btn-more')}>
+              Xem nhiều hơn!
+            </a>
           </Col>
-        </Row>
-        <Row className={cx('block')}>
-          <h1 className={cx('title')}>Khám phá Top Phim Hay - Trải nghiệm không thể bỏ qua!</h1>
-          <div className={cx('descriptions')}>
-            <div className={cx('description-item')}>
-              "Top phim hay" là một thuật ngữ để chỉ đến danh sách hoặc bảng xếp hạng các bộ phim được đánh giá cao về
-              chất lượng, nghệ thuật, diễn xuất, kịch bản và/hoặc giải trí. Nó thường dựa trên sự đánh giá của khán giả,
-              nhà phê bình hoặc các tổ chức điện ảnh uy tín.
-            </div>
-            <div className={cx('description-item')}>
-              Tuy "Top phim hay" là một khái niệm tương đối và có thể thay đổi theo thời gian và từng nguồn đánh giá,
-              nhưng một số danh sách phim nổi tiếng như "100 phim hay nhất mọi thời đại" của American Film Institute
-              (AFI) hoặc "IMDb Top 250" (dựa trên đánh giá của cộng đồng người dùng trên IMDb) có thể được coi là ví dụ
-              cho "top phim hay".
-            </div>
-            <div className={cx('description-item')}>
-              Chính vì vậy, với đông đảo người dùng sử dụng NTFMovie để đặt vé xem phim, đánh giá phim thì NTFBook xin
-              phép được tổng hợp và liệt kê ra những danh sách phim hay được đánh giá tốt nhất với đầy đủ các thể loại,
-              quốc gia cũng như chất lượng của mỗi bộ phim.
-            </div>
-          </div>
         </Row>
       </Container>
 

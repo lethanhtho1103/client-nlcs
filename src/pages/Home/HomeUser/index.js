@@ -240,7 +240,9 @@ function HomeUser() {
                 </a>
               </Col>
             </Row>
-            <Button className={cx('btn-more')}>Xem nhiều hơn!</Button>
+            <a href="/top-phim" className={cx('btn-more')}>
+              Xem nhiều hơn!
+            </a>
           </Col>
         </Row>
         <Row className={cx('block')}>

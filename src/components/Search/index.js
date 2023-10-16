@@ -12,7 +12,7 @@ import { filmService } from '~/services';
 
 const cx = classNames.bind(style);
 
-function Search() {
+function Search({ contact }) {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
@@ -56,7 +56,7 @@ function Search() {
   };
 
   return (
-    <div>
+    <div className={cx({ contact })}>
       <HeadlessTippy
         interactive
         visible={showResult && searchResult.length > 0}
@@ -78,7 +78,7 @@ function Search() {
             ref={inputRef}
             onChange={handelChange}
             onFocus={() => setShowResult(true)}
-            placeholder="Search accounts and videos"
+            placeholder="Nhập tên phim"
             spellCheck={false}
           />
 

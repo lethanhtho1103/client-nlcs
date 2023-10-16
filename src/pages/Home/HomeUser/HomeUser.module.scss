@@ -92,23 +92,21 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-
       transform: translate3d(0px, 0px, 0px);
-
+      margin-bottom: 52px;
       .movie-item {
         width: 20%;
         justify-content: center;
       }
     }
     .btn-more {
-      display: block;
+      position: relative;
+      left: 42%;
       padding: 9px 12px;
       background-color: var(--pri-color);
       border-radius: 5px;
       border-color: transparent;
-      margin: auto;
-      margin-top: 60px;
-      margin-bottom: 60px;
+      text-decoration: none;
       color: #fff;
       font-size: 1.4rem;
       font-weight: 700;
