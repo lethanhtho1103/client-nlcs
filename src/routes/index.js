@@ -4,6 +4,7 @@ import Register from '~/pages/Register';
 import Details from '~/pages/Details';
 import Contact from '~/pages/Contact';
 import TopFilm from '~/pages/TopFilm';
+import MyTicket from '~/pages/MyTicket';
 
 const publicRoutes = [
   {
@@ -17,6 +18,10 @@ const publicRoutes = [
   {
     path: '/contact',
     component: Contact,
+  },
+  {
+    path: '/my-ticket',
+    component: MyTicket,
   },
   {
     path: '/login',

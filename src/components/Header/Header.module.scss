@@ -173,6 +173,12 @@
                 font-weight: 500;
                 transition: all 0.2s linear;
 
+                a {
+                  display: flex;
+                  align-items: center;
+                  text-decoration: none;
+                  color: currentColor;
+                }
                 &:hover {
                   background-color: #383838;
                   color: #fcfcfc;

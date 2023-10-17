@@ -61,8 +61,10 @@ function Header({ active, contact }) {
                   </h2>
                   <ul>
                     <li>
-                      <FontAwesomeIcon icon={faTicket} />
-                      Vé của tôi
+                      <a href="/my-ticket">
+                        <FontAwesomeIcon icon={faTicket} />
+                        Vé của tôi
+                      </a>
                     </li>
                     <li>
                       <FontAwesomeIcon icon={faMessage} />
