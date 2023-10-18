@@ -44,10 +44,14 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
     handelClickX();
   };
 
-  const totalTicket = parseInt(listUserInfo.ticket) + parseInt(ticket);
+  const totalTicket = parseInt(listUserInfo?.ticket) + parseInt(ticket);
 
   const handleBuyTicket = (e) => {
-    byTicket(filmInfo.id, totalTicket);
+    if (totalTicket) {
+      byTicket(filmInfo.id, totalTicket, startTime, startDate);
+    } else {
+      byTicket(filmInfo.id, ticket, startTime, startDate);
+    }
     handelClickX();
     handelClickBack();
   };

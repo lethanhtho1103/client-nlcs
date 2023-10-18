@@ -90,7 +90,7 @@ function Comment() {
     <div className={cx('comment')}>
       {isShowToastMessage && <ToastMassage header={obToast.header} content={obToast.content} />}
       <h3>Bình luận từ người xem</h3>
-      {countComment !== 0 ? (
+      {avgRate > 0 ? (
         <div className={cx('evaluate')}>
           <svg
             aria-hidden="true"
@@ -123,7 +123,7 @@ function Comment() {
         {filmComments.map((comment) => {
           let commentTime = dayjs(comment.updatedAt).fromNow();
           return (
-            comment.comment !== '' && (
+            comment.rate > 0 && (
               <li key={comment.id} className={cx('user-comment-item')}>
                 <div className={cx('info-user')}>
                   <div className={cx('user-avatar')}>{comment.userFilm.name.charAt(0)}</div>

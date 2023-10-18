@@ -158,13 +158,15 @@
               width: 10rem;
               height: 3.2rem;
               font-weight: 600;
-              font-size: 1.4rem;
-              line-height: 1.6rem;
+              font-size: 1.5rem;
+              line-height: 2rem;
               text-decoration: none;
-              color: #26aa99;
-              border: 1px solid #26aa99;
+              // color: #26aa99;
+              // border: 1px solid #26aa99;
+              border-color: var(--pri-color);
+              color: var(--pri-color);
               border-radius: 8px;
-              margin-right: 8px;
+              // margin-right: 8px;
               span {
                 margin-left: 5px;
               }
@@ -200,7 +202,8 @@
                 font-size: 1.4rem;
               }
               div {
-                font-weight: 600;
+                font-weight: 500;
+                font-size: 1.5rem;
               }
             }
           }
@@ -223,10 +226,12 @@
           }
           .btn {
             padding: 7px 12px;
-            border-color: var(--pri-color);
+            // border-color: var(--pri-color);
+            // color: var(--pri-color);
             background-color: transparent;
             border-radius: 8px;
-            color: var(--pri-color);
+            color: #26aa99;
+            border: 1px solid #26aa99;
             font-size: 1.4rem;
             font-weight: 500;
             text-decoration: none;

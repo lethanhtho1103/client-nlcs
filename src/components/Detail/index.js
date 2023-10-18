@@ -127,7 +127,7 @@ function Detail() {
                 <li className={cx('title-item', 'item-center')}>.</li>
                 <li className={cx('title-item')}>{filmInfo.totalTime} phút</li>
               </ul>
-              {countComment !== 0 ? (
+              {avgRate > 0 ? (
                 <div className={cx('info-evaluate')}>
                   <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
                   <div className={cx('numberStar')}>{avgRate}</div>

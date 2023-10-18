@@ -51,11 +51,13 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
-  async buyTicket(userId, filmId, ticket) {
+  async buyTicket(userId, filmId, ticket, startTime, startDate) {
     const res = await axios.post('/api/v1/film/register', {
       filmId,
       userId,
       ticket,
+      startTime,
+      startDate,
     });
     return res.data;
   },
@@ -109,6 +111,15 @@ const filmService = {
       return res.data;
     }
     console.log(filmId);
+    return 'Thiếu tham số truyền vào';
+  },
+
+  async getAllTicketRegister(userId) {
+    if (userId) {
+      const res = await axios.get(`/api/v1/listuser/film-user-register?userId=${userId}`);
+      return res.data;
+    }
+    console.log(userId);
     return 'Thiếu tham số truyền vào';
   },
 
