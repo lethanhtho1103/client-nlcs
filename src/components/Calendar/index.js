@@ -78,6 +78,7 @@ function Calendar() {
 
   const handleSelectTime = (startTime, index) => {
     setStartTime(startTime);
+    handelTotalTicket(filmId, startTime);
     setCurrTime(index);
   };
 
@@ -111,15 +112,13 @@ function Calendar() {
 
   var remainingTicket;
 
-  const handelTotalTicket = async (filmId) => {
-    const res = await filmService.totalTicket(filmId);
+  const handelTotalTicket = async (filmId, startTime) => {
+    const res = await filmService.totalTicket(filmId, startTime);
     setTotalTicket(res.data);
   };
 
   useEffect(() => {
     handleGetStartTime();
-
-    handelTotalTicket(filmId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate]);
 
@@ -231,15 +230,17 @@ function Calendar() {
                             className={cx('quantity-ticket')}
                           />
                         </div>
-                        <div className={cx('remaining')}>
-                          <div>Số vé còn lại:</div>
-                          <b>
-                            {totalTicket.map((ticket) => {
-                              remainingTicket = filmInfo.filmShowTime.roomShowTime.maxUser - ticket.totalTicket;
-                              return remainingTicket;
-                            })}
-                          </b>
-                        </div>
+                        {startTime && (
+                          <div className={cx('remaining')}>
+                            <div>Số vé còn lại:</div>
+                            <b>
+                              {totalTicket.map((ticket) => {
+                                remainingTicket = filmInfo.filmShowTime.roomShowTime.maxUser - ticket.totalTicket;
+                                return remainingTicket;
+                              })}
+                            </b>
+                          </div>
+                        )}
                       </div>
                       <div className={cx('payment')}>
                         <div className={cx('temporary')}>

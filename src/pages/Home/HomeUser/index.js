@@ -3,7 +3,7 @@ import style from './HomeUser.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import HomeUserSLide from '~/components/HomeUserSLide';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import Footer from '~/components/Footer';
 import Header from '~/components/Header';
@@ -241,7 +241,7 @@ function HomeUser() {
               </Col>
             </Row>
             <a href="/top-phim" className={cx('btn-more')}>
-              Xem nhiều hơn!
+              Xem nhiều hơn !
             </a>
           </Col>
         </Row>

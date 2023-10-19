@@ -19,7 +19,7 @@ function FilmItem({ data }) {
           <span className={cx('type')}>{data.type}</span>
           <div className={cx('evaluate')}>
             <FontAwesomeIcon className={cx('starIcon')} icon={faStar} />
-            <span className={cx('numberStar')}>{data.evaluate}</span>
+            <span className={cx('numberStar')}>{data.avgRate > 0 ? data.avgRate : 'Chưa có đánh giá'}</span>
           </div>
         </div>
       </Link>

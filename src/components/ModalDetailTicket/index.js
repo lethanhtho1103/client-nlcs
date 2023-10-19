@@ -1,34 +1,12 @@
 import classNames from 'classnames/bind';
-import style from './ModelBuyTicket.module.scss';
+import style from './ModalDetailTicket.module.scss';
 import { Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy } from '@fortawesome/free-regular-svg-icons';
-import Moment from 'react-moment';
-import { Fragment, useContext, useState } from 'react';
-import ToastMassage from '../ToastMassage';
-// import vnpay from '../../assets/images/vnpay.png';
-import Paypal from '../PayPal';
-import { DetailContext } from '~/Context/DetailContext';
+import { useState } from 'react';
 
 const cx = classNames.bind(style);
 
-function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBack }) {
-  const [isShowCopy, setIsShowCopy] = useState(false);
+function ModalDetailTicket({ toggleX, detailTicket }) {
   const [isHidden, setIsHidden] = useState(false);
-
-  const {
-    filmInfo,
-    handleLongTime,
-    handelClickX,
-    numberWithCommas,
-    comboCornWater,
-    getQuantityCombo,
-    listUserInfo,
-    quantityCombo1,
-    quantityCombo2,
-    quantityCombo3,
-    quantityCombo4,
-  } = useContext(DetailContext);
 
   const handleMouseLeave = () => {
     setIsHidden(true);
@@ -36,36 +14,39 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
 
   const handelClickHidden = () => {
     if (isHidden) {
-      handelClickX();
+      toggleX();
     }
   };
 
   const handleClickX = () => {
-    handelClickX();
+    toggleX();
   };
 
-  const totalTicket = parseInt(listUserInfo?.ticket) + parseInt(ticket);
-
-  const handleBuyTicket = (e) => {
-    if (totalTicket && listUserInfo.startTime === startTime) {
-      byTicket(filmInfo.id, totalTicket, startTime, startDate);
-    } else {
-      byTicket(filmInfo.id, ticket, startTime, startDate);
+  const handleLongTime = (startTime, totalTime) => {
+    const time = parseInt(startTime?.slice(0, 2));
+    const endHour = Math.floor(time + totalTime / 60);
+    const endHour24 = endHour % 24;
+    const endMinutes = totalTime % 60;
+    if (endHour24 < 10) {
+      if (endMinutes < 10) {
+        return `0${endHour24}:0${endMinutes}`;
+      } else {
+        return `0${endHour24}:${endMinutes}`;
+      }
+    } else if (endHour24 >= 10) {
+      if (endMinutes < 10) {
+        return `${endHour}:0${endMinutes}`;
+      }
     }
-    handelClickX();
-    handelClickBack();
+    return `${endHour}:${endMinutes}`;
   };
 
-  const handleReceive = () => {
-    setIsShowCopy(true);
-    setTimeout(() => {
-      setIsShowCopy(false);
-    }, 2000);
-  };
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
 
   return (
     <div onClick={handelClickHidden} className={cx('wrap')}>
-      {isShowCopy && <ToastMassage header={''} content={'Copy mã thành công'} />}
       <div onMouseLeave={handleMouseLeave} className={cx('ticket')}>
         <Button className={cx('exit')} onClick={handleClickX}>
           <svg
@@ -80,15 +61,21 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </Button>
-
         <div className={cx('info-ticket')}>
           <div className={cx('info-film')}>
             <ul className={cx('header-film')}>
               <li className={cx('age')}>
-                <div>{filmInfo.ageAllowed}+</div>
+                <div
+                  className={cx({
+                    age16: detailTicket.film.ageAllowed === 16,
+                    age13: detailTicket.film.ageAllowed === 13,
+                  })}
+                >
+                  {detailTicket.film.ageAllowed}+
+                </div>
               </li>
               <li className={cx('name')}>
-                <b>{filmInfo.name}</b>
+                <b>{detailTicket.film.name}</b>
               </li>
             </ul>
             <ul className={cx('body-film')}>
@@ -97,7 +84,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                   <span>THỜI GIAN</span>
                   <div>
                     <b>
-                      {startTime} ~ {handleLongTime(startTime, filmInfo.totalTime)}
+                      {detailTicket.startTime} ~ {handleLongTime(detailTicket.startTime, detailTicket.film.totalTime)}
                     </b>
                   </div>
                 </div>
@@ -106,9 +93,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                 <div>
                   <span>NGÀY CHIẾU</span>
                   <div>
-                    <b>
-                      <Moment local="vi" format="DD/MM/YYYY" date={startDate} />
-                    </b>
+                    <b>{detailTicket.startDate}</b>
                   </div>
                 </div>
               </li>
@@ -125,7 +110,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                 <div>
                   <span>PHÒNG CHIẾU</span>
                   <div>
-                    <b>0{filmInfo.filmShowTime.roomId}</b>
+                    <b>0{detailTicket.film.filmShowTime[0].roomId}</b>
                   </div>
                 </div>
               </li>
@@ -143,20 +128,23 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                 <div>
                   <span>SỐ GHẾ</span>
                   <div>
-                    <b>{ticket}</b>
+                    <b>{detailTicket.ticket}</b>
                   </div>
                 </div>
               </li>
               <li>
                 <div></div>
                 <div className={cx('price')}>
-                  <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VNĐ</b>
+                  <b>
+                    {numberWithCommas(detailTicket.film.filmShowTime[0].roomShowTime.priceTicket * detailTicket.ticket)}
+                    &nbsp;VNĐ
+                  </b>
                 </div>
               </li>
             </ul>
             <div className={cx('corn-water')}>
               <h3>BẮP - NƯỚC</h3>
-              {comboCornWater.map((combo) => {
+              {/* {comboCornWater.map((combo) => {
                 if (getQuantityCombo(combo.id) > 0) {
                   return (
                     <div key={combo.id} className={cx('quantity-combo')}>
@@ -167,48 +155,36 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                 } else {
                   return <Fragment key={combo.id}></Fragment>;
                 }
-              })}
+              })} */}
             </div>
           </div>
           <ul>
             <li>
               <div>
                 <div>
-                  <b>Tạm tính</b>
+                  <b>Thành tiền</b>
                 </div>
               </div>
               <div>
                 <b className={cx('color-red')}>
-                  {numberWithCommas(
+                  {/* {numberWithCommas(
                     filmInfo.filmShowTime.roomShowTime.priceTicket * ticket +
                       (quantityCombo1 * comboCornWater[0].price +
                         quantityCombo2 * comboCornWater[1].price +
                         quantityCombo3 * comboCornWater[2].price +
                         quantityCombo4 * comboCornWater[3].price),
-                  )}
+                  )} */}
+                  {numberWithCommas(detailTicket.film.filmShowTime[0].roomShowTime.priceTicket * detailTicket.ticket)}
                   &nbsp;VNĐ
                 </b>
               </div>
             </li>
           </ul>
-          <div className={cx('description')}>Ưu đãi (nếu có) sẽ được áp dụng ở bước thanh toán.</div>
-          <div className={cx('discount')}>
-            <div>
-              <div>
-                <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VNĐ khi đặt vé trên website NTFMovie</div>
-                <div className={cx('limit-useful')}>HSD: 30-12-2023</div>
-              </div>
-              <Button onClick={handleReceive} className={cx('receive')}>
-                <span>Nhận</span>
-                <FontAwesomeIcon icon={faCopy} />
-              </Button>
-            </div>
-          </div>
         </div>
 
         <div className={cx('payment')}>
-          {/* <div className={cx('payment-qrCode')}>
-            <h4>Quét mã QR bằng MoMo để thanh toán</h4>
+          <div className={cx('payment-qrCode')}>
+            <h4>Quét mã QR để vào phòng chiếu</h4>
             <div className={cx('qr-container')}>
               <div className={cx('qr-scan')}>
                 <div className={cx('qr-radiant')}>
@@ -241,23 +217,8 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                   d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
                 ></path>
               </svg>
-              Sử dụng App MoMo hoặc ứng dụng Camera hỗ trợ QR code để quét mã.
+              Sử dụng phần mềm hoặc ứng dụng Camera hỗ trợ QR code để quét mã.
             </div>
-            <div className={cx('direct-payment')}>
-              <input checked={isChecked} onChange={toggleChecked} type="checkbox" id="check" />
-              <label htmlFor="check">
-                <img alt="VnPay" src={vnpay} className={cx('img-vnpay')} />{' '}
-                <a href="http://localhost:8888/order/create_payment_url">Thanh toán tiền bằng ví VNPAY</a>
-              </label>
-            </div>
-
-            <Button className={cx('book-ticket')} onClick={handleBuyTicket}>
-              Đặt vé
-            </Button>
-          </div> */}
-          <div className={cx('paypal')}>
-            <h2>Thanh toán tiền bằng PayPal</h2>
-            <Paypal handleBuyTicket={handleBuyTicket} />
           </div>
         </div>
       </div>
@@ -265,4 +226,4 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
   );
 }
 
-export default ModalBuyTicket;
+export default ModalDetailTicket;

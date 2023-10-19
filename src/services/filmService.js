@@ -62,8 +62,8 @@ const filmService = {
     return res.data;
   },
 
-  async totalTicket(filmId) {
-    const res = await axios.get('/api/v1/film/total-ticket?filmId=' + filmId);
+  async totalTicket(filmId, startTime) {
+    const res = await axios.get(`/api/v1/film/total-ticket?filmId=${filmId}&startTime=${startTime}`);
     return res.data;
   },
 

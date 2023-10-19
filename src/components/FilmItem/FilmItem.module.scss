@@ -48,6 +48,11 @@
   font-size: 1.3rem;
   line-height: 1.25;
   color: rgba(22, 24, 35, 0.5);
+  display: -webkit-box;
+  margin-top: 4px;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .evaluate {

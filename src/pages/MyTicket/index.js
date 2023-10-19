@@ -10,10 +10,13 @@ import { useSelector } from 'react-redux';
 import { userSelector } from '~/redux/selector';
 import { useEffect, useState } from 'react';
 import { filmService } from '~/services';
+import ModalDetailTicket from '~/components/ModalDetailTicket';
 
 const cx = classNames.bind(style);
 function MyTicket() {
   const [allTickets, setAllTickets] = useState([]);
+  const [detailTicket, setDetailTicket] = useState({});
+  const [isShowModalDetailTicket, setIsShowModalDetailTicket] = useState(false);
   const currUser = useSelector(userSelector);
 
   const handleGetAllTicket = async () => {
@@ -27,6 +30,16 @@ function MyTicket() {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
+
+  const handleShowModalTicket = (ticket) => {
+    setIsShowModalDetailTicket(true);
+    setDetailTicket(ticket);
+  };
+
+  const handleHiddenModalTicket = () => {
+    setIsShowModalDetailTicket(false);
+  };
+
   useEffect(() => {
     handleGetAllTicket();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,10 +123,10 @@ function MyTicket() {
                           <div className={cx('info-film')}>
                             <div className={cx('name')}>{ticket.film.name}</div>
                             <div className={cx('date')}>
-                              <span>Ngày chiếu:</span> <div>{ticket.startTime}</div>
+                              <span>Ngày chiếu:</span> <div>{ticket.startDate}</div>
                             </div>
                             <div className={cx('date')}>
-                              <span>Giờ chiếu:</span> <div>{ticket.startDate}</div>
+                              <span>Giờ chiếu:</span> <div>{ticket.startTime}</div>
                             </div>
 
                             <div className={cx('date')}>
@@ -153,9 +166,14 @@ function MyTicket() {
                               VNĐ
                             </span>
                           </div>
-                          <Button className={cx('btn')}>Xem chi tiết</Button>
+                          <Button className={cx('btn')} onClick={() => handleShowModalTicket(ticket)}>
+                            Xem chi tiết
+                          </Button>
                         </div>
                       </div>
+                      {isShowModalDetailTicket && (
+                        <ModalDetailTicket toggleX={handleHiddenModalTicket} detailTicket={detailTicket} />
+                      )}
                     </div>
                   );
                 })}
