@@ -104,7 +104,7 @@ function FormLogin() {
             <h2> Welcome!!!</h2>
             <p>
               Những tựa phim Việt Nam và quốc tế đình đám, hấp dẫn, hài hước, kịnh tính, kinh dị, lôi cuống,... Tất cả
-              đều có trên NTFMovie với giá chỉ từ 60.000 VNĐ. Bạn đã có tài khoản chưa? Nhấn ngay nút "Bắt đầu" để tạo
+              đều có trên NTFMovies với giá chỉ từ 60.000 VNĐ. Bạn đã có tài khoản chưa? Nhấn ngay nút "Bắt đầu" để tạo
               hoặc kích hoạt lại tư cách thành viên của bạn.
             </p>
             <Button
@@ -168,7 +168,7 @@ function FormLogin() {
                 </Button>
               </div>
               <div className={cx('register-link')}>
-                <p> Bạn mới tham gia NTFMovie?</p>
+                <p> Bạn mới tham gia NTFMovies?</p>
                 <Link to="/register"> Đăng ký ngay</Link>
               </div>
             </Form>

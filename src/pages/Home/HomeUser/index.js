@@ -20,7 +20,7 @@ function HomeUser() {
         <Row className={cx('landing')}>
           <Col md={6} className={cx('landing-item')}>
             <div className={cx('landing-content')}>
-              <h1 className={cx('landing-header')}>Đặt mua vé xim phim NTFMovie</h1>
+              <h1 className={cx('landing-header')}>Đặt mua vé xim phim NTFMovies</h1>
               <ul className={cx('services')}>
                 <li className={cx('service-description')}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +47,7 @@ function HomeUser() {
                       strokeLinejoin="round"
                     ></path>
                   </svg>
-                  <strong>Đặt vé an toàn</strong>&nbsp;trên NTFMovie
+                  <strong>Đặt vé an toàn</strong>&nbsp;trên NTFMovies
                 </li>
                 <li className={cx('service-description')}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +83,7 @@ function HomeUser() {
           </Col>
           <Col md={6} className={cx('landing-item')}>
             <img
-              alt="NTFMovie"
+              alt="NTFMovies"
               src="https://homepage.momocdn.net/blogscontents/momo-upload-api-230324144446-638152658866967300.jpg"
             />
           </Col>
@@ -92,7 +92,7 @@ function HomeUser() {
         <FilmUpcoming />
         <Row className={cx('moviesTop')}>
           <Col className={cx('playing-movie')}>
-            <h1 className={cx('heading-movie')}>Top phim hay trên NTFMovie</h1>
+            <h1 className={cx('heading-movie')}>Top phim hay trên NTFMovies</h1>
             <Row className={cx('list-movie')}>
               <Col className={cx('movie-item')}>
                 <a href="/" className={cx('home-product-item-link')}>
@@ -128,7 +128,7 @@ function HomeUser() {
                     <div className={cx('home-product-item__price')}>
                       <span className={cx('home-product-item__price-old-top')}>
                         Siêu anh hùng luôn là đề tài được các nhà làm phim nung nấu nhiều ý tưởng và khai thác triệt để.
-                        Cùng NTFMovie tham khảo nhanh các phim siêu anh hùng hấp dẫn nhé.
+                        Cùng NTFMovies tham khảo nhanh các phim siêu anh hùng hấp dẫn nhé.
                       </span>
                     </div>
                     <div className={cx('home-product-item__action-top')}>
@@ -226,7 +226,7 @@ function HomeUser() {
                     <div className={cx('home-product-item__price')}>
                       <span className={cx('home-product-item__price-old-top')}>
                         Phim hành động Hàn Quốc luôn được khán giả yêu thích bởi sự hấp dẫn, kịch tính và mãn nhãn.
-                        Nhanh tay đến NTFMovie xem nào.
+                        Nhanh tay đến NTFMovies xem nào.
                       </span>
                     </div>
                     <div className={cx('home-product-item__action-top')}>
@@ -246,13 +246,13 @@ function HomeUser() {
           </Col>
         </Row>
         <Row className={cx('block')}>
-          <h1 className={cx('title')}>Đặt mua vé xem phim trên NTFMovie</h1>
+          <h1 className={cx('title')}>Đặt mua vé xem phim trên NTFMovies</h1>
           <div className={cx('descriptions')}>
             <div className={cx('description-item')}>
               Việc đặt vé xem phim chưa bao giờ đơn giản và dễ dàng như thế, chỉ với vài thao tác trên website bạn đã có
-              thể đặt vé xem bộ phim mình yêu thích mà không phải xếp hàng tại rạp. NTFMovie có tất cả các bộ bộ phim
-              lớn trên cả nước và thế giới, bộ phim nào bạn thích NTFMovie cũng có. Giá vé xem phim luôn ở mức giá cực
-              kì tốt là một “đặc sản” với những ưu đãi độc quyền mà chỉ có ở NTFMovie.
+              thể đặt vé xem bộ phim mình yêu thích mà không phải xếp hàng tại rạp. NTFMovies có tất cả các bộ bộ phim
+              lớn trên cả nước và thế giới, bộ phim nào bạn thích NTFMovies cũng có. Giá vé xem phim luôn ở mức giá cực
+              kì tốt là một “đặc sản” với những ưu đãi độc quyền mà chỉ có ở NTFMovies.
             </div>
             <div className={cx('description-item')}>
               Nay buổi xem phim chiếu rạp của bạn sẽ càng tuyệt vời hơn với tính năng mua bắp nước trước khi đến rạp,
@@ -260,7 +260,7 @@ function HomeUser() {
               combo cực chất lượng đến từ các rạp chiếu phim.
             </div>
             <div className={cx('description-item')}>
-              Trong thời gian sắp tới, bên cạnh tính năng hiện đang có, NTFMovie cũng đang phát triển thêm những tính
+              Trong thời gian sắp tới, bên cạnh tính năng hiện đang có, NTFMovies cũng đang phát triển thêm những tính
               năng mới để cộng đồng yêu phim ảnh có thể có những cái nhìn thực tế về nội dung cũng như chất lượng phim
               trên thị trường. Những đánh giá bình luận tích cực từ phía người xem hay những trang cá nhân dành riêng
               cho những bộ phim bom tấn sẽ là nơi uy tín để cập nhật tin tức, thị hiếu về làng phim trong nước cũng như
@@ -268,12 +268,12 @@ function HomeUser() {
             </div>
             <h2 className={cx('title-useful')}>Lợi ích đặt vé xem phim online:</h2>
             <ul className={cx('list-usefuls')}>
-              <li className={cx('useful-item')}>Hưởng các giá vé xem phim ưu đãi độc quyền từ NTFMovie.</li>
+              <li className={cx('useful-item')}>Hưởng các giá vé xem phim ưu đãi độc quyền từ NTFMovies.</li>
               <li className={cx('useful-item')}>
                 Có cộng đồng đánh giá, nhận xét phim uy tín luôn phản ánh đúng chất lượng của phim.
               </li>
               <li className={cx('useful-item')}>
-                Không giới hạn số lượng vé mua, được tích điểm thành viên của NTFMovie.
+                Không giới hạn số lượng vé mua, được tích điểm thành viên của NTFMovies.
               </li>
               <li className={cx('useful-item')}>Nhanh chóng và tiện lợi, không cần xếp hàng hay vé giấy.</li>
               <li className={cx('useful-item')}>

@@ -32,7 +32,7 @@ function ContactUserSLide() {
                   <span>
                     Địa chỉ:
                     <span className={cx('hight-light')}>
-                      (NTFMovie, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ).
+                      (NTFMovies, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ).
                     </span>
                   </span>
                 </li>

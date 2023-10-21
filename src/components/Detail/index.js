@@ -121,7 +121,7 @@ function Detail() {
               <div className={cx(`info-old${filmInfo.ageAllowed}`)}>{filmInfo.ageAllowed}+</div>
               <h1 className={cx('info-title')}>{filmInfo.name}</h1>
               <ul className={cx('list-title')}>
-                <li className={cx('title-item')}>NTFMovie</li>
+                <li className={cx('title-item')}>NTFMovies</li>
                 <li className={cx('title-item', 'item-center')}>.</li>
                 <li className={cx('title-item')}>2023</li>
                 <li className={cx('title-item', 'item-center')}>.</li>
@@ -244,7 +244,7 @@ function Detail() {
                     <div className={cx('home-product-item__price')}>
                       <span className={cx('home-product-item__price-old-top')}>
                         Siêu anh hùng luôn là đề tài được các nhà làm phim nung nấu nhiều ý tưởng và khai thác triệt để.
-                        Cùng NTFMovie tham khảo nhanh các phim siêu anh hùng hấp dẫn nhé.
+                        Cùng NTFMovies tham khảo nhanh các phim siêu anh hùng hấp dẫn nhé.
                       </span>
                     </div>
                     <div className={cx('home-product-item__action-top')}>
@@ -342,7 +342,7 @@ function Detail() {
                     <div className={cx('home-product-item__price')}>
                       <span className={cx('home-product-item__price-old-top')}>
                         Phim hành động Hàn Quốc luôn được khán giả yêu thích bởi sự hấp dẫn, kịch tính và mãn nhãn.
-                        Nhanh tay đến NTFMovie xem nào.
+                        Nhanh tay đến NTFMovies xem nào.
                       </span>
                     </div>
                     <div className={cx('home-product-item__action-top')}>

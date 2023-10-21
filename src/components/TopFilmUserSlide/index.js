@@ -29,7 +29,7 @@ function TopFilmUserSlide() {
         <Row className={cx('moviesTop')}>
           <Col className={cx('playing-movie')}>
             <h1 className={cx('heading-movie')}>
-              Top phim hay trên <span>NTFMovie</span>
+              Top phim hay trên <span>NTFMovies</span>
             </h1>
             <h3>
               Danh sách phim hay được ưa chuộng trên MoMo được cập nhật liên tục với đa dạng các thể loại, quốc gia.
@@ -69,7 +69,7 @@ function TopFilmUserSlide() {
                     <div className={cx('home-product-item__price')}>
                       <span className={cx('home-product-item__price-old-top')}>
                         Siêu anh hùng luôn là đề tài được các nhà làm phim nung nấu nhiều ý tưởng và khai thác triệt để.
-                        Cùng NTFMovie tham khảo nhanh các phim siêu anh hùng hấp dẫn nhé.
+                        Cùng NTFMovies tham khảo nhanh các phim siêu anh hùng hấp dẫn nhé.
                       </span>
                     </div>
                     <div className={cx('home-product-item__action-top')}>
@@ -167,7 +167,7 @@ function TopFilmUserSlide() {
                     <div className={cx('home-product-item__price')}>
                       <span className={cx('home-product-item__price-old-top')}>
                         Phim hành động Hàn Quốc luôn được khán giả yêu thích bởi sự hấp dẫn, kịch tính và mãn nhãn.
-                        Nhanh tay đến NTFMovie xem nào.
+                        Nhanh tay đến NTFMovies xem nào.
                       </span>
                     </div>
                     <div className={cx('home-product-item__action-top')}>
@@ -226,7 +226,7 @@ function TopFilmUserSlide() {
                   Danh sách phim hành động 2023 được khán giả đánh giá cao
                 </a>
                 <p>
-                  Cùng NTFMovie đón xem danh sách phim hành động 2023 mãn nhãn và được khán giả đánh giá cao nhất trong
+                  Cùng NTFMovies đón xem danh sách phim hành động 2023 mãn nhãn và được khán giả đánh giá cao nhất trong
                   thời gian gần đây.
                 </p>
                 <div className={cx('view')}>
@@ -277,7 +277,7 @@ function TopFilmUserSlide() {
                   Danh sách phim Trinh thám 2023 đáng mong đợi
                 </a>
                 <p>
-                  NTFMovie xin phép giới thiệu đến các bạn danh sách những bộ phim trinh thám 2023 đáng mong đợi. Với
+                  NTFMovies xin phép giới thiệu đến các bạn danh sách những bộ phim trinh thám 2023 đáng mong đợi. Với
                   những câu chuyện ly kỳ, bí ẩn và những nhân vật tài ba, các bộ phim này hứa hẹn sẽ mang đến cho khán
                   giả những giờ phút giải trí tuyệt vời và kịch tính đến tận cùng.
                 </p>
@@ -481,7 +481,7 @@ function TopFilmUserSlide() {
                 <a href="/" className={cx('title')}>
                   Top phim hoạt hình 2023 xuất sắc nhất từ đầu năm đến nay (P1)
                 </a>
-                <p>NTFMovie gửi bạn danh sách Top phim Hoạt Hình hấp dẫn từ đầu năm 2023 đến nay.</p>
+                <p>NTFMovies gửi bạn danh sách Top phim Hoạt Hình hấp dẫn từ đầu năm 2023 đến nay.</p>
                 <div className={cx('view')}>
                   <span>15/10/2023</span>
                   <div>
@@ -547,9 +547,9 @@ function TopFilmUserSlide() {
               cho "top phim hay".
             </div>
             <div className={cx('description-item')}>
-              Chính vì vậy, với đông đảo người dùng sử dụng NTFMovie để đặt vé xem phim, đánh giá phim thì NTFMovie xin
-              phép được tổng hợp và liệt kê ra những danh sách phim hay được đánh giá tốt nhất với đầy đủ các thể loại,
-              quốc gia cũng như chất lượng của mỗi bộ phim.
+              Chính vì vậy, với đông đảo người dùng sử dụng NTFMovies để đặt vé xem phim, đánh giá phim thì NTFMovies
+              xin phép được tổng hợp và liệt kê ra những danh sách phim hay được đánh giá tốt nhất với đầy đủ các thể
+              loại, quốc gia cũng như chất lượng của mỗi bộ phim.
             </div>
           </div>
         </Row>

@@ -1,11 +1,13 @@
 import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { isLoginSelector } from '~/redux/selector';
+import { isLoginSelector, isManagerSelector } from '~/redux/selector';
 import HomeUser from './HomeUser';
+import HomeManager from './HomeManager';
 
 function Home() {
   const isLogined = useSelector(isLoginSelector);
+  const isManager = useSelector(isManagerSelector);
   const navigate = useNavigate();
   const handleNavigate = useCallback(() => {
     if (!isLogined) {
@@ -15,7 +17,7 @@ function Home() {
   useEffect(() => {
     handleNavigate();
   }, [handleNavigate, isLogined]);
-  return <HomeUser />;
+  return <>{isManager ? <HomeManager /> : <HomeUser />}</>;
 }
 
 export default Home;

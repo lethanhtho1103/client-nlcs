@@ -116,7 +116,7 @@ function Comment() {
         </div>
       ) : (
         <div className={cx('empty-rate')}>
-          Hiện tại chưa có bình luận nào. Hãy là người đầu tiên bình luận trên website NTFMovie.
+          Hiện tại chưa có bình luận nào. Hãy là người đầu tiên bình luận trên website NTFMovies.
         </div>
       )}
       <ul className={cx('list-user-comment')}>

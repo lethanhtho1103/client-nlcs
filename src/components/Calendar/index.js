@@ -140,7 +140,7 @@ function Calendar() {
         <div className={cx('code-discount')}>
           <div>
             <div>
-              <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VNĐ khi đặt vé trên website NTFMovie</div>
+              <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VNĐ khi đặt vé trên website NTFMovies</div>
               <div className={cx('limit-useful')}>HSD: 30-12-2023</div>
             </div>
             <div className={cx('receive')}>
@@ -189,10 +189,10 @@ function Calendar() {
             <div className={cx('location-cinema')}>
               <div className={cx('img-name')}>
                 <div className={cx('img')}>
-                  <img alt="NTFMovie" src="https://cdn.mservice.com.vn/app/img/booking/logo_beta.png" />
+                  <img alt="NTFMovies" src="https://cdn.mservice.com.vn/app/img/booking/logo_beta.png" />
                 </div>
                 <div className={cx('name-cinema')}>
-                  <h2>NTFMovie</h2>
+                  <h2>NTFMovies</h2>
                   <span>CTU, Khu II, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ.</span>
                 </div>
               </div>

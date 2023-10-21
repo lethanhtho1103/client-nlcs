@@ -6,6 +6,9 @@ import Contact from '~/pages/Contact';
 import TopFilm from '~/pages/TopFilm';
 import MyTicket from '~/pages/MyTicket';
 import Invalid_404 from '~/pages/Invalid_404';
+import AdminPost from '~/pages/AdminPost';
+import AdminFilmManager from '~/pages/AdminFilmManager';
+import AdminStatistical from '~/pages/AdminStatistical';
 
 const publicRoutes = [
   {
@@ -35,6 +38,18 @@ const publicRoutes = [
   {
     path: '/details/:filmId',
     component: Details,
+  },
+  {
+    path: '/admin/mypost',
+    component: AdminPost,
+  },
+  {
+    path: '/admin/view/list-user-req',
+    component: AdminFilmManager,
+  },
+  {
+    path: '/admin/statistical',
+    component: AdminStatistical,
   },
   {
     path: '*',

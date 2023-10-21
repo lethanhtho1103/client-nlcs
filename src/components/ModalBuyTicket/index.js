@@ -195,7 +195,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
           <div className={cx('discount')}>
             <div>
               <div>
-                <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VNĐ khi đặt vé trên website NTFMovie</div>
+                <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VNĐ khi đặt vé trên website NTFMovies</div>
                 <div className={cx('limit-useful')}>HSD: 30-12-2023</div>
               </div>
               <Button onClick={handleReceive} className={cx('receive')}>

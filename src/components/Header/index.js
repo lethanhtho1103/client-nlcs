@@ -33,7 +33,7 @@ function Header({ active, contact }) {
               <FontAwesomeIcon icon={faSignature} bounce />
               NTF
             </span>
-            Movie
+            Movies
           </a>
         </div>
         <Search contact={contact} />

@@ -21,11 +21,11 @@ function Footer() {
             <Col sm={5}>
               <h1 className={cx('title')}>
                 <FontAwesomeIcon icon={faSignature} bounce />
-                NTFMovie
+                NTFMovies
               </h1>
               <div className={cx('decs')}>
                 Những tựa phim Việt Nam và quốc tế đình đám, hấp dẫn, hài hước, kịnh tính, kinh dị, lôi cuống,... Tất cả
-                đều có trên NTFMovie với giá chỉ từ 60.000₫ cho một bộ phim.
+                đều có trên NTFMovies với giá chỉ từ 60.000₫ cho một bộ phim.
               </div>
               <div className={cx('social')}>
                 <div>
@@ -58,7 +58,7 @@ function Footer() {
                     </div>
                     <div>
                       <h2 className={cx('title3')}>LOCATION</h2>
-                      <span>NTFMovie, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ.</span>
+                      <span>NTFMovies, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ.</span>
                     </div>
                   </div>
                 </li>
