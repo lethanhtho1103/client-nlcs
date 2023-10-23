@@ -1,12 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import ToastMassage from '../ToastMassage';
-// import ModalCreateWork from '../ModalCreateWork';
 import styles from './NavLeft.module.scss';
 import ChartGif from '../../assets/gif/line-chart.gif';
 import { UilEllipsisV } from '@iconscout/react-unicons';
 import { Link } from 'react-router-dom';
 import MenuMoreProfice from '../MenuMoreProfice';
+import ModalCreateFilm from '../ModalCreateFilm';
 const cx = classNames.bind(styles);
 
 function NavLeft({ menu, handleUpPost, location = 'post' }) {
@@ -35,7 +35,7 @@ function NavLeft({ menu, handleUpPost, location = 'post' }) {
   const handleCLickMenu = (e, type) => {
     if (type && type === 'up-post') {
       handleUpPost();
-    } else if (type && type === 'create-work') {
+    } else if (type && type === 'create-film') {
       setShowCreateWork(true);
     }
   };
@@ -66,7 +66,7 @@ function NavLeft({ menu, handleUpPost, location = 'post' }) {
         handleClose={() => toggleShowToast({})}
         isShow={obToast.isShow}
       />
-      {/* <ModalCreateWork isShow={showCreateWork} handleClose={toggleShowCreateWorkModal} /> */}
+      <ModalCreateFilm isShow={showCreateWork} handleClose={toggleShowCreateWorkModal} />
 
       <span className={cx('title-main')}>{menu.title}</span>
       <ul className={cx('controler')}>

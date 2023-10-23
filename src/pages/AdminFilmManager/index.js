@@ -17,7 +17,7 @@ import styles from './AdminFilmManager.module.scss';
 const cx = classNames.bind(styles);
 
 const menu = {
-  title: 'Quản lý công tác tình nguyện',
+  title: 'NTFMovies',
   desc: [
     {
       title: 'Trang chủ',
@@ -25,14 +25,14 @@ const menu = {
       icon: UilEstate,
     },
     {
-      title: 'Xem danh sách thực hiện công việc',
+      title: 'Xem danh sách người mua vé',
       to: '/admin/view/list-user-work',
       icon: UilListUl,
     },
     {
-      title: 'Tạo công việc mới',
+      title: 'Tạo phim mới',
       icon: UilPlus,
-      type: 'create-work',
+      type: 'create-film',
     },
   ],
 };
