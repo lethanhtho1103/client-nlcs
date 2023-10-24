@@ -249,173 +249,173 @@
       }
     }
 
-    .payment {
-      .payment-qrCode {
-        background: url(https://homepage.momocdn.net/jk/momo2020/img/intro/qrcode-pattern.png) 10px 10px no-repeat,
-          linear-gradient(to top, rgb(193, 23, 124), rgb(225, 27, 144));
-        padding: 4.2rem 3.2rem;
-        text-align: center;
-        h4 {
-          font-size: 1.55rem;
-          line-height: 2.4rem;
-          margin-bottom: 1.8rem;
-          color: #fff;
-        }
-        .qr-container {
-          padding: 15px;
-          margin: 0 auto;
-          background-color: white;
-          width: 280px;
-          height: 280px;
-          border-radius: 15px;
-          .qr-scan {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 250px;
-            height: 250px;
-            background-color: white;
-            margin: 0 auto;
-            overflow: hidden;
-            -webkit-box-align: center;
-            -webkit-box-pack: center;
-            .qr-radiant {
-              position: absolute;
-              opacity: 0.6;
-              width: 98%;
-              height: 98%;
-              top: 1%;
-              left: 1%;
-              z-index: 6;
-              transform: translate3d(0, -110%, 0);
-              animation: QRCodeScan 3s infinite cubic-bezier(0.45, 0.03, 0.81, 0.63);
-              @keyframes QRCodeScan {
-                0% {
-                  -webkit-transform: translate3d(0, -110%, 0);
-                  -moz-transform: translate3d(0, -110%, 0);
-                  transform: translate3d(0, -110%, 0);
-                }
-                90% {
-                  -webkit-transform: translate3d(0, 30%, 0);
-                  -moz-transform: translate3d(0, 30%, 0);
-                  transform: translate3d(0, 30%, 0);
-                }
-                100% {
-                  -webkit-transform: translate3d(0, 30%, 0);
-                  -moz-transform: translate3d(0, 30%, 0);
-                  transform: translate3d(0, 30%, 0);
-                }
-              }
-              img {
-                position: absolute;
-                left: -50%;
-                transform: translateX(50%);
-                display: block;
-                width: 245px;
-                height: auto;
-              }
-            }
-            .qr-border {
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              top: 0;
-              left: 2%;
+    // .payment {
+    //   .payment-qrCode {
+    //     background: url(https://homepage.momocdn.net/jk/momo2020/img/intro/qrcode-pattern.png) 10px 10px no-repeat,
+    //       linear-gradient(to top, rgb(193, 23, 124), rgb(225, 27, 144));
+    //     padding: 4.2rem 3.2rem;
+    //     text-align: center;
+    //     h4 {
+    //       font-size: 1.55rem;
+    //       line-height: 2.4rem;
+    //       margin-bottom: 1.8rem;
+    //       color: #fff;
+    //     }
+    //     .qr-container {
+    //       padding: 15px;
+    //       margin: 0 auto;
+    //       background-color: white;
+    //       width: 280px;
+    //       height: 280px;
+    //       border-radius: 15px;
+    //       .qr-scan {
+    //         position: relative;
+    //         display: flex;
+    //         align-items: center;
+    //         justify-content: center;
+    //         width: 250px;
+    //         height: 250px;
+    //         background-color: white;
+    //         margin: 0 auto;
+    //         overflow: hidden;
+    //         -webkit-box-align: center;
+    //         -webkit-box-pack: center;
+    //         .qr-radiant {
+    //           position: absolute;
+    //           opacity: 0.6;
+    //           width: 98%;
+    //           height: 98%;
+    //           top: 1%;
+    //           left: 1%;
+    //           z-index: 6;
+    //           transform: translate3d(0, -110%, 0);
+    //           animation: QRCodeScan 3s infinite cubic-bezier(0.45, 0.03, 0.81, 0.63);
+    //           @keyframes QRCodeScan {
+    //             0% {
+    //               -webkit-transform: translate3d(0, -110%, 0);
+    //               -moz-transform: translate3d(0, -110%, 0);
+    //               transform: translate3d(0, -110%, 0);
+    //             }
+    //             90% {
+    //               -webkit-transform: translate3d(0, 30%, 0);
+    //               -moz-transform: translate3d(0, 30%, 0);
+    //               transform: translate3d(0, 30%, 0);
+    //             }
+    //             100% {
+    //               -webkit-transform: translate3d(0, 30%, 0);
+    //               -moz-transform: translate3d(0, 30%, 0);
+    //               transform: translate3d(0, 30%, 0);
+    //             }
+    //           }
+    //           img {
+    //             position: absolute;
+    //             left: -50%;
+    //             transform: translateX(50%);
+    //             display: block;
+    //             width: 245px;
+    //             height: auto;
+    //           }
+    //         }
+    //         .qr-border {
+    //           position: absolute;
+    //           width: 100%;
+    //           height: 100%;
+    //           top: 0;
+    //           left: 2%;
 
-              z-index: 5;
-              opacity: 0.9;
-              pointer-events: none;
-              img {
-                position: absolute;
-                top: 0;
-                left: -50%;
-                transform: translateX(50%);
-                display: block;
-                width: 245px;
-                height: auto;
-              }
-            }
-            .qr-image {
-              text-align: center;
-              width: 250px;
-              padding: 1.6rem;
-              height: auto;
-              canvas {
-                display: block;
-                height: 215px;
-                width: 215px;
-              }
-              img {
-                position: absolute;
-                display: block;
-                width: 50px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                z-index: 3;
-              }
-              .img1 {
-                margin-top: -3px;
-                width: 90%;
-                z-index: 2;
-              }
-            }
-          }
-        }
+    //           z-index: 5;
+    //           opacity: 0.9;
+    //           pointer-events: none;
+    //           img {
+    //             position: absolute;
+    //             top: 0;
+    //             left: -50%;
+    //             transform: translateX(50%);
+    //             display: block;
+    //             width: 245px;
+    //             height: auto;
+    //           }
+    //         }
+    //         .qr-image {
+    //           text-align: center;
+    //           width: 250px;
+    //           padding: 1.6rem;
+    //           height: auto;
+    //           canvas {
+    //             display: block;
+    //             height: 215px;
+    //             width: 215px;
+    //           }
+    //           img {
+    //             position: absolute;
+    //             display: block;
+    //             width: 50px;
+    //             top: 50%;
+    //             left: 50%;
+    //             transform: translate(-50%, -50%);
+    //             z-index: 3;
+    //           }
+    //           .img1 {
+    //             margin-top: -3px;
+    //             width: 90%;
+    //             z-index: 2;
+    //           }
+    //         }
+    //       }
+    //     }
 
-        .description {
-          padding: 0;
-          margin-top: 1.5rem;
-          font-size: 1.4rem;
-          line-height: 2rem;
-          color: #fff;
-          text-align: center;
-          svg {
-            width: 2.8rem;
-            height: 2.8rem;
-            display: inline;
-            margin-right: 0.4rem;
-          }
-        }
+    //     .description {
+    //       padding: 0;
+    //       margin-top: 1.5rem;
+    //       font-size: 1.4rem;
+    //       line-height: 2rem;
+    //       color: #fff;
+    //       text-align: center;
+    //       svg {
+    //         width: 2.8rem;
+    //         height: 2.8rem;
+    //         display: inline;
+    //         margin-right: 0.4rem;
+    //       }
+    //     }
 
-        .direct-payment {
-          padding: 0;
-          margin-top: 1.2rem;
-          // margin-left: 1rem;
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          font-size: 1.6rem;
-          color: #fff;
-          input {
-            margin-right: 6px;
-          }
-          .img-vnpay {
-            width: 30px;
-            height: 30px;
-            object-fit: cover;
-            border: 1px solid #e5e5e5;
-            border-radius: 4px;
-          }
-        }
+    //     .direct-payment {
+    //       padding: 0;
+    //       margin-top: 1.2rem;
+    //       // margin-left: 1rem;
+    //       display: flex;
+    //       justify-content: flex-start;
+    //       align-items: center;
+    //       font-size: 1.6rem;
+    //       color: #fff;
+    //       input {
+    //         margin-right: 6px;
+    //       }
+    //       .img-vnpay {
+    //         width: 30px;
+    //         height: 30px;
+    //         object-fit: cover;
+    //         border: 1px solid #e5e5e5;
+    //         border-radius: 4px;
+    //       }
+    //     }
 
-        .book-ticket {
-          margin-top: 1.5rem;
-          color: #fff;
-          background-color: rgba(221, 188, 63, 1);
-          font-weight: 700;
-          font-size: 1.4rem;
-          line-height: 2rem;
-          padding: 0.5rem 1.4rem;
-          border: 1px solid transparent;
-          border-radius: 0.4rem;
-          &:hover {
-            background-color: rgba(221, 188, 63, 0.8);
-          }
-        }
-      }
-    }
+    //     .book-ticket {
+    //       margin-top: 1.5rem;
+    //       color: #fff;
+    //       background-color: rgba(221, 188, 63, 1);
+    //       font-weight: 700;
+    //       font-size: 1.4rem;
+    //       line-height: 2rem;
+    //       padding: 0.5rem 1.4rem;
+    //       border: 1px solid transparent;
+    //       border-radius: 0.4rem;
+    //       &:hover {
+    //         background-color: rgba(221, 188, 63, 0.8);
+    //       }
+    //     }
+    //   }
+    // }
 
     .paypal {
       height: 100%;

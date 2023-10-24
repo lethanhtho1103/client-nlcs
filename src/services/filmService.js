@@ -1,6 +1,20 @@
 import axios from '~/axios';
 
 const filmService = {
+  async createFilm({ name, type, image, origin, startDate, totalTime, ageAllowed, content }) {
+    const res = await axios.post('/api/v1/film/create', {
+      name,
+      type,
+      image,
+      origin,
+      startDate,
+      totalTime,
+      ageAllowed,
+      content,
+    });
+    return res.data;
+  },
+
   async getAllFilm(limit, offset) {
     try {
       const res = await axios.get('/api/v1/film/get-all-playing', {

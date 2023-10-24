@@ -90,9 +90,9 @@ function AdminFilmManager() {
           <Col md={3}></Col>
           <Col md={9} className={cx('wrap-req')}>
             <div className={cx('menu-control')}>
-              <a href="/">Trang chủ</a>/<span> Danh sách đăng ký</span>
+              <a href="/">Trang chủ</a>/<span> Danh sách đặt vé</span>
             </div>
-            <h2 className={cx('title')}>Danh sách đăng ký của sinh viên</h2>
+            <h2 className={cx('title')}>Danh sách đặt vé của người dùng</h2>
             {/* <div className={cx('works')}>
               {work.length === 0 ? (
                 <h2 className={cx('no-req')}>Chưa có yêu cầu đăng ký tham gia nào!</h2>
@@ -122,7 +122,7 @@ function AdminFilmManager() {
               )}
             </div> */}
             <div className={cx('works')}>
-              <h2 className={cx('no-req')}>Chưa có yêu cầu đăng ký tham gia nào!</h2>
+              <h2 className={cx('no-req')}>Chưa có người dùng nào đặt vé!</h2>
             </div>
           </Col>
         </Row>

@@ -23,7 +23,7 @@ function Calendar() {
 
   const [currDate, setCurrDate] = useState(0);
   const [currTime, setCurrTime] = useState(-1);
-  const [ticket, setTicket] = useState(1);
+  const [ticket, setTicket] = useState(0);
   const [startDate, setStartDate] = useState(filmTime.format('YYYY-MM-DD'));
   const [startTime, setStartTime] = useState('');
   const [startTimes, setStartTimes] = useState([]);
@@ -108,6 +108,22 @@ function Calendar() {
 
   const handelClickBack = () => {
     setIsShowModalComboCornWater(false);
+  };
+
+  const handleDecreaseTicket = () => {
+    if (ticket >= 8) {
+      setTicket(8);
+    } else {
+      setTicket((pre) => pre + 1);
+    }
+  };
+
+  const handleIncreaseTicket = () => {
+    if (ticket <= 0) {
+      setTicket(0);
+    } else {
+      setTicket((pre) => pre - 1);
+    }
   };
 
   var remainingTicket;
@@ -220,7 +236,7 @@ function Calendar() {
                       <div className={cx('quantity-remaining')}>
                         <div className={cx('quantity')}>
                           <div>Số lượng:&nbsp;</div>
-                          <input
+                          {/* <input
                             value={ticket}
                             onChange={(e) => setTicket(e.target.value)}
                             type="number"
@@ -228,7 +244,46 @@ function Calendar() {
                             max={10}
                             name="quantity"
                             className={cx('quantity-ticket')}
-                          />
+                          /> */}
+                          <div className={cx('quantity')}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="2"
+                              stroke="currentColor"
+                              onClick={() => handleIncreaseTicket()}
+                              className={cx({
+                                active: ticket > 0,
+                              })}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                              ></path>
+                            </svg>
+                            <span>
+                              <b>{ticket}</b>
+                            </span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="2"
+                              stroke="currentColor"
+                              className={cx({
+                                notActive: ticket === 8,
+                              })}
+                              onClick={() => handleDecreaseTicket()}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                              ></path>
+                            </svg>
+                          </div>
                         </div>
                         {startTime && (
                           <div className={cx('remaining')}>

@@ -21,18 +21,18 @@ function HeaderManager({ links }) {
     dispatch(userActions.toggleUserLogin());
   };
 
-  useEffect(() => {
-    const handleScrollTop = (e) => {
-      const scrollTop = window.scrollY;
-      if (scrollTop > 60) {
-        ref.current.classList.add(cx('re-active'));
-      } else {
-        ref.current.classList.remove(cx('re-active'));
-      }
-    };
-    window.addEventListener('scroll', handleScrollTop);
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   const handleScrollTop = (e) => {
+  //     const scrollTop = window.scrollY;
+  //     if (scrollTop > 60) {
+  //       ref.current.classList.add(cx('re-active'));
+  //     } else {
+  //       ref.current.classList.remove(cx('re-active'));
+  //     }
+  //   };
+  //   window.addEventListener('scroll', handleScrollTop);
+  //   return () => {};
+  // }, []);
 
   return (
     <div ref={ref} className={cx('wrap', '')}>

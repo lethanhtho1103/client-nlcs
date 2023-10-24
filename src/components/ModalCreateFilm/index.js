@@ -6,9 +6,9 @@ import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBug } from '@fortawesome/free-solid-svg-icons';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-// import { workServices } from '~/services';
 import style from './ModalCreateFilm.module.scss';
 import classNames from 'classnames/bind';
+import { filmService } from '~/services';
 
 const cx = classNames.bind(style);
 function ModalCreateFilm({ isShow, handleClose, handleOk }) {
@@ -28,6 +28,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
   const [totalTimeErr, setTotalTimeErr] = useState('');
   const [ageAllowedErr, setAgeAllowedErr] = useState('');
   const [startDateErr, setStartDateErr] = useState('');
+  const [contentErr, setContentErr] = useState('');
 
   const [obToast, setObToast] = useState({
     header: '',
@@ -87,6 +88,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
       setTotalTimeErr('');
       setAgeAllowedErr('');
       setStartDateErr('');
+      setContentErr('');
     } else {
       setName('');
       setImage('');
@@ -109,22 +111,25 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
     });
   };
 
-  //   const createWork = async () => {
-  //     const res = await workServices.createWork({
-  //       name,
-  //       startDate: time,
-  //       workimage: image,
-  //       pointtotalTime: totalTime,
-  //       maxStudent: number,
-  //       content,
-  //     });
+  const createFilm = async () => {
+    const res = await filmService.createFilm({
+      name,
+      type,
+      image,
+      origin,
+      startDate,
+      totalTime,
+      ageAllowed,
+      content,
+    });
 
-  //     if (res.errCode === 0) {
-  //       toggleShowToast({ header: 'Xong', content: 'Đã tạo công việc', isShow: true });
-  //       handleClose();
-  //       setDefaultValue();
-  //     }
-  //   };
+    if (res.errCode === 0) {
+      toggleShowToast({ header: 'Xong', content: 'Đã tạo phim thành công', isShow: true });
+      handleClose();
+      setDefaultValue();
+    }
+    console.log({ name, type, image, origin, startDate, totalTime, ageAllowed, content });
+  };
 
   const checkErr = (type) => {
     switch (type) {
@@ -148,6 +153,9 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
       }
       case 'startDate': {
         return startDateErr.length > 0;
+      }
+      case 'content': {
+        return contentErr.length > 0;
       }
       default: {
         break;
@@ -208,13 +216,20 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
     } else {
       setStartDateErr('');
     }
+
+    if (!content) {
+      setContentErr('Bạn phải điền nội dung của phim!');
+      err = false;
+    } else {
+      setContentErr('');
+    }
     if (err) setDefaultValue('er');
     return err;
   };
 
   const handleCLickSuccess = () => {
     if (validate()) {
-      // createWork();
+      createFilm();
     }
   };
 
@@ -235,7 +250,15 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
       >
         <div
           className={cx('table-err', {
-            show: nameErr || imageErr || typeErr || originErr || totalTimeErr || ageAllowedErr || startDateErr,
+            show:
+              nameErr ||
+              imageErr ||
+              typeErr ||
+              originErr ||
+              totalTimeErr ||
+              ageAllowedErr ||
+              startDateErr ||
+              contentErr,
           })}
         >
           <h2>
@@ -299,6 +322,14 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
                   <label htmlFor="startDate">
                     <FontAwesomeIcon icon={faCircleExclamation} />
                     {startDateErr}
+                  </label>
+                </li>
+              )}
+              {contentErr && (
+                <li>
+                  <label htmlFor="content">
+                    <FontAwesomeIcon icon={faCircleExclamation} />
+                    {contentErr}
                   </label>
                 </li>
               )}
@@ -416,7 +447,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
                     type="number"
                   ></input>
                   <label className={cx('form__label')} htmlFor="totalTime">
-                    <span>*</span> Thời gian chiếu:
+                    <span>*</span> Thời gian chiếu: (phút)
                   </label>
                 </div>
               </div>
@@ -467,11 +498,12 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
                 <textarea
                   onChange={(e) => changeInput(e, 'content')}
                   id="content"
+                  name="content"
                   defaultValue={content}
                   className={cx('form__field', 'content')}
                   autoComplete="off"
                 ></textarea>
-                <label className={cx('form__label')} htmlFor="time">
+                <label className={cx('form__label')} htmlFor="content">
                   Nội dung:
                 </label>
               </div>

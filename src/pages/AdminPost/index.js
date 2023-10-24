@@ -6,10 +6,11 @@ import Moment from 'react-moment';
 import NavLeft from '~/components/NavLeft';
 import { useSelector } from 'react-redux';
 import { isLoginSelector, userSelector } from '~/redux/selector';
-import classNames from 'classnames/bind';
-import styles from './AdminPost.module.scss';
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import user from '../../assets/images/avatar.png';
+import classNames from 'classnames/bind';
+import styles from './AdminPost.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -22,12 +23,12 @@ const menu = {
       icon: UilEstate,
     },
     {
-      title: 'Đăng bài',
+      title: 'Sắp lịch chiếu phim',
       icon: UilFileUpload,
       type: 'up-post',
     },
     {
-      title: 'Xem tất cả bài đăng',
+      title: 'Xem tất cả lịch chiếu',
       to: '/admin/allpost',
       icon: UilPostcard,
     },
@@ -54,11 +55,11 @@ function AdminPost() {
       <NavLeft menu={menu} location="post" />
       <div className={cx('wrap-post')}>
         <div className={cx('menu-control')}>
-          <a href="/">Trang chủ</a>/<span> Bài đăng </span>
+          <a href="/">Trang chủ</a>/<span> Lịch chiếu </span>
         </div>
         <div className={cx('posts')}>
           <div className={cx('post-profice')}>
-            <div> Chưa có bài post nào!</div>
+            <div> Chưa có lịch chiếu nào!</div>
           </div>
         </div>
       </div>
@@ -67,7 +68,7 @@ function AdminPost() {
           <Row>
             <Col className={cx('col-wrap')} md={12}>
               <div className={cx('image')}>
-                <img className={cx('image-user')} src={'/'} alt="User" />
+                <img className={cx('image-user')} src={user} alt="User" />
               </div>
               <h3 className={cx('content', 'name')}>{curUser.id}</h3>
               <h3 className={cx('content', 'name')}>{curUser.name}</h3>
@@ -79,7 +80,7 @@ function AdminPost() {
               </span>
             </Col>
 
-            <Col className={cx('col-wrap')} md={12}>
+            {/* <Col className={cx('col-wrap')} md={12}>
               <span className={cx('title')}>Email: </span>
               <span className={cx('content')}>{curUser.email}</span>
             </Col>
@@ -90,7 +91,7 @@ function AdminPost() {
             <Col className={cx('col-wrap')} md={12}>
               <span className={cx('title')}>Trực thuộc khoa:</span>
               <span className={cx('content')}>{curUser.faculty}</span>
-            </Col>
+            </Col> */}
           </Row>
           <div className={cx('border')}></div>
           <div className={cx('note')}>

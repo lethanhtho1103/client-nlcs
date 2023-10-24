@@ -449,3 +449,42 @@
     }
   }
 }
+
+.quantity {
+  display: flex;
+  align-items: center;
+
+  svg:first-child {
+    display: block;
+    color: rgb(163 163 163);
+    height: 2.7rem;
+    &.active {
+      color: rgb(235 47 150);
+      cursor: pointer;
+    }
+  }
+  svg:last-child {
+    display: block;
+    height: 2.7rem;
+    color: rgb(235 47 150);
+    cursor: pointer;
+    &.notActive {
+      color: rgb(163 163 163);
+      cursor: auto;
+    }
+  }
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.8rem;
+    height: 2.8rem;
+    margin-left: 0.8rem;
+    margin-right: 0.8rem;
+    border: 1px solid rgb(212 212 212);
+    border-radius: 6px;
+    b {
+      font-size: 1.4rem;
+    }
+  }
+}

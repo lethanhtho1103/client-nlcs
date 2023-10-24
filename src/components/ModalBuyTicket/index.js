@@ -80,7 +80,6 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </Button>
-
         <div className={cx('info-ticket')}>
           <div className={cx('info-film')}>
             <ul className={cx('header-film')}>
@@ -205,56 +204,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
             </div>
           </div>
         </div>
-
         <div className={cx('payment')}>
-          {/* <div className={cx('payment-qrCode')}>
-            <h4>Quét mã QR bằng MoMo để thanh toán</h4>
-            <div className={cx('qr-container')}>
-              <div className={cx('qr-scan')}>
-                <div className={cx('qr-radiant')}>
-                  <img
-                    alt="radiant"
-                    src="https://homepage.momocdn.net/jk/momo2020/img/qrcode/qrcode-gradient.png"
-                    className={cx('img-flui')}
-                  />
-                </div>
-                <div className={cx('qr-border')}>
-                  <img
-                    alt="border"
-                    src="https://homepage.momocdn.net/jk/momo2020/img/qrcode/border-qrcode.svg"
-                    className={cx('img-fluid')}
-                  />
-                </div>
-                <div className={cx('qr-image')}>
-                  <canvas height="268" width="268"></canvas>
-                  <img alt="" src="https://homepage.momocdn.net/pwa/images/logoMomox50.png" />
-                  <img className={cx('img1')} alt="" src="https://cdn.ttgtmedia.com/rms/misc/qr_code_barcode.jpg" />
-                </div>
-              </div>
-            </div>
-            <div className={cx('description')}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
-                ></path>
-              </svg>
-              Sử dụng App MoMo hoặc ứng dụng Camera hỗ trợ QR code để quét mã.
-            </div>
-            <div className={cx('direct-payment')}>
-              <input checked={isChecked} onChange={toggleChecked} type="checkbox" id="check" />
-              <label htmlFor="check">
-                <img alt="VnPay" src={vnpay} className={cx('img-vnpay')} />{' '}
-                <a href="http://localhost:8888/order/create_payment_url">Thanh toán tiền bằng ví VNPAY</a>
-              </label>
-            </div>
-
-            <Button className={cx('book-ticket')} onClick={handleBuyTicket}>
-              Đặt vé
-            </Button>
-          </div> */}
           <div className={cx('paypal')}>
             <h2>Thanh toán tiền bằng PayPal</h2>
             <Paypal handleBuyTicket={handleBuyTicket} />

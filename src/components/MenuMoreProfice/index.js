@@ -1,5 +1,7 @@
 import { UilSignout } from '@iconscout/react-unicons';
-import { UilPostcard, UilChartBar, UilBrightnessLow, UilTrowel } from '@iconscout/react-unicons';
+import { UilListUl } from '@iconscout/react-unicons';
+import { UilTicket } from '@iconscout/react-unicons';
+import { UilChartBar, UilBrightnessLow, UilTrowel } from '@iconscout/react-unicons';
 import { userSlice } from '~/redux/reducer';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames/bind';
@@ -30,8 +32,8 @@ function MenuMoreProfice({ show, location = 'post' }) {
           <>
             <li>
               <a href="/admin/mypost" className={cx('item')}>
-                <h3>Quản lý bài đăng</h3>
-                <UilPostcard size={20} className={cx('icon')} />
+                <h3>Quản lý phòng vé</h3>
+                <UilTicket size={20} className={cx('icon')} />
               </a>
             </li>
             <li>
@@ -47,8 +49,8 @@ function MenuMoreProfice({ show, location = 'post' }) {
               <>
                 <li>
                   <a href="/admin/view/list-user-req" className={cx('item')}>
-                    <h3>Quản lý công việc</h3>
-                    <UilTrowel size={20} className={cx('icon')} />
+                    <h3>Quản lý danh sách vé</h3>
+                    <UilListUl size={20} className={cx('icon')} />
                   </a>
                 </li>
                 <li>
@@ -63,7 +65,7 @@ function MenuMoreProfice({ show, location = 'post' }) {
                 <li>
                   <a href="/admin/mypost" className={cx('item')}>
                     <h3>Quản lý bài đăng</h3>
-                    <UilPostcard size={20} className={cx('icon')} />
+                    <UilTicket size={20} className={cx('icon')} />
                   </a>
                 </li>
                 <li>
