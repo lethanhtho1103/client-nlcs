@@ -2,14 +2,28 @@ import { Col } from 'react-bootstrap';
 import contact from '../../assets/images/contact.png';
 import styles from './ContactUserSLide.module.scss';
 import classNames from 'classnames/bind';
-import { Fragment } from 'react';
+import { Fragment, useCallback, useEffect } from 'react';
 import { UilMapMarker } from '@iconscout/react-unicons';
 import { UilEnvelopeAdd } from '@iconscout/react-unicons';
 import { UilPhone } from '@iconscout/react-unicons';
 import Header from '~/components/Header';
+import { useSelector } from 'react-redux';
 
+import { useNavigate } from 'react-router-dom';
+import { isLoginSelector } from '~/redux/selector';
 const cx = classNames.bind(styles);
 function ContactUserSLide() {
+  const isLogined = useSelector(isLoginSelector);
+  const navigate = useNavigate();
+  const handleNavigate = useCallback(() => {
+    if (!isLogined) {
+      navigate('/login');
+    }
+  }, [isLogined, navigate]);
+  useEffect(() => {
+    handleNavigate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLogined]);
   return (
     <Fragment>
       <Header contact={'contact'} />

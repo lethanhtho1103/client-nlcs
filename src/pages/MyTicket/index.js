@@ -8,9 +8,11 @@ import { faLocationDot, faPen, faSignature, faTicket } from '@fortawesome/free-s
 import Footer from '~/components/Footer';
 import { useSelector } from 'react-redux';
 import { userSelector } from '~/redux/selector';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { filmService } from '~/services';
 import ModalDetailTicket from '~/components/ModalDetailTicket';
+import { useNavigate } from 'react-router-dom';
+import { isLoginSelector } from '~/redux/selector';
 
 const cx = classNames.bind(style);
 function MyTicket() {
@@ -40,10 +42,20 @@ function MyTicket() {
     setIsShowModalDetailTicket(false);
   };
 
+  const isLogined = useSelector(isLoginSelector);
+  const navigate = useNavigate();
+
+  const handleNavigate = useCallback(() => {
+    if (!isLogined) {
+      navigate('/login');
+    }
+  }, [isLogined, navigate]);
+
   useEffect(() => {
     handleGetAllTicket();
+    handleNavigate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currUser.id]);
+  }, [currUser.id, isLogined]);
   return (
     <div className={cx('wrapper')}>
       <Header />
@@ -160,11 +172,7 @@ function MyTicket() {
                                 fill="#fff"
                               ></path>
                             </svg>
-                            Thành tiền:{' '}
-                            <span>
-                              {numberWithCommas(ticket.ticket * ticket.film.filmShowTime[0].roomShowTime.priceTicket)}{' '}
-                              VNĐ
-                            </span>
+                            Thành tiền: <span>{numberWithCommas(ticket.ticket * ticket.priceTicket)} VNĐ</span>
                           </div>
                           <Button className={cx('btn')} onClick={() => handleShowModalTicket(ticket)}>
                             Xem chi tiết

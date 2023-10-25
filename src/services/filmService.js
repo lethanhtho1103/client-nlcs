@@ -38,6 +38,15 @@ const filmService = {
     }
   },
 
+  async getAllFilmShowTime() {
+    try {
+      const res = await axios.get('/api/v1/film/get-all-showtime');
+      return res.data;
+    } catch (error) {
+      console.log('Lỗi');
+    }
+  },
+
   async getOneFilm({ filmId }) {
     if (filmId) {
       const res = await axios.get('/api/v1/film/get-one', {
@@ -65,13 +74,14 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
-  async buyTicket(userId, filmId, ticket, startTime, startDate) {
+  async buyTicket(userId, filmId, ticket, startTime, startDate, priceTicket) {
     const res = await axios.post('/api/v1/film/register', {
       filmId,
       userId,
       ticket,
       startTime,
       startDate,
+      priceTicket,
     });
     return res.data;
   },
@@ -153,6 +163,11 @@ const filmService = {
 
   async getAllCommentComboCornWater() {
     const res = await axios.get('/api/v1/film/get-all-combo-corn-water');
+    return res.data;
+  },
+
+  async getAllListUser() {
+    const res = await axios.get('/api/v1/film/get-all-listuser');
     return res.data;
   },
 

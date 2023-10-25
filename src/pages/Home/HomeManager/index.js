@@ -8,8 +8,8 @@ const cx = classNames.bind(style);
 
 function HomeManager() {
   const links = [
-    { name: 'BÀI ĐĂNG CỦA TÔI', to: '/admin/mypost' },
-    { name: 'QUẢN LÝ CÔNG TÁC TÌNH NGUYỆN', to: '/admin/view/list-user-req' },
+    { name: 'QUẢN LÝ PHÒNG CHIẾU', to: '/admin/my-room-ticket' },
+    { name: 'QUẢN LÝ VÉ NGƯỜI DÙNG', to: '/admin/view/list-user-buy-ticket' },
     { name: 'THỐNG KÊ', to: '/admin/statistical' },
   ];
   return (

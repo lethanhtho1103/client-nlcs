@@ -25,6 +25,7 @@ function Calendar() {
   const [currTime, setCurrTime] = useState(-1);
   const [ticket, setTicket] = useState(0);
   const [startDate, setStartDate] = useState(filmTime.format('YYYY-MM-DD'));
+
   const [startTime, setStartTime] = useState('');
   const [startTimes, setStartTimes] = useState([]);
   const [totalTicket, setTotalTicket] = useState([]);
@@ -94,8 +95,8 @@ function Calendar() {
     }
   };
 
-  const handleBuyTicket = async (filmId, ticket, startTime, startDate) => {
-    const res = await filmService.buyTicket(userId, filmId, ticket, startTime, startDate);
+  const handleBuyTicket = async (filmId, ticket, startTime, startDate, priceTicket) => {
+    const res = await filmService.buyTicket(userId, filmId, ticket, startTime, startDate, priceTicket);
     buyTicket(res);
     setTimeout(() => {
       setObToast({

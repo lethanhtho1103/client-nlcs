@@ -7,12 +7,12 @@ import { UilEstate } from '@iconscout/react-unicons';
 import { UilListUl } from '@iconscout/react-unicons';
 import { UilPlus } from '@iconscout/react-unicons';
 import { Container, Row, Col } from 'react-bootstrap';
-// import Work from '~/components/Work';
-// import ListRequestWork from '~/components/ListRequestWork';
-// import { workServices } from '~/services';
+import { filmService } from '~/services';
+
 import NavLeft from '~/components/NavLeft';
 import classNames from 'classnames/bind';
 import styles from './AdminFilmManager.module.scss';
+import ListUserByTicket from '~/components/ListUserByTicket';
 
 const cx = classNames.bind(styles);
 
@@ -42,8 +42,8 @@ function AdminFilmManager() {
   const isLogined = useSelector(isLoginSelector);
   const curUser = useSelector(userSelector);
   const [isShowTable, setIsShowTable] = useState(false);
-  //   const [isLoading, setIsLoading] = useState(false);
-  //   const [work, setWork] = useState([]);
+  const [listUsers, setListUsers] = useState([]);
+
   const [currWorkId, setCurrWorkId] = useState('');
 
   const controlPage = useCallback(() => {
@@ -56,14 +56,19 @@ function AdminFilmManager() {
     }
   }, [curUser, isLogined, navigate]);
 
-  // const getNameWorkAndCountRes = useCallback(async () => {
-  //     setIsLoading(true);
   //     const res = await workServices.getNameWorkAndCountRes();
   //     if (res.errCode === 0) {
   //         setWork(res.works);
   //     }
   //     setIsLoading(false);
   // }, []);
+
+  const getListUsers = async () => {
+    const res = await filmService.getAllListUser();
+    if (res.errCode === 0) {
+      setListUsers(res.data);
+    }
+  };
 
   const toggleShowTable = () => {
     setIsShowTable((show) => {
@@ -78,12 +83,11 @@ function AdminFilmManager() {
 
   useEffect(() => {
     controlPage();
-    // getNameWorkAndCountRes();
+    getListUsers();
   }, [controlPage]);
 
   return (
     <div className={cx('wrap')}>
-      {/* {isLoading && <Loader />} */}
       <NavLeft menu={menu} location="work" />
       <Container>
         <Row>
@@ -93,26 +97,18 @@ function AdminFilmManager() {
               <a href="/">Trang chủ</a>/<span> Danh sách đặt vé</span>
             </div>
             <h2 className={cx('title')}>Danh sách đặt vé của người dùng</h2>
-            {/* <div className={cx('works')}>
-              {work.length === 0 ? (
-                <h2 className={cx('no-req')}>Chưa có yêu cầu đăng ký tham gia nào!</h2>
+            {/* <ListUserByTicket showTimes={showTimes} /> */}
+
+            <div className={cx('works')}>
+              {listUsers.length === 0 ? (
+                <h2 className={cx('no-req')}>Chưa có người dùng nào đặt vé!</h2>
               ) : (
                 <>
-                  {work.map((work) => {
+                  {listUsers.map((listUser) => {
                     return (
-                      <div key={work.id} className={cx('wrap-work')}>
-                        <Work
-                          admin={true}
-                          key={work.id}
-                          countRequest={work.workCount}
-                          startDate={work.work.startDate}
-                          name={work.work.name}
-                          workPlace={work.work.workPlace}
-                          curStudent={work.work.curStudent}
-                          maxStudent={work.work.maxStudent}
-                          pointPlus={work.work.pointPlus}
-                        />
-                        <span className={cx('detail-work-req')} onClick={() => handleCLickDetail(work.work.id)}>
+                      <div key={listUser.id} className={cx('wrap-work')}>
+                        <ListUserByTicket listUser={listUser} />
+                        <span className={cx('detail-work-req')} onClick={() => handleCLickDetail(listUser.work.id)}>
                           Xem chi tiết
                         </span>
                       </div>
@@ -120,9 +116,6 @@ function AdminFilmManager() {
                   })}
                 </>
               )}
-            </div> */}
-            <div className={cx('works')}>
-              <h2 className={cx('no-req')}>Chưa có người dùng nào đặt vé!</h2>
             </div>
           </Col>
         </Row>

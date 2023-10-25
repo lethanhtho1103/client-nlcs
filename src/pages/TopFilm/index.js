@@ -14,7 +14,8 @@ function TopFilm() {
 
   useEffect(() => {
     handleNavigate();
-  }, [handleNavigate, isLogined]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLogined]);
   return <TopFilmUserSlide />;
 }
 

@@ -40,11 +40,11 @@ const publicRoutes = [
     component: Details,
   },
   {
-    path: '/admin/mypost',
+    path: '/admin/my-room-ticket',
     component: AdminPost,
   },
   {
-    path: '/admin/view/list-user-req',
+    path: '/admin/view/list-user-buy-ticket',
     component: AdminFilmManager,
   },
   {
