@@ -102,7 +102,7 @@ function AdminFilmManager() {
   // };
 
   const getListUsers = async () => {
-    const res = await filmService.getAllListUser();
+    const res = await filmService.getListUserAndSumTicket();
     if (res.errCode === 0) {
       setListUsers(res.data);
       convertToDataRow(res.data);

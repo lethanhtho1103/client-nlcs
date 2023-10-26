@@ -89,28 +89,13 @@ function ListUserByTicket({ listUser }) {
               <h2>Thông tin thêm</h2>
             </Col>
           </div>
-          <div className="row">
-            <Col sm={4}>
-              <span className={cx('more-content')}>Mã người dùng:</span>
-            </Col>
-            <Col sm={3}>
-              <span className={cx('more-number')}>{listUser.userId}</span>
-            </Col>
-          </div>
-          <div className="row">
-            <Col sm={4}>
-              <span className={cx('more-content')}>tên người dùng:</span>
-            </Col>
-            <Col sm={3}>
-              <span className={cx('more-number')}>{listUser.userFilm.name}</span>
-            </Col>
-          </div>
+
           <div className="row">
             <Col sm={4}>
               <span className={cx('more-content')}>Số vé đã đặt:</span>
             </Col>
             <Col sm={3}>
-              <span className={cx('more-number')}>{listUser.ticket}</span>
+              <span className={cx('more-number')}>{listUser.totalTicket}</span>
             </Col>
           </div>
           <div className="row">
@@ -118,9 +103,7 @@ function ListUserByTicket({ listUser }) {
               <span className={cx('more-content')}>Đơn giá vé:</span>
             </Col>
             <Col sm={8}>
-              <span className={cx('more-number')}>
-                {numberWithCommas(listUser.film.filmShowTime[0].roomShowTime.priceTicket)} VNĐ
-              </span>
+              <span className={cx('more-number')}>{numberWithCommas(listUser.priceTicket)} VNĐ</span>
             </Col>
           </div>
           <div className="row">
@@ -128,7 +111,9 @@ function ListUserByTicket({ listUser }) {
               <span className={cx('more-content')}>Thành tiền:</span>
             </Col>
             <Col sm={8}>
-              <span className={cx('more-number')}>{numberWithCommas(listUser.ticket * listUser.priceTicket)} VNĐ</span>
+              <span className={cx('more-number')}>
+                {numberWithCommas(listUser.totalTicket * listUser.priceTicket)} VNĐ
+              </span>
             </Col>
           </div>
           {/* <div className="row">

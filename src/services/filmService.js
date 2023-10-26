@@ -171,6 +171,11 @@ const filmService = {
     return res.data;
   },
 
+  async getListUserAndSumTicket() {
+    const res = await axios.get('/api/v1/list-user/sum-ticket');
+    return res.data;
+  },
+
   async buyComboCornWater(userId, filmId, cornWaterId, quantityCombo) {
     try {
       const data = {
