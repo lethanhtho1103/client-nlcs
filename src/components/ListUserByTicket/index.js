@@ -11,7 +11,7 @@ function ListUserByTicket({ listUser }) {
   const [isVisible, setIsVisible] = useState(false);
   // const [totalTicket, setTotalTicket] = useState([]);
   const workRef = useRef(null);
-
+  console.log(listUser);
   // const handelTotalTicket = async () => {
   //   const res = await filmService.totalTicket(filmId, startTime);
   //   setTotalTicket(res.data);

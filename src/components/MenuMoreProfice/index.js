@@ -31,7 +31,7 @@ function MenuMoreProfice({ show, location = 'post' }) {
         {location === 'work' ? (
           <>
             <li>
-              <a href="/admin/mypost" className={cx('item')}>
+              <a href="/admin/my-room-ticket" className={cx('item')}>
                 <h3>Quản lý phòng vé</h3>
                 <UilTicket size={20} className={cx('icon')} />
               </a>
@@ -48,7 +48,7 @@ function MenuMoreProfice({ show, location = 'post' }) {
             {location === 'post' ? (
               <>
                 <li>
-                  <a href="/admin/view/list-user-req" className={cx('item')}>
+                  <a href="/admin/view/list-user-buy-ticket" className={cx('item')}>
                     <h3>Quản lý danh sách vé</h3>
                     <UilListUl size={20} className={cx('icon')} />
                   </a>
