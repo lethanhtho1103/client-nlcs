@@ -8,9 +8,9 @@ import { faSort } from '@fortawesome/free-solid-svg-icons';
 
 // scss
 import classNames from 'classnames/bind';
-import stype from './TableListUser.module.scss';
+import style from './TableListUser.module.scss';
 
-const cx = classNames.bind(stype);
+const cx = classNames.bind(style);
 
 function TableWork({ data, columns }) {
   function fuzzyTextFilterFn(rows, id, filterValue) {

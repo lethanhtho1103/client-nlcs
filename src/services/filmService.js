@@ -147,6 +147,11 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
+  async getAllListUser() {
+    const res = await axios.get('/api/v1/film/get-all-listuser');
+    return res.data;
+  },
+
   async getStartTimeFilm({ filmId, startDate }) {
     if (filmId) {
       const res = await axios.get('/api/v1/film/get-all-start-time', {
@@ -163,16 +168,6 @@ const filmService = {
 
   async getAllCommentComboCornWater() {
     const res = await axios.get('/api/v1/film/get-all-combo-corn-water');
-    return res.data;
-  },
-
-  async getAllListUser() {
-    const res = await axios.get('/api/v1/film/get-all-listuser');
-    return res.data;
-  },
-
-  async getListUserAndSumTicket() {
-    const res = await axios.get('/api/v1/list-user/sum-ticket');
     return res.data;
   },
 

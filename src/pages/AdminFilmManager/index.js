@@ -7,7 +7,7 @@ import { UilEstate } from '@iconscout/react-unicons';
 import { UilListUl } from '@iconscout/react-unicons';
 import { UilPlus } from '@iconscout/react-unicons';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { filmService } from '~/services';
+import { adminService } from '~/services';
 import NavLeft from '~/components/NavLeft';
 import classNames from 'classnames/bind';
 import styles from './AdminFilmManager.module.scss';
@@ -18,6 +18,7 @@ import { UilTimes } from '@iconscout/react-unicons';
 import { UilAngleDoubleLeft } from '@iconscout/react-unicons';
 import { UilLabelAlt } from '@iconscout/react-unicons';
 import Moment from 'react-moment';
+import TableListUserDetail from '~/components/TableListUserDetail';
 const cx = classNames.bind(styles);
 
 const menu = {
@@ -45,9 +46,12 @@ function AdminFilmManager() {
   const navigate = useNavigate();
   const isLogined = useSelector(isLoginSelector);
   const curUser = useSelector(userSelector);
-  const [row, setRow] = useState([]);
+  const [filmId, setFilmId] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [totalTicket, setTotalTicket] = useState();
 
-  // const [isShowTable, setIsShowTable] = useState(false);
+  const [isShowTable, setIsShowTable] = useState(false);
   const [listUsers, setListUsers] = useState([]);
 
   // const [currWorkId, setCurrWorkId] = useState('');
@@ -62,50 +66,25 @@ function AdminFilmManager() {
     }
   }, [curUser, isLogined, navigate]);
 
-  // const toggleShowTable = () => {
-  //   setIsShowTable((show) => {
-  //     return !show;
-  //   });
-  // };
-
-  // const handleCLickDetail = (workId) => {
-  //   setCurrWorkId(workId);
-  //   setIsShowTable(true);
-  // };
-  const columns = [
-    { Header: 'STT', accessor: 'col1', filter: 'fuzzyText' },
-    { Header: 'Mã người dùng', accessor: 'col2', filter: 'fuzzyText' },
-    { Header: 'Tên người dùng', accessor: 'col3', filter: 'fuzzyText' },
-    { Header: 'Số vé', accessor: 'col4', filter: 'fuzzyText' },
-    { Header: 'Combo bắp nước', accessor: 'col5', filter: 'fuzzyText' },
-    { Header: 'Thành tiền', accessor: 'col6', disableSortBy: true },
-  ];
-
-  const convertToDataRow = (row) => {
-    const dataRow = row.map((row, index) => {
-      return {
-        col1: index + 1,
-        col2: row.startDate,
-        col3: row.startTime,
-        col4: row.ticket,
-        col5: row.comment,
-        col6: row.priceTicket,
-        // col6: moment(row.createdAt).format('LL'),
-      };
+  const toggleShowTable = () => {
+    setIsShowTable((show) => {
+      return !show;
     });
-    setRow(dataRow);
   };
 
-  // const getTable = () => {
-  //   const data = convertToDataRow(listUsers);
-  //   setRow(data);
-  // };
+  const handleCLickDetail = (filmId, startTime, startDate, totalTicket) => {
+    setFilmId(filmId);
+    setStartTime(startTime);
+    setStartDate(startDate);
+    setTotalTicket(totalTicket);
+    setIsShowTable(true);
+  };
 
   const getListUsers = async () => {
-    const res = await filmService.getListUserAndSumTicket();
+    const res = await adminService.getListUserAndSumTicket();
     if (res.errCode === 0) {
       setListUsers(res.data);
-      convertToDataRow(res.data);
+      // convertToDataRow(res.data);
     }
   };
 
@@ -137,67 +116,38 @@ function AdminFilmManager() {
                     return (
                       <div key={listUser.id} className={cx('wrap-work')}>
                         <ListUserByTicket listUser={listUser} />
-                        <span className={cx('detail-work-req')}>Xem chi tiết</span>
+                        <span
+                          className={cx('detail-work-req')}
+                          onClick={() =>
+                            handleCLickDetail(
+                              listUser.filmId,
+                              listUser.startTime,
+                              listUser.startDate,
+                              listUser.totalTicket,
+                            )
+                          }
+                        >
+                          Xem chi tiết
+                        </span>
                       </div>
                     );
                   })}
-                  {/* <div
-                    className={cx('wrap', {
-                      show: true,
-                    })}
-                  >
-                    <div className={cx('container-content')}>
-                      <div title="Quay lại" className={cx('icon-back')} onClick={toggleShowTable}>
-                        <UilAngleDoubleLeft size={28} />
-                      </div>
-                      <div className={cx('wrap-table')}>
-                        <h2 className={cx('title')}>Địa đàng sụp đổ</h2>
-                        <div className={cx('control')}>
-                          <div className={cx('wrap-more')}>
-                            <span className={cx('more-content')}>Ngày chiếu:</span>
-                            <span className={cx('more-number')}>
-                              <Moment local="vi" format="ll">
-                                22/12/2023
-                              </Moment>
-                            </span>
-                          </div>
-                          <div className={cx('wrap-more')}>
-                            <span className={cx('more-content')}>Phòng chiếu:</span>
-                            <span className={cx('more-number')}> </span>
-                          </div>
-                          <div className={cx('wrap-more')}>
-                            <span className={cx('more-content')}>Giờ chiếu: </span>
-                            <span className={cx('more-number')}>19:00</span>
-                          </div>
-                          <div className={cx('wrap-more')}>
-                            <span className={cx('more-content')}>Số vé tối đa: </span>
-                            <span className={cx('more-number')}> 2000</span>
-                          </div>
-                          <div className={cx('wrap-more')}>
-                            <span className={cx('more-content')}>Hiện tại: </span>
-                            <span className={cx('more-number')}> 30</span>
-                          </div>
-                        </div>
-                        <div className={cx('table')}>
-                          <TableListUser columns={columns} data={row} />
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
                 </>
               )}
             </div>
+            {isShowTable && (
+              <TableListUserDetail
+                row={listUsers}
+                filmId={filmId}
+                startTime={startTime}
+                startDate={startDate}
+                totalTicket={totalTicket}
+                toggleShowTable={toggleShowTable}
+              />
+            )}
           </Col>
         </Row>
       </Container>
-      {/* {isShowTable && (
-        <ListRequestWork
-          getNameWorkAndCountRes={getNameWorkAndCountRes}
-          workId={currWorkId}
-          show={isShowTable}
-          toggleShowTable={toggleShowTable}
-        />
-      )} */}
     </div>
   );
 }
