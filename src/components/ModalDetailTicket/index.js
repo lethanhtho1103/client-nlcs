@@ -137,7 +137,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
                 <div className={cx('price')}>
                   <b>
                     {numberWithCommas(detailTicket.film.filmShowTime[0].roomShowTime.priceTicket * detailTicket.ticket)}
-                    &nbsp;VNĐ
+                    &nbsp;VND
                   </b>
                 </div>
               </li>
@@ -149,7 +149,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
                   return (
                     <div key={combo.id} className={cx('quantity-combo')}>
                       <b className={cx('name-combo')}>{`${getQuantityCombo(combo.id)} x ${combo.name}`} </b>
-                      <b className={cx('price')}>{numberWithCommas(getQuantityCombo(combo.id) * combo.price)} VNĐ</b>
+                      <b className={cx('price')}>{numberWithCommas(getQuantityCombo(combo.id) * combo.price)} VND</b>
                     </div>
                   );
                 } else {
@@ -175,7 +175,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
                         quantityCombo4 * comboCornWater[3].price),
                   )} */}
                   {numberWithCommas(detailTicket.film.filmShowTime[0].roomShowTime.priceTicket * detailTicket.ticket)}
-                  &nbsp;VNĐ
+                  &nbsp;VND
                 </b>
               </div>
             </li>

@@ -10,7 +10,8 @@ import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import user from '../../assets/images/avatar.png';
 import classNames from 'classnames/bind';
-import styles from './AdminPost.module.scss';
+import styles from './AdminShowTime.module.scss';
+import TableShowTime from '~/components/TableShowTime';
 
 const cx = classNames.bind(styles);
 
@@ -35,7 +36,7 @@ const menu = {
   ],
 };
 
-function AdminPost() {
+function AdminShowTime() {
   const isLogined = useSelector(isLoginSelector);
   const curUser = useSelector(userSelector);
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ function AdminPost() {
           </div>
         </div>
       </div>
+      <TableShowTime />
       <div className={cx('profice')}>
         <div className={cx('info')}>
           <Row>
@@ -103,4 +105,4 @@ function AdminPost() {
   );
 }
 
-export default AdminPost;
+export default AdminShowTime;

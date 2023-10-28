@@ -172,7 +172,7 @@ function MyTicket() {
                                 fill="#fff"
                               ></path>
                             </svg>
-                            Thành tiền: <span>{numberWithCommas(ticket.ticket * ticket.priceTicket)} VNĐ</span>
+                            Thành tiền: <span>{numberWithCommas(ticket.ticket * ticket.priceTicket)} VND</span>
                           </div>
                           <Button className={cx('btn')} onClick={() => handleShowModalTicket(ticket)}>
                             Xem chi tiết

@@ -20,6 +20,15 @@ const adminService = {
 
     return 'Thiếu tham số truyền vào';
   },
+
+  async getAllFilmShowTime() {
+    try {
+      const res = await axios.get('/api/v1/film/get-all-showtime');
+      return res.data;
+    } catch (error) {
+      console.log('Lỗi');
+    }
+  },
 };
 
 export default adminService;

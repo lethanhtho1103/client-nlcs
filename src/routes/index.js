@@ -6,7 +6,7 @@ import Contact from '~/pages/Contact';
 import TopFilm from '~/pages/TopFilm';
 import MyTicket from '~/pages/MyTicket';
 import Invalid_404 from '~/pages/Invalid_404';
-import AdminPost from '~/pages/AdminPost';
+import AdminPost from '~/pages/AdminShowTime';
 import AdminFilmManager from '~/pages/AdminFilmManager';
 import AdminStatistical from '~/pages/AdminStatistical';
 

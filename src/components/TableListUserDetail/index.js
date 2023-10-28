@@ -42,7 +42,7 @@ function TableListUserDetail({
         col4: row.ticket,
         col5: row.cornWaterId,
         col6: row.quantityCombo,
-        col7: `${numberWithCommas(row.priceTicket * row.ticket)} VNĐ`,
+        col7: `${numberWithCommas(row.priceTicket * row.ticket)} VND`,
         // col6: moment(row.createdAt).format('LL'),
       };
     });
@@ -99,7 +99,7 @@ function TableListUserDetail({
             </div>
             <div className={cx('wrap-more')}>
               <span className={cx('more-content')}>Tổng tiền:</span>
-              <span className={cx('more-number', 'tl-right')}>{numberWithCommas(sumPrice)} VNĐ</span>
+              <span className={cx('more-number', 'tl-right')}>{numberWithCommas(sumPrice)} VND</span>
             </div>
           </div>
           <div className={cx('table')}>

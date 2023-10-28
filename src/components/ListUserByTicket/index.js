@@ -103,7 +103,7 @@ function ListUserByTicket({ listUser }) {
               <span className={cx('more-content')}>Đơn giá vé:</span>
             </Col>
             <Col sm={8}>
-              <span className={cx('more-number')}>{numberWithCommas(listUser.priceTicket)} VNĐ</span>
+              <span className={cx('more-number')}>{numberWithCommas(listUser.priceTicket)} VND</span>
             </Col>
           </div>
           <div className="row">
@@ -112,7 +112,7 @@ function ListUserByTicket({ listUser }) {
             </Col>
             <Col sm={8}>
               <span className={cx('more-number')}>
-                {numberWithCommas(listUser.totalTicket * listUser.priceTicket)} VNĐ
+                {numberWithCommas(listUser.totalTicket * listUser.priceTicket)} VND
               </span>
             </Col>
           </div>

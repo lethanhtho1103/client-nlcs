@@ -163,7 +163,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
               <li>
                 <div></div>
                 <div className={cx('price')}>
-                  <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VNĐ</b>
+                  <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VND</b>
                 </div>
               </li>
             </ul>
@@ -174,7 +174,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                   return (
                     <div key={combo.id} className={cx('quantity-combo')}>
                       <b className={cx('name-combo')}>{`${getQuantityCombo(combo.id)} x ${combo.name}`} </b>
-                      <b className={cx('price')}>{numberWithCommas(getQuantityCombo(combo.id) * combo.price)} VNĐ</b>
+                      <b className={cx('price')}>{numberWithCommas(getQuantityCombo(combo.id) * combo.price)} VND</b>
                     </div>
                   );
                 } else {
@@ -199,7 +199,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                         quantityCombo3 * comboCornWater[2].price +
                         quantityCombo4 * comboCornWater[3].price),
                   )}
-                  &nbsp;VNĐ
+                  &nbsp;VND
                 </b>
               </div>
             </li>
@@ -208,7 +208,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
           <div className={cx('discount')}>
             <div>
               <div>
-                <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VNĐ khi đặt vé trên website NTFMovies</div>
+                <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VND khi đặt vé trên website NTFMovies</div>
                 <div className={cx('limit-useful')}>HSD: 30-12-2023</div>
               </div>
               <Button onClick={handleReceive} className={cx('receive')}>

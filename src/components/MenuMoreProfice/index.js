@@ -32,7 +32,7 @@ function MenuMoreProfice({ show, location = 'post' }) {
           <>
             <li>
               <a href="/admin/my-room-ticket" className={cx('item')}>
-                <h3>Quản lý phòng vé</h3>
+                <h3>Quản lý phòng chiếu</h3>
                 <UilTicket size={20} className={cx('icon')} />
               </a>
             </li>

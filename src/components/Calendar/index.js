@@ -157,7 +157,7 @@ function Calendar() {
         <div className={cx('code-discount')}>
           <div>
             <div>
-              <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VNĐ khi đặt vé trên website NTFMovies</div>
+              <div className={cx('code')}>Nhận ngay mã giảm giá 10000 VND khi đặt vé trên website NTFMovies</div>
               <div className={cx('limit-useful')}>HSD: 30-12-2023</div>
             </div>
             <div className={cx('receive')}>
@@ -301,7 +301,7 @@ function Calendar() {
                       <div className={cx('payment')}>
                         <div className={cx('temporary')}>
                           <div>Tạm tính</div>
-                          <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)} VNĐ</b>
+                          <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)} VND</b>
                         </div>
                         <div>
                           <Button

@@ -131,7 +131,7 @@ function ModalComboCornWater({ toggleShow }) {
                   quantityCombo3 * comboCornWater[2].price +
                   quantityCombo4 * comboCornWater[3].price,
               )}{' '}
-              VNĐ
+              VND
             </b>
           </div>
           <Button className={cx('btn-continue')} onClick={handelShowBuyTicket}>
