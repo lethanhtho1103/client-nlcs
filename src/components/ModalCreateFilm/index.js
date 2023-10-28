@@ -128,7 +128,6 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
       handleClose();
       setDefaultValue();
     }
-    console.log({ name, type, image, origin, startDate, totalTime, ageAllowed, content });
   };
 
   const checkErr = (type) => {

@@ -8,11 +8,12 @@ import { faSort } from '@fortawesome/free-solid-svg-icons';
 
 // scss
 import classNames from 'classnames/bind';
-import style from './TableListUser.module.scss';
+import style from './DataTable.module.scss';
+import GlobalFilter from '../GlobalFilter';
 
 const cx = classNames.bind(style);
 
-function TableWork({ data, columns }) {
+function DataTable({ data, columns }) {
   function fuzzyTextFilterFn(rows, id, filterValue) {
     return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] });
   }
@@ -90,13 +91,13 @@ function TableWork({ data, columns }) {
           </select>
           Hiển thị {pageSize} / {rows.length} kết quả
         </div>
-        {/* <div className={cx('header__table--search')}>
+        <div className={cx('header__table--search')}>
           <GlobalFilter
             preGlobalFilteredRows={preGlobalFilteredRows}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />
-        </div> */}
+        </div>
       </div>
       <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
         <thead>
@@ -163,4 +164,4 @@ function TableWork({ data, columns }) {
   );
 }
 
-export default TableWork;
+export default DataTable;

@@ -48,9 +48,23 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
 
   const handleBuyTicket = (e) => {
     if (totalTicket && listUserInfo.startTime === startTime) {
-      byTicket(filmInfo.id, totalTicket, startTime, startDate, filmInfo.filmShowTime.roomShowTime.priceTicket);
+      byTicket(
+        filmInfo.id,
+        totalTicket,
+        startTime,
+        startDate,
+        filmInfo.filmShowTime.roomShowTime.priceTicket,
+        filmInfo.filmShowTime.roomShowTime.id,
+      );
     } else {
-      byTicket(filmInfo.id, ticket, startTime, startDate, filmInfo.filmShowTime.roomShowTime.priceTicket);
+      byTicket(
+        filmInfo.id,
+        ticket,
+        startTime,
+        startDate,
+        filmInfo.filmShowTime.roomShowTime.priceTicket,
+        filmInfo.filmShowTime.roomShowTime.id,
+      );
     }
     handelClickX();
     handelClickBack();

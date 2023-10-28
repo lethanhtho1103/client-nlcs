@@ -74,7 +74,7 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
-  async buyTicket(userId, filmId, ticket, startTime, startDate, priceTicket) {
+  async buyTicket(userId, filmId, ticket, startTime, startDate, priceTicket, roomId) {
     const res = await axios.post('/api/v1/film/register', {
       filmId,
       userId,
@@ -82,6 +82,7 @@ const filmService = {
       startTime,
       startDate,
       priceTicket,
+      roomId,
     });
     return res.data;
   },

@@ -95,8 +95,8 @@ function Calendar() {
     }
   };
 
-  const handleBuyTicket = async (filmId, ticket, startTime, startDate, priceTicket) => {
-    const res = await filmService.buyTicket(userId, filmId, ticket, startTime, startDate, priceTicket);
+  const handleBuyTicket = async (filmId, ticket, startTime, startDate, priceTicket, roomId) => {
+    const res = await filmService.buyTicket(userId, filmId, ticket, startTime, startDate, priceTicket, roomId);
     buyTicket(res);
     setTimeout(() => {
       setObToast({

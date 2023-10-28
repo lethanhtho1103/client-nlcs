@@ -12,7 +12,7 @@ import NavLeft from '~/components/NavLeft';
 import classNames from 'classnames/bind';
 import styles from './AdminFilmManager.module.scss';
 import ListUserByTicket from '~/components/ListUserByTicket';
-import TableListUser from '~/components/TableListUser';
+import TableListUser from '~/components/DataTable';
 import { UilCheck } from '@iconscout/react-unicons';
 import { UilTimes } from '@iconscout/react-unicons';
 import { UilAngleDoubleLeft } from '@iconscout/react-unicons';
@@ -49,12 +49,13 @@ function AdminFilmManager() {
   const [filmId, setFilmId] = useState('');
   const [startTime, setStartTime] = useState('');
   const [startDate, setStartDate] = useState('');
+  const [roomId, setRoomId] = useState('');
+  const [filmName, setFilmName] = useState('');
   const [totalTicket, setTotalTicket] = useState();
+  const [priceTicket, setPriceTicket] = useState();
 
   const [isShowTable, setIsShowTable] = useState(false);
   const [listUsers, setListUsers] = useState([]);
-
-  // const [currWorkId, setCurrWorkId] = useState('');
 
   const controlPage = useCallback(() => {
     if (!isLogined) {
@@ -72,11 +73,14 @@ function AdminFilmManager() {
     });
   };
 
-  const handleCLickDetail = (filmId, startTime, startDate, totalTicket) => {
+  const handleCLickDetail = (filmId, startTime, startDate, totalTicket, roomId, filmName, priceTicket) => {
     setFilmId(filmId);
     setStartTime(startTime);
     setStartDate(startDate);
     setTotalTicket(totalTicket);
+    setRoomId(roomId);
+    setFilmName(filmName);
+    setPriceTicket(priceTicket);
     setIsShowTable(true);
   };
 
@@ -124,6 +128,9 @@ function AdminFilmManager() {
                               listUser.startTime,
                               listUser.startDate,
                               listUser.totalTicket,
+                              listUser.roomId,
+                              listUser.film.name,
+                              listUser.priceTicket,
                             )
                           }
                         >
@@ -139,9 +146,12 @@ function AdminFilmManager() {
               <TableListUserDetail
                 row={listUsers}
                 filmId={filmId}
+                filmName={filmName}
                 startTime={startTime}
                 startDate={startDate}
                 totalTicket={totalTicket}
+                roomId={roomId}
+                priceTicket={priceTicket}
                 toggleShowTable={toggleShowTable}
               />
             )}
