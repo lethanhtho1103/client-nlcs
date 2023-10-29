@@ -7,11 +7,14 @@ import { UilEllipsisV } from '@iconscout/react-unicons';
 import { Link } from 'react-router-dom';
 import MenuMoreProfice from '../MenuMoreProfice';
 import ModalCreateFilm from '../ModalCreateFilm';
+import ModalCreateShowTime from '../ModalCreateShowTime';
 const cx = classNames.bind(styles);
 
-function NavLeft({ menu, handleUpPost, location = 'post' }) {
+function NavLeft({ menu, location = 'post' }) {
   const [isShowMenuMore, setIsShowMenuMore] = useState(false);
-  const [showCreateWork, setShowCreateWork] = useState(false);
+  const [showCreateFilm, setShowCreateFilm] = useState(false);
+  const [showCreateShowTime, setShowCreateShowTime] = useState(false);
+
   const [obToast, setObToast] = useState({
     isShow: false,
     header: '',
@@ -33,10 +36,10 @@ function NavLeft({ menu, handleUpPost, location = 'post' }) {
   }, []);
 
   const handleCLickMenu = (e, type) => {
-    if (type && type === 'up-post') {
-      handleUpPost();
+    if (type && type === 'create-show-time') {
+      setShowCreateShowTime(true);
     } else if (type && type === 'create-film') {
-      setShowCreateWork(true);
+      setShowCreateFilm(true);
     }
   };
 
@@ -50,8 +53,12 @@ function NavLeft({ menu, handleUpPost, location = 'post' }) {
     });
   };
 
-  const toggleShowCreateWorkModal = () => {
-    setShowCreateWork((show) => !show);
+  const toggleShowCreateFilmModal = () => {
+    setShowCreateFilm((show) => !show);
+  };
+
+  const toggleShowCreateShowTimeModal = () => {
+    setShowCreateShowTime((show) => !show);
   };
 
   useEffect(() => {
@@ -66,10 +73,10 @@ function NavLeft({ menu, handleUpPost, location = 'post' }) {
         handleClose={() => toggleShowToast({})}
         isShow={obToast.isShow}
       />
-      <ModalCreateFilm isShow={showCreateWork} handleClose={toggleShowCreateWorkModal} />
-
+      <ModalCreateFilm isShow={showCreateFilm} handleClose={toggleShowCreateFilmModal} />
+      <ModalCreateShowTime isShow={showCreateShowTime} handleClose={toggleShowCreateShowTimeModal} />
       <span className={cx('title-main')}>{menu.title}</span>
-      <ul className={cx('controler')}>
+      <ul className={cx('controller')}>
         {menu.desc.map((menu, id) => {
           const Icon = menu.icon;
           let Component;

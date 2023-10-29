@@ -12,6 +12,7 @@ import classNames from 'classnames/bind';
 import styles from './AdminFilmManager.module.scss';
 import ListUserByTicket from '~/components/ListUserByTicket';
 import TableListUserDetail from '~/components/TableListUserDetail';
+import { AdminShowTimeProvider } from '~/Context/AdminShowTimeContext';
 const cx = classNames.bind(styles);
 
 const menu = {
@@ -46,7 +47,6 @@ function AdminFilmManager() {
   const [filmName, setFilmName] = useState('');
   const [totalTicket, setTotalTicket] = useState();
   const [priceTicket, setPriceTicket] = useState();
-
   const [isShowTable, setIsShowTable] = useState(false);
   const [listUsers, setListUsers] = useState([]);
 
@@ -92,66 +92,68 @@ function AdminFilmManager() {
   }, [controlPage]);
 
   return (
-    <div className={cx('wrap')}>
-      <NavLeft menu={menu} location="work" />
-      <Container>
-        <Row>
-          <Col md={3}></Col>
-          <Col md={9} className={cx('wrap-req')}>
-            <div className={cx('menu-control')}>
-              <a href="/">Trang chủ</a>/<span> Danh sách đặt vé</span>
-            </div>
-            <h2 className={cx('title')}>Danh sách đặt vé của người dùng</h2>
-            {/* <ListUserByTicket showTimes={showTimes} /> */}
+    <AdminShowTimeProvider>
+      <div className={cx('wrap')}>
+        <NavLeft menu={menu} location="work" />
+        <Container>
+          <Row>
+            <Col md={3}></Col>
+            <Col md={9} className={cx('wrap-req')}>
+              <div className={cx('menu-control')}>
+                <a href="/">Trang chủ</a>/<span> Danh sách đặt vé</span>
+              </div>
+              <h2 className={cx('title')}>Danh sách đặt vé của người dùng</h2>
+              {/* <ListUserByTicket showTimes={showTimes} /> */}
 
-            <div className={cx('works')}>
-              {listUsers.length === 0 ? (
-                <h2 className={cx('no-req')}>Chưa có người dùng nào đặt vé!</h2>
-              ) : (
-                <>
-                  {listUsers.map((listUser) => {
-                    return (
-                      <div key={listUser.id} className={cx('wrap-work')}>
-                        <ListUserByTicket listUser={listUser} />
-                        <span
-                          className={cx('detail-work-req')}
-                          onClick={() =>
-                            handleCLickDetail(
-                              listUser.filmId,
-                              listUser.startTime,
-                              listUser.startDate,
-                              listUser.totalTicket,
-                              listUser.roomId,
-                              listUser.film.name,
-                              listUser.priceTicket,
-                            )
-                          }
-                        >
-                          Xem chi tiết
-                        </span>
-                      </div>
-                    );
-                  })}
-                </>
+              <div className={cx('works')}>
+                {listUsers.length === 0 ? (
+                  <h2 className={cx('no-req')}>Chưa có người dùng nào đặt vé!</h2>
+                ) : (
+                  <>
+                    {listUsers.map((listUser) => {
+                      return (
+                        <div key={listUser.id} className={cx('wrap-work')}>
+                          <ListUserByTicket listUser={listUser} />
+                          <span
+                            className={cx('detail-work-req')}
+                            onClick={() =>
+                              handleCLickDetail(
+                                listUser.filmId,
+                                listUser.startTime,
+                                listUser.startDate,
+                                listUser.totalTicket,
+                                listUser.roomId,
+                                listUser.film.name,
+                                listUser.priceTicket,
+                              )
+                            }
+                          >
+                            Xem chi tiết
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+              </div>
+              {isShowTable && (
+                <TableListUserDetail
+                  row={listUsers}
+                  filmId={filmId}
+                  filmName={filmName}
+                  startTime={startTime}
+                  startDate={startDate}
+                  totalTicket={totalTicket}
+                  roomId={roomId}
+                  priceTicket={priceTicket}
+                  toggleShowTable={toggleShowTable}
+                />
               )}
-            </div>
-            {isShowTable && (
-              <TableListUserDetail
-                row={listUsers}
-                filmId={filmId}
-                filmName={filmName}
-                startTime={startTime}
-                startDate={startDate}
-                totalTicket={totalTicket}
-                roomId={roomId}
-                priceTicket={priceTicket}
-                toggleShowTable={toggleShowTable}
-              />
-            )}
-          </Col>
-        </Row>
-      </Container>
-    </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    </AdminShowTimeProvider>
   );
 }
 

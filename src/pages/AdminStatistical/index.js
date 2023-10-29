@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { isLoginSelector } from '~/redux/selector';
 import classNames from 'classnames/bind';
 import styles from './AdminStatistical.module.scss';
+import { AdminShowTimeProvider } from '~/Context/AdminShowTimeContext';
 
 const cx = classNames.bind(styles);
 
@@ -43,14 +44,14 @@ function AdminStatistical() {
   }, [controlPage]);
 
   return (
-    <div className={cx('wrap')}>
-      <NavLeft menu={menu} location="map" />
-
-      <div className={cx('map')}>
-        <div className={cx('menu-control')}>
-          <a href="/">Trang chủ</a>/<span> Thống kê</span>
-        </div>
-        {/* <Tabs
+    <AdminShowTimeProvider>
+      <div className={cx('wrap')}>
+        <NavLeft menu={menu} location="map" />
+        <div className={cx('map')}>
+          <div className={cx('menu-control')}>
+            <a href="/">Trang chủ</a>/<span> Thống kê</span>
+          </div>
+          {/* <Tabs
           defaultActiveKey="student-par"
           id="work"
           className="mb-3"
@@ -76,8 +77,9 @@ function AdminStatistical() {
             <PostStatistical />
           </Tab>
         </Tabs> */}
+        </div>
       </div>
-    </div>
+    </AdminShowTimeProvider>
   );
 }
 
