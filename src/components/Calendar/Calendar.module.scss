@@ -221,6 +221,7 @@
                 color: rgb(2 132 199);
                 border: 1px solid rgb(56 189 248);
                 border-radius: 0.6rem;
+                margin-bottom: 8px;
                 cursor: pointer;
                 :first-child {
                   margin-right: 8px;
@@ -342,6 +343,11 @@
 
   .film-playing {
     // padding-left: 4rem;
+    max-height: 1260px;
+    overflow-y: auto;
+    scrollbar-gutter: both-edges;
+    scroll-behavior: smooth;
+
     h3 {
       font-size: 2rem;
       line-height: 2.8rem;

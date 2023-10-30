@@ -113,7 +113,8 @@ export const DetailProvider = ({ children }) => {
   };
 
   let countComment = 0;
-  countComment = filmComments.filter((userComment) => userComment.comment !== '').length;
+  countComment = filmComments.filter((userComment) => userComment.comment?.length > 0).length;
+  console.log(countComment);
   let arrRate = filmComments.filter((userComment) => userComment.rate > 0);
   let lengthArrRate = arrRate.length;
 

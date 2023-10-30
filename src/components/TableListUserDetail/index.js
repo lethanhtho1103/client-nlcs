@@ -26,7 +26,7 @@ function TableListUserDetail({
     { Header: 'Số vé', accessor: 'col4', filter: 'fuzzyText' },
     { Header: 'Combo bắp nước', accessor: 'col5', filter: 'fuzzyText' },
     { Header: 'Số lượng combo', accessor: 'col6', filter: 'fuzzyText' },
-    { Header: 'Thành tiền', accessor: 'col7', disableSortBy: true },
+    { Header: 'Thành tiền', accessor: 'col7', filter: 'fuzzyText' },
   ];
 
   function numberWithCommas(x) {
@@ -40,8 +40,8 @@ function TableListUserDetail({
         col2: row.userId,
         col3: row.userFilm.name,
         col4: row.ticket,
-        col5: row.cornWaterId,
-        col6: row.quantityCombo,
+        col5: row.cornWaterId || 'Không có',
+        col6: row.quantityCombo || '',
         col7: `${numberWithCommas(row.priceTicket * row.ticket)} VND`,
         // col6: moment(row.createdAt).format('LL'),
       };

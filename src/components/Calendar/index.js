@@ -15,6 +15,7 @@ import Loader from '../Loader';
 import ModalBuyTicket from '../ModalBuyTicket';
 import ModalComboCornWater from '../ModalComboCornWater';
 import { DetailContext } from '~/Context/DetailContext';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(style);
 
 function Calendar() {
@@ -28,7 +29,7 @@ function Calendar() {
 
   const [startTime, setStartTime] = useState('');
   const [startTimes, setStartTimes] = useState([]);
-  const [totalTicket, setTotalTicket] = useState([]);
+  const [totalTicket, setTotalTicket] = useState({});
 
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
@@ -56,6 +57,8 @@ function Calendar() {
       setIsLoader(true);
       const res = await filmService.getStartTimeFilm({ filmId, startDate });
       if (res.errCode === 0) setStartTimes(res.data);
+      setStartTime('');
+      setCurrTime(-1);
       setIsLoader(false);
     }, 500);
   };
@@ -77,26 +80,46 @@ function Calendar() {
     });
   };
 
-  const handleSelectTime = (startTime, index) => {
-    setStartTime(startTime);
-    handelTotalTicket(filmId, startTime);
-    setCurrTime(index);
+  const handelTotalTicket = async (filmId, startTime) => {
+    const res = await filmService.totalTicket(filmId, startTime, startDate);
+    setTotalTicket(res.data);
   };
 
-  const handelShowBuyComboCornWater = (remainingTicket) => {
+  const handleSelectTime = (startTime, index) => {
+    setStartTime(startTime);
+    setCurrTime(index);
+    handelTotalTicket(filmId, startTime);
+  };
+
+  const handelShowBuyComboCornWater = () => {
     if (!startTime) {
       alert('Vui lòng chọn khung giờ chiếu phim.');
       return;
     }
-    if (ticket > 0 && ticket <= remainingTicket) {
+    if (ticket > 0) {
       setIsShowModalComboCornWater(true);
     } else {
       alert('Số lượng vé không hợp lệ. Xin quý khách vui lòng đặt lại số vé!');
     }
   };
 
+  const handleStartDate = (startDate) => {
+    const year = startDate.slice(0, 4);
+    const month = startDate.slice(4, 8);
+    const day = startDate.slice(8, 10);
+    return day + month + year;
+  };
+
   const handleBuyTicket = async (filmId, ticket, startTime, startDate, priceTicket, roomId) => {
-    const res = await filmService.buyTicket(userId, filmId, ticket, startTime, startDate, priceTicket, roomId);
+    const res = await filmService.buyTicket(
+      userId,
+      filmId,
+      ticket,
+      startTime,
+      handleStartDate(startDate),
+      priceTicket,
+      roomId,
+    );
     buyTicket(res);
     setTimeout(() => {
       setObToast({
@@ -127,17 +150,10 @@ function Calendar() {
     }
   };
 
-  var remainingTicket;
-
-  const handelTotalTicket = async (filmId, startTime) => {
-    const res = await filmService.totalTicket(filmId, startTime);
-    setTotalTicket(res.data);
-  };
-
   useEffect(() => {
     handleGetStartTime();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startDate]);
+  }, [startDate, filmId]);
 
   return (
     <Row className={cx('contain')}>
@@ -219,6 +235,7 @@ function Calendar() {
                 {startTimes.length > 0 ? (
                   <div>
                     <h3>2D Phụ đề</h3>
+
                     {startTimes.map((startTimes, index) => {
                       return (
                         <Button
@@ -233,19 +250,11 @@ function Calendar() {
                         </Button>
                       );
                     })}
+
                     <div className={cx('book-ticket')}>
                       <div className={cx('quantity-remaining')}>
                         <div className={cx('quantity')}>
                           <div>Số lượng:&nbsp;</div>
-                          {/* <input
-                            value={ticket}
-                            onChange={(e) => setTicket(e.target.value)}
-                            type="number"
-                            min={1}
-                            max={10}
-                            name="quantity"
-                            className={cx('quantity-ticket')}
-                          /> */}
                           <div className={cx('quantity')}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -289,12 +298,7 @@ function Calendar() {
                         {startTime && (
                           <div className={cx('remaining')}>
                             <div>Số vé còn lại:</div>
-                            <b>
-                              {totalTicket.map((ticket) => {
-                                remainingTicket = filmInfo.filmShowTime.roomShowTime.maxUser - ticket.totalTicket;
-                                return remainingTicket;
-                              })}
-                            </b>
+                            <b>{filmInfo.filmShowTime.roomShowTime.maxUser - totalTicket.totalTicket}</b>
                           </div>
                         )}
                       </div>
@@ -304,10 +308,7 @@ function Calendar() {
                           <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)} VND</b>
                         </div>
                         <div>
-                          <Button
-                            className={cx('btn-book-ticket')}
-                            onClick={() => handelShowBuyComboCornWater(remainingTicket)}
-                          >
+                          <Button className={cx('btn-book-ticket')} onClick={() => handelShowBuyComboCornWater()}>
                             Đặt vé ngay
                           </Button>
                         </div>
@@ -339,9 +340,9 @@ function Calendar() {
             return (
               <div key={index} className={cx('film-item')}>
                 <div className={cx('image-film')}>
-                  <a href={`http://localhost:3000/details/${film.id}`}>
+                  <Link to={`http://localhost:3000/details/${film.id}`}>
                     <img alt={film.name} src={film.image} />
-                  </a>
+                  </Link>
                   <div className={cx('number')}>{index + 1}</div>
                 </div>
                 <div className={cx('detail-film')}>
@@ -354,9 +355,9 @@ function Calendar() {
                   >
                     {film.ageAllowed}+
                   </div>
-                  <a href={`/details/${film.id}`}>
+                  <Link to={`/details/${film.id}`}>
                     <div className={cx('name')}>{film.name}</div>
-                  </a>
+                  </Link>
                   <div className={cx('type')}>{film.type}</div>
                   <div className={cx('evaluate')}>
                     <span>

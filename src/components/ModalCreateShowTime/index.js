@@ -15,7 +15,7 @@ const cx = classNames.bind(style);
 
 function ModalCreateShowTime({ isShow, handleClose }) {
   const [name, setName] = useState('');
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState();
   const [startTime, setStartTime] = useState('');
   const [roomId, setRoomId] = useState('');
   const [priceTicket, setPriceTicket] = useState();
@@ -87,7 +87,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
   const handleCreateShowTime = async () => {
     const res = await adminService.createShowTime({
       filmId: name,
-      startDate,
+      startDate: startDate.slice(0, 10) + ' 00:00:00',
       startTime,
       roomId,
     });
