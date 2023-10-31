@@ -128,7 +128,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
                 <div>
                   <span>SỐ GHẾ</span>
                   <div>
-                    <b>{detailTicket.ticket}</b>
+                    <b>{detailTicket.seat}</b>
                   </div>
                 </div>
               </li>

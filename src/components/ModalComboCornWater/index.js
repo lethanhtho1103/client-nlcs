@@ -3,7 +3,7 @@ import style from './ModalComboCornWater.module.scss';
 import { Button } from 'react-bootstrap';
 import { useContext } from 'react';
 import { DetailContext } from '~/Context/DetailContext';
-
+import corn_water from '../../assets/images/corn_water.png';
 const cx = classNames.bind(style);
 
 function ModalComboCornWater({ toggleShow }) {
@@ -37,13 +37,6 @@ function ModalComboCornWater({ toggleShow }) {
     toggleShow();
   };
 
-  // const handleBuyComboCornWater = async () => {
-  //   const res = await filmService.buyComboCornWater(userId, filmId, cornWaterId, quantityCombo1);
-  //   if (res.errCode === 0) {
-  //     return;
-  //   }
-  // };
-
   return (
     <div className={cx('wrap')}>
       <div className={cx('combo')}>
@@ -65,10 +58,7 @@ function ModalComboCornWater({ toggleShow }) {
             return (
               <div key={combo.id} className={cx('combo-item')}>
                 <div className={cx('image')}>
-                  <img
-                    src="https://booking.bhdstar.vn/CDN/media/entity/get/ItemGraphic/662285?allowPlaceHolder=true"
-                    alt="Combo - bắp nước"
-                  />
+                  <img src={corn_water} alt="Combo - bắp nước" />
                 </div>
                 <ul>
                   <li className={cx('title')}>

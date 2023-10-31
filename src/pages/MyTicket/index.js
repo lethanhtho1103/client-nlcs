@@ -145,7 +145,7 @@ function MyTicket() {
                               <span>Phòng chiếu:</span> <div>0{ticket.film.filmShowTime[0].roomId}</div>
                             </div>
                             <div className={cx('date')}>
-                              <span>Số vé:</span> <div>{ticket.ticket}</div>
+                              <span>Số ghế:</span> <div>{ticket.seat}</div>
                             </div>
                           </div>
                         </div>

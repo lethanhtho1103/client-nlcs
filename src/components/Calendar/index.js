@@ -10,7 +10,7 @@ import style from './Calendar.module.scss';
 import { useContext, useEffect, useState } from 'react';
 import ToastMassage from '../ToastMassage';
 import Comment from '../Comment';
-import { filmService } from '~/services';
+import { adminService, filmService } from '~/services';
 import Loader from '../Loader';
 import ModalBuyTicket from '../ModalBuyTicket';
 import ModalComboCornWater from '../ModalComboCornWater';
@@ -24,13 +24,13 @@ function Calendar() {
 
   const [currDate, setCurrDate] = useState(0);
   const [currTime, setCurrTime] = useState(-1);
-  const [ticket, setTicket] = useState(0);
+  const [ticket, setTicket] = useState(1);
   const [startDate, setStartDate] = useState(filmTime.format('YYYY-MM-DD'));
 
   const [startTime, setStartTime] = useState('');
   const [startTimes, setStartTimes] = useState([]);
   const [totalTicket, setTotalTicket] = useState({});
-
+  const [showTime, setShowTime] = useState({});
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
 
@@ -56,10 +56,12 @@ function Calendar() {
     setTimeout(async () => {
       setIsLoader(true);
       const res = await filmService.getStartTimeFilm({ filmId, startDate });
-      if (res.errCode === 0) setStartTimes(res.data);
-      setStartTime('');
-      setCurrTime(-1);
-      setIsLoader(false);
+      if (res.errCode === 0) {
+        setStartTimes(res.data);
+        setStartTime('');
+        setCurrTime(-1);
+        setIsLoader(false);
+      }
     }, 500);
   };
 
@@ -85,9 +87,17 @@ function Calendar() {
     setTotalTicket(res.data);
   };
 
+  const handleGetOneShowTime = async (filmId, roomId, startDate, startTime) => {
+    const res = await adminService.getOneShowTime(filmId, roomId, startDate, startTime);
+    if (res.errCode === 0) {
+      setShowTime(res.data);
+    }
+  };
+
   const handleSelectTime = (startTime, index) => {
     setStartTime(startTime);
     setCurrTime(index);
+    handleGetOneShowTime(filmId, filmInfo?.filmShowTime.roomShowTime.id, startDate, startTime);
     handelTotalTicket(filmId, startTime);
   };
 
@@ -103,23 +113,15 @@ function Calendar() {
     }
   };
 
-  const handleStartDate = (startDate) => {
-    const year = startDate.slice(0, 4);
-    const month = startDate.slice(4, 8);
-    const day = startDate.slice(8, 10);
-    return day + month + year;
-  };
+  // const handleStartDate = (startDate) => {
+  //   const year = startDate.slice(0, 4);
+  //   const month = startDate.slice(4, 8);
+  //   const day = startDate.slice(8, 10);
+  //   return day + month + year;
+  // };
 
-  const handleBuyTicket = async (filmId, ticket, startTime, startDate, priceTicket, roomId) => {
-    const res = await filmService.buyTicket(
-      userId,
-      filmId,
-      ticket,
-      startTime,
-      handleStartDate(startDate),
-      priceTicket,
-      roomId,
-    );
+  const handleBuyTicket = async (filmId, ticket, seat, startTime, startDate, priceTicket, roomId) => {
+    const res = await filmService.buyTicket(userId, filmId, ticket, seat, startTime, startDate, priceTicket, roomId);
     buyTicket(res);
     setTimeout(() => {
       setObToast({
@@ -152,6 +154,7 @@ function Calendar() {
 
   useEffect(() => {
     handleGetStartTime();
+    // handleGetOneShowTime();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, filmId]);
 
@@ -163,6 +166,7 @@ function Calendar() {
         <ModalBuyTicket
           startTime={startTime}
           startDate={startDate}
+          showTime={showTime}
           ticket={ticket}
           handelClickBack={handelClickBack}
           byTicket={handleBuyTicket}

@@ -9,10 +9,11 @@ import ToastMassage from '../ToastMassage';
 // import vnpay from '../../assets/images/vnpay.png';
 import Paypal from '../PayPal';
 import { DetailContext } from '~/Context/DetailContext';
+import { filmService, adminService } from '~/services';
 
 const cx = classNames.bind(style);
 
-function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBack }) {
+function ModalBuyTicket({ byTicket, ticket, showTime, startTime, startDate, handelClickBack }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
 
@@ -24,10 +25,15 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
     comboCornWater,
     getQuantityCombo,
     listUserInfo,
+    userId,
     quantityCombo1,
     quantityCombo2,
     quantityCombo3,
     quantityCombo4,
+    cw01,
+    cw02,
+    cw03,
+    cw04,
   } = useContext(DetailContext);
 
   const handleMouseLeave = () => {
@@ -46,28 +52,62 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
 
   const totalTicket = parseInt(listUserInfo?.ticket) + parseInt(ticket);
 
+  const handleBuyComboCornWater = async () => {
+    if (quantityCombo1 > 0) {
+      await filmService.buyComboCornWater(userId, quantityCombo1, cw01);
+    }
+    if (quantityCombo2 > 0) {
+      await filmService.buyComboCornWater(userId, quantityCombo2, cw02);
+    }
+    if (quantityCombo3 > 0) {
+      await filmService.buyComboCornWater(userId, quantityCombo3, cw03);
+    }
+    if (quantityCombo4 > 0) {
+      await filmService.buyComboCornWater(userId, quantityCombo4, cw04);
+    }
+  };
+
+  const handleUpdateCurrUser = async (filmId, roomId, startDate, startTime, ticket) => {
+    await adminService.updateCurrUser(filmId, roomId, startDate, startTime, ticket);
+  };
+
   const handleBuyTicket = (e) => {
     if (totalTicket && listUserInfo.startTime === startTime) {
       byTicket(
         filmInfo.id,
         totalTicket,
+        handleQuantitySeat(),
         startTime,
         startDate,
         filmInfo.filmShowTime.roomShowTime.priceTicket,
         filmInfo.filmShowTime.roomShowTime.id,
       );
+      handleBuyComboCornWater();
     } else {
       byTicket(
         filmInfo.id,
         ticket,
+        handleQuantitySeat(),
         startTime,
         startDate,
         filmInfo.filmShowTime.roomShowTime.priceTicket,
         filmInfo.filmShowTime.roomShowTime.id,
       );
+      handleBuyComboCornWater();
     }
     handelClickX();
     handelClickBack();
+    if (showTime.currUser > 0) {
+      handleUpdateCurrUser(
+        filmInfo.id,
+        filmInfo.filmShowTime.roomShowTime.id,
+        startDate,
+        startTime,
+        showTime.currUser + ticket,
+      );
+    } else {
+      handleUpdateCurrUser(filmInfo.id, filmInfo.filmShowTime.roomShowTime.id, startDate, startTime, ticket);
+    }
   };
 
   const handleReceive = () => {
@@ -75,6 +115,15 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
     setTimeout(() => {
       setIsShowCopy(false);
     }, 2000);
+  };
+
+  const handleQuantitySeat = () => {
+    let seat = '';
+    for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
+      seat = seat + `${i}, `;
+    }
+    const index = seat.lastIndexOf(',');
+    return seat.slice(0, index);
   };
 
   return (
@@ -156,7 +205,7 @@ function ModalBuyTicket({ byTicket, ticket, startTime, startDate, handelClickBac
                 <div>
                   <span>SỐ GHẾ</span>
                   <div>
-                    <b>{ticket}</b>
+                    <b>{handleQuantitySeat()}</b>
                   </div>
                 </div>
               </li>

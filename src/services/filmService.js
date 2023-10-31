@@ -65,15 +65,25 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
-  async buyTicket(userId, filmId, ticket, startTime, startDate, priceTicket, roomId) {
+  async buyTicket(userId, filmId, ticket, seat, startTime, startDate, priceTicket, roomId) {
     const res = await axios.post('/api/v1/film/register', {
       filmId,
       userId,
       ticket,
+      seat,
       startTime,
       startDate,
       priceTicket,
       roomId,
+    });
+    return res.data;
+  },
+
+  async buyComboCornWater(userId, quantity, cornWaterId) {
+    const res = await axios.post('/api/v1/detail-combo/create', {
+      userId,
+      quantity,
+      cornWaterId,
     });
     return res.data;
   },
@@ -165,18 +175,18 @@ const filmService = {
     return res.data;
   },
 
-  async buyComboCornWater(userId, filmId, cornWaterId, quantityCombo) {
-    try {
-      const data = {
-        cornWaterId,
-        quantityCombo,
-      };
-      const res = await axios.patch(`/api/v1/film/buy-combo-corn-water?userId=${userId}&filmId=${filmId}`, data);
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
-  },
+  // async buyComboCornWater(userId, filmId, cornWaterId, quantityCombo) {
+  //   try {
+  //     const data = {
+  //       cornWaterId,
+  //       quantityCombo,
+  //     };
+  //     const res = await axios.patch(`/api/v1/film/buy-combo-corn-water?userId=${userId}&filmId=${filmId}`, data);
+  //     return res.data;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
 };
 
 export default filmService;

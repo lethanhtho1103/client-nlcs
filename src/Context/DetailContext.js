@@ -22,6 +22,10 @@ export const DetailProvider = ({ children }) => {
   const [quantityCombo2, setQuantityCombo2] = useState(0);
   const [quantityCombo3, setQuantityCombo3] = useState(0);
   const [quantityCombo4, setQuantityCombo4] = useState(0);
+  const [cw01, setCw01] = useState('');
+  const [cw02, setCw02] = useState('');
+  const [cw03, setCw03] = useState('');
+  const [cw04, setCw04] = useState('');
 
   const handleDecrease = (id) => {
     switch (id) {
@@ -31,6 +35,7 @@ export const DetailProvider = ({ children }) => {
         } else {
           setQuantityCombo1((pre) => pre - 1);
         }
+        setCw01('CW01');
         break;
       case 'CW02':
         if (quantityCombo2 === 0) {
@@ -38,6 +43,7 @@ export const DetailProvider = ({ children }) => {
         } else {
           setQuantityCombo2((pre) => pre - 1);
         }
+        setCw02('CW02');
         break;
       case 'CW03':
         if (quantityCombo3 === 0) {
@@ -45,6 +51,7 @@ export const DetailProvider = ({ children }) => {
         } else {
           setQuantityCombo3((pre) => pre - 1);
         }
+        setCw03('CW03');
         break;
       case 'CW04':
         if (quantityCombo4 === 0) {
@@ -52,6 +59,7 @@ export const DetailProvider = ({ children }) => {
         } else {
           setQuantityCombo4((pre) => pre - 1);
         }
+        setCw04('CW04');
         break;
       default:
         break;
@@ -66,6 +74,7 @@ export const DetailProvider = ({ children }) => {
         } else {
           setQuantityCombo1((pre) => pre + 1);
         }
+        setCw01('CW01');
         break;
       case 'CW02':
         if (quantityCombo2 >= 8) {
@@ -73,6 +82,7 @@ export const DetailProvider = ({ children }) => {
         } else {
           setQuantityCombo2((pre) => pre + 1);
         }
+        setCw02('CW02');
         break;
       case 'CW03':
         if (quantityCombo3 >= 8) {
@@ -80,6 +90,7 @@ export const DetailProvider = ({ children }) => {
         } else {
           setQuantityCombo3((pre) => pre + 1);
         }
+        setCw03('CW03');
         break;
       case 'CW04':
         if (quantityCombo4 >= 8) {
@@ -87,6 +98,7 @@ export const DetailProvider = ({ children }) => {
         } else {
           setQuantityCombo4((pre) => pre + 1);
         }
+        setCw04('CW04');
         break;
       default:
         break;
@@ -114,7 +126,7 @@ export const DetailProvider = ({ children }) => {
 
   let countComment = 0;
   countComment = filmComments.filter((userComment) => userComment.comment?.length > 0).length;
-  console.log(countComment);
+
   let arrRate = filmComments.filter((userComment) => userComment.rate > 0);
   let lengthArrRate = arrRate.length;
 
@@ -213,6 +225,10 @@ export const DetailProvider = ({ children }) => {
         filmsPlaying,
         comboCornWater,
         isShowModalBuyTicket,
+        cw01,
+        cw02,
+        cw03,
+        cw04,
         quantityCombo1,
         quantityCombo2,
         quantityCombo3,

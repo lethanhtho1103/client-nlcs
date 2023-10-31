@@ -49,8 +49,6 @@ function ListUserByTicket({ listUser }) {
     };
   }, []);
 
-  console.log();
-
   return (
     <div
       className={cx('wrap', {
