@@ -30,6 +30,7 @@ function Calendar() {
   const [startTime, setStartTime] = useState('');
   const [startTimes, setStartTimes] = useState([]);
   const [totalTicket, setTotalTicket] = useState({});
+  const [listUserInfo, setListUserInfo] = useState();
   const [showTime, setShowTime] = useState({});
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
@@ -94,10 +95,18 @@ function Calendar() {
     }
   };
 
+  const getOneListUser = async (startTime) => {
+    const res = await filmService.getOneListUser({ userId, filmId, startDate, startTime });
+    if (res.errCode === 0) {
+      setListUserInfo(res.data);
+    }
+  };
+
   const handleSelectTime = (startTime, index) => {
     setStartTime(startTime);
     setCurrTime(index);
     handleGetOneShowTime(filmId, filmInfo?.filmShowTime.roomShowTime.id, startDate, startTime);
+    getOneListUser(startTime);
     handelTotalTicket(filmId, startTime);
   };
 
@@ -130,6 +139,7 @@ function Calendar() {
         content: '',
       });
     }, 3500);
+    return res;
   };
 
   const handelClickBack = () => {
@@ -168,6 +178,7 @@ function Calendar() {
           startDate={startDate}
           showTime={showTime}
           ticket={ticket}
+          listUserInfo={listUserInfo}
           handelClickBack={handelClickBack}
           byTicket={handleBuyTicket}
         />

@@ -13,7 +13,7 @@ import { filmService, adminService } from '~/services';
 
 const cx = classNames.bind(style);
 
-function ModalBuyTicket({ byTicket, ticket, showTime, startTime, startDate, handelClickBack }) {
+function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, startDate, handelClickBack }) {
   const [isShowCopy, setIsShowCopy] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
 
@@ -24,8 +24,6 @@ function ModalBuyTicket({ byTicket, ticket, showTime, startTime, startDate, hand
     numberWithCommas,
     comboCornWater,
     getQuantityCombo,
-    listUserInfo,
-    userId,
     quantityCombo1,
     quantityCombo2,
     quantityCombo3,
@@ -52,18 +50,18 @@ function ModalBuyTicket({ byTicket, ticket, showTime, startTime, startDate, hand
 
   const totalTicket = parseInt(listUserInfo?.ticket) + parseInt(ticket);
 
-  const handleBuyComboCornWater = async () => {
+  const handleBuyComboCornWater = async (listUserId) => {
     if (quantityCombo1 > 0) {
-      await filmService.buyComboCornWater(userId, quantityCombo1, cw01);
+      await filmService.buyComboCornWater(listUserId, quantityCombo1, cw01);
     }
     if (quantityCombo2 > 0) {
-      await filmService.buyComboCornWater(userId, quantityCombo2, cw02);
+      await filmService.buyComboCornWater(listUserId, quantityCombo2, cw02);
     }
     if (quantityCombo3 > 0) {
-      await filmService.buyComboCornWater(userId, quantityCombo3, cw03);
+      await filmService.buyComboCornWater(listUserId, quantityCombo3, cw03);
     }
     if (quantityCombo4 > 0) {
-      await filmService.buyComboCornWater(userId, quantityCombo4, cw04);
+      await filmService.buyComboCornWater(listUserId, quantityCombo4, cw04);
     }
   };
 
@@ -71,9 +69,10 @@ function ModalBuyTicket({ byTicket, ticket, showTime, startTime, startDate, hand
     await adminService.updateCurrUser(filmId, roomId, startDate, startTime, ticket);
   };
 
-  const handleBuyTicket = (e) => {
+  const handleBuyTicket = async (e) => {
+    let res;
     if (totalTicket && listUserInfo.startTime === startTime) {
-      byTicket(
+      res = byTicket(
         filmInfo.id,
         totalTicket,
         handleQuantitySeat(),
@@ -82,9 +81,8 @@ function ModalBuyTicket({ byTicket, ticket, showTime, startTime, startDate, hand
         filmInfo.filmShowTime.roomShowTime.priceTicket,
         filmInfo.filmShowTime.roomShowTime.id,
       );
-      handleBuyComboCornWater();
     } else {
-      byTicket(
+      res = byTicket(
         filmInfo.id,
         ticket,
         handleQuantitySeat(),
@@ -93,8 +91,8 @@ function ModalBuyTicket({ byTicket, ticket, showTime, startTime, startDate, hand
         filmInfo.filmShowTime.roomShowTime.priceTicket,
         filmInfo.filmShowTime.roomShowTime.id,
       );
-      handleBuyComboCornWater();
     }
+
     handelClickX();
     handelClickBack();
     if (showTime.currUser > 0) {
@@ -108,6 +106,7 @@ function ModalBuyTicket({ byTicket, ticket, showTime, startTime, startDate, hand
     } else {
       handleUpdateCurrUser(filmInfo.id, filmInfo.filmShowTime.roomShowTime.id, startDate, startTime, ticket);
     }
+    return res;
   };
 
   const handleReceive = () => {
@@ -270,7 +269,7 @@ function ModalBuyTicket({ byTicket, ticket, showTime, startTime, startDate, hand
         <div className={cx('payment')}>
           <div className={cx('paypal')}>
             <h2>Thanh toán tiền bằng PayPal</h2>
-            <Paypal handleBuyTicket={handleBuyTicket} />
+            <Paypal handleBuyComboCornWater={handleBuyComboCornWater} handleBuyTicket={handleBuyTicket} />
           </div>
         </div>
       </div>

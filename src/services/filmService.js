@@ -51,12 +51,14 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
-  async getOneListUser({ filmId, userId }) {
+  async getOneListUser({ filmId, userId, startDate, startTime }) {
     if (filmId) {
       const res = await axios.get('/api/v1/listuser/get-one-film-user-reg', {
         params: {
           filmId: filmId,
           userId: userId,
+          startDate: startDate,
+          startTime: startTime,
         },
       });
       return res.data;
@@ -79,9 +81,9 @@ const filmService = {
     return res.data;
   },
 
-  async buyComboCornWater(userId, quantity, cornWaterId) {
+  async buyComboCornWater(listUserId, quantity, cornWaterId) {
     const res = await axios.post('/api/v1/detail-combo/create', {
-      userId,
+      listUserId,
       quantity,
       cornWaterId,
     });

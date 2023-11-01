@@ -203,7 +203,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
                 </div>
                 <div className={cx('qr-image')}>
                   <canvas height="268" width="268"></canvas>
-                  <img alt="" src="https://homepage.momocdn.net/pwa/images/logoMomox50.png" />
+                  {/* <img alt="" src="https://homepage.momocdn.net/pwa/images/logoMomox50.png" /> */}
                   <img className={cx('img1')} alt="" src="https://cdn.ttgtmedia.com/rms/misc/qr_code_barcode.jpg" />
                 </div>
               </div>
