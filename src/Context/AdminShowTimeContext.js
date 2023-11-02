@@ -1,9 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { adminService, filmService } from '~/services';
 import Moment from 'react-moment';
-import { Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { UilTimes } from '@iconscout/react-unicons';
-import { UilPen } from '@iconscout/react-unicons';
 
 export const AdminShowTimeContext = createContext();
 
@@ -11,16 +10,37 @@ export const AdminShowTimeProvider = ({ children }) => {
   const [filmInfo, setFilmInfo] = useState([]);
   const [listRoom, setListRoom] = useState([]);
   const [row, setRow] = useState([]);
+  const [show, setShow] = useState(false);
+  const [filmId, setFilmId] = useState('');
+  const [roomId, setRoomId] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [startTime, setStartTime] = useState('');
 
-  const [filmIdOld, setFilmId] = useState('');
-  const [nameOld, setName] = useState('');
-  const [startDateOld, setStartDate] = useState('');
-  const [startTimeOld, setStartTime] = useState('');
-  const [roomIdOld, setRoomId] = useState();
-  const [maxUsersOld, setMaxUsers] = useState();
-  const [priceTicketOld, setPriceTicket] = useState();
+  const handleClose = () => setShow(false);
+  const handleShow = (filmId, roomId, startDate, startTime) => {
+    setShow(true);
+    setFilmId(filmId);
+    setRoomId(roomId);
+    setStartDate(startDate);
+    setStartTime(startTime);
+  };
 
-  const [showUpdateShowTime, setShowUpdateShowTime] = useState(false);
+  const handleClickCancel = async (filmId, roomId, date, startTime) => {
+    const dateObject = new Date(date);
+    const startDate = formatDate(dateObject);
+    const res = await adminService.cancelOneShowTime(filmId, roomId, startDate, startTime);
+    if (res.errCode === 0) {
+      toggleShowToast({ header: 'Xong', content: 'Hủy lịch chiếu thành công!', isShow: true });
+      handleGetAllFilmShowTime();
+      setTimeout(() => {
+        toggleShowToast({});
+      }, 3000);
+    }
+  };
+  const handleDelete = () => {
+    handleClickCancel(filmId, roomId, startDate, startTime);
+    handleClose();
+  };
 
   const [obToast, setObToast] = useState({
     header: '',
@@ -56,27 +76,12 @@ export const AdminShowTimeProvider = ({ children }) => {
     });
   };
 
-  const handleClickDelete = async (filmId, roomId, startDate, startTime) => {
-    const res = await adminService.deleteOneShowTime({ filmId, roomId, startDate, startTime });
-    if (res.errCode === 0) {
-      toggleShowToast({ header: 'Xong', content: 'Xóa bản ghi thành công!', isShow: true });
-      handleGetAllFilmShowTime();
-      setTimeout(() => {
-        toggleShowToast({});
-      }, 3000);
-    }
-  };
-
-  const handleClickUpdate = (filmId, name, roomId, startDate, startTime, maxUser, priceTicket) => {
-    setFilmId(filmId);
-    setName(name);
-    setStartDate(startDate);
-    setStartTime(startTime);
-    setRoomId(roomId);
-    setMaxUsers(maxUser);
-    setPriceTicket(priceTicket);
-    setShowUpdateShowTime(true);
-  };
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   const convertToDataRow = (row) => {
     const dataRow = row.map((row, index) => {
@@ -92,27 +97,10 @@ export const AdminShowTimeProvider = ({ children }) => {
           <>
             <Button
               size="sm"
-              variant="outline-primary"
-              style={{ marginRight: '14px' }}
-              onClick={() =>
-                handleClickUpdate(
-                  row.filmId,
-                  row.filmShowTime.name,
-                  row.roomShowTime.id,
-                  row.startDate,
-                  row.startTime,
-                  row.roomShowTime.maxUser,
-                  row.roomShowTime.priceTicket,
-                )
-              }
-            >
-              <UilPen size={18} />
-            </Button>
-            <Button
-              size="sm"
               variant="outline-danger"
-              style={{ marginRight: '14px' }}
-              onClick={() => handleClickDelete(row.filmId, row.roomShowTime.id, row.startDate, row.startTime)}
+              style={{ marginRight: '16px' }}
+              // onClick={() => handleClickCancel(row.filmId, row.roomShowTime.id, row.startDate, row.startTime)}
+              onClick={() => handleShow(row.filmId, row.roomShowTime.id, row.startDate, row.startTime)}
             >
               <UilTimes size={18} />
             </Button>
@@ -131,8 +119,70 @@ export const AdminShowTimeProvider = ({ children }) => {
     }
   };
 
-  const toggleShowUpdateShowTimeModal = () => {
-    setShowUpdateShowTime((show) => !show);
+  const DeleteConfirmationDialog = () => {
+    return (
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header
+          closeButton
+          className="modal-header"
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: '5px',
+            padding: '20px 20px 10px',
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+          }}
+        >
+          <Modal.Title style={{ fontSize: '24px' }}>Xác nhận hủy lịch chiếu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body
+          className="modal-body"
+          style={{
+            padding: '20px 20px 20px',
+          }}
+        >
+          Bạn có chắc chắn muốn hủy?
+        </Modal.Body>
+        <Modal.Footer
+          className="modal-footer"
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '20px',
+          }}
+        >
+          <Button
+            variant="secondary"
+            onClick={handleClose}
+            style={{
+              backgroundColor: '#385678',
+              color: '#fff',
+              fontSize: '1.3rem',
+              fontWeight: '600',
+              borderRadius: '5px',
+              padding: '7.4px 16px',
+              marginRight: '8px',
+              border: 'none',
+            }}
+          >
+            Đóng
+          </Button>
+          <Button
+            variant="danger"
+            onClick={handleDelete}
+            style={{
+              backgroundColor: '#d9534f',
+              color: '#fff',
+              fontSize: '1.3rem',
+              fontWeight: '600',
+              borderRadius: '5px',
+              padding: '7px 16px',
+            }}
+          >
+            Xác nhận
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
   };
 
   useEffect(() => {
@@ -144,19 +194,11 @@ export const AdminShowTimeProvider = ({ children }) => {
   return (
     <AdminShowTimeContext.Provider
       value={{
-        filmIdOld,
-        nameOld,
-        startDateOld,
-        startTimeOld,
-        roomIdOld,
-        maxUsersOld,
-        priceTicketOld,
         filmInfo,
         listRoom,
         row,
         obToast,
-        showUpdateShowTime,
-        toggleShowUpdateShowTimeModal,
+        DeleteConfirmationDialog,
         handleGetAllFilmShowTime,
       }}
     >

@@ -47,7 +47,6 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
   const handleClickX = () => {
     handelClickX();
   };
-
   const totalTicket = parseInt(listUserInfo?.ticket) + parseInt(ticket);
 
   const handleBuyComboCornWater = async (listUserId) => {
@@ -78,8 +77,8 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
         handleQuantitySeat(),
         startTime,
         startDate,
-        filmInfo.filmShowTime.roomShowTime.priceTicket,
-        filmInfo.filmShowTime.roomShowTime.id,
+        showTime.roomShowTime.priceTicket,
+        showTime.roomId,
       );
     } else {
       res = byTicket(
@@ -88,22 +87,16 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
         handleQuantitySeat(),
         startTime,
         startDate,
-        filmInfo.filmShowTime.roomShowTime.priceTicket,
-        filmInfo.filmShowTime.roomShowTime.id,
+        showTime.roomShowTime.priceTicket,
+        showTime.roomId,
       );
     }
     handelClickX();
     handelClickBack();
     if (showTime.currUser > 0) {
-      handleUpdateCurrUser(
-        filmInfo.id,
-        filmInfo.filmShowTime.roomShowTime.id,
-        startDate,
-        startTime,
-        showTime.currUser + ticket,
-      );
+      handleUpdateCurrUser(filmInfo.id, showTime.roomId, startDate, startTime, showTime.currUser + ticket);
     } else {
-      handleUpdateCurrUser(filmInfo.id, filmInfo.filmShowTime.roomShowTime.id, startDate, startTime, ticket);
+      handleUpdateCurrUser(filmInfo.id, showTime.roomId, startDate, startTime, ticket);
       console.log(ticket);
     }
     return res;

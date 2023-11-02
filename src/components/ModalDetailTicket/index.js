@@ -130,7 +130,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
                 <div>
                   <span>PHÒNG CHIẾU</span>
                   <div>
-                    <b>0{detailTicket.film.filmShowTime[0].roomId}</b>
+                    <b>0{detailTicket.roomId}</b>
                   </div>
                 </div>
               </li>
@@ -156,7 +156,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
                 <div></div>
                 <div className={cx('price')}>
                   <b>
-                    {numberWithCommas(detailTicket.film.filmShowTime[0].roomShowTime.priceTicket * detailTicket.ticket)}
+                    {numberWithCommas(detailTicket.priceTicket * detailTicket.ticket)}
                     &nbsp;VND
                   </b>
                 </div>
@@ -188,9 +188,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
               </div>
               <div>
                 <b className={cx('color-red')}>
-                  {numberWithCommas(
-                    sumWithInitial + detailTicket.film.filmShowTime[0].roomShowTime.priceTicket * detailTicket.ticket,
-                  )}
+                  {numberWithCommas(sumWithInitial + detailTicket.priceTicket * detailTicket.ticket)}
                   &nbsp;VND
                 </b>
               </div>

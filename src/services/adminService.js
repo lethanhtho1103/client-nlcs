@@ -30,20 +30,17 @@ const adminService = {
     }
   },
 
-  async deleteOneShowTime({ filmId, roomId, startDate, startTime }) {
-    if ((filmId, roomId, startTime, startDate)) {
-      const res = await axios.delete('/api/v1/show-times/delete-one', {
-        params: {
-          filmId: filmId,
-          roomId: roomId,
-          startDate: startDate,
-          startTime: startTime,
-        },
-      });
-      return res.data;
+  async cancelOneShowTime(filmId, roomId, startDate, startTime) {
+    if (filmId && roomId && startDate && startTime) {
+      try {
+        const res = await axios.patch(
+          `/api/v1/list-user/status?filmId=${filmId}&roomId=${roomId}&startDate=${startDate}&startTime=${startTime}`,
+        );
+        return res.data;
+      } catch (error) {
+        console.log(error);
+      }
     }
-
-    return 'Thiếu tham số truyền vào';
   },
 
   async getAllRoom() {

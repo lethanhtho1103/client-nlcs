@@ -102,6 +102,15 @@ function MyTicket() {
             ) : (
               <>
                 {allTickets.map((ticket) => {
+                  const handelTotalPrice = () => {
+                    const initialValue = 0;
+                    const sumWithInitial = ticket.detailListUser.reduce(
+                      (accumulator, currentValue) =>
+                        accumulator + currentValue.quantity * currentValue.detailCornWater.price,
+                      initialValue,
+                    );
+                    return sumWithInitial;
+                  };
                   return (
                     <div key={ticket.id} className={cx('list-ticket')}>
                       <div className={cx('ticket-item')}>
@@ -125,9 +134,17 @@ function MyTicket() {
                               <FontAwesomeIcon icon={faLocationDot} />
                               <span>Cần Thơ</span>
                             </a>
-                            <div>Hoàn thành</div>
+                            <div>
+                              {ticket.status === 1 ? 'Hoàn Thành' : <span style={{ color: '#26aa99' }}>Đã bị hủy</span>}
+                            </div>
                           </div>
                         </div>
+                        {ticket.status === 0 && (
+                          <div className={cx('cancel-ticket')}>
+                            Vì một số lý do kỹ thuật, lịch chiếu phim đã bị hủy. Xin quý khách vui lòng đến trực tiếp
+                            quầy vé để hoàn tiền. Xin chân thành xin lỗi!
+                          </div>
+                        )}
                         <div className={cx('info-ticket')}>
                           <a href={`details/${ticket.filmId}`}>
                             <img src={ticket.film.image} alt={ticket.film.name} />
@@ -142,7 +159,7 @@ function MyTicket() {
                             </div>
 
                             <div className={cx('date')}>
-                              <span>Phòng chiếu:</span> <div>0{ticket.film.filmShowTime[0].roomId}</div>
+                              <span>Phòng chiếu:</span> <div>0{ticket.roomId}</div>
                             </div>
                             <div className={cx('date')}>
                               <span>Số ghế:</span> <div>{ticket.seat}</div>
@@ -172,7 +189,8 @@ function MyTicket() {
                                 fill="#fff"
                               ></path>
                             </svg>
-                            Thành tiền: <span>{numberWithCommas(ticket.ticket * ticket.priceTicket)} VND</span>
+                            Thành tiền:{' '}
+                            <span>{numberWithCommas(handelTotalPrice() + ticket.ticket * ticket.priceTicket)} VND</span>
                           </div>
                           <Button className={cx('btn')} onClick={() => handleShowModalTicket(ticket)}>
                             Xem chi tiết

@@ -5,16 +5,14 @@ import { useContext } from 'react';
 
 import { Button } from 'react-bootstrap';
 import { UilTimes } from '@iconscout/react-unicons';
-import { UilPen } from '@iconscout/react-unicons';
 import { UilLabelAlt } from '@iconscout/react-unicons';
 import ToastMassage from '../ToastMassage';
-import ModalUpdateShowTime from '../ModalUpdateShowTime';
 import { AdminShowTimeContext } from '~/Context/AdminShowTimeContext';
 
 const cx = classNames.bind(style);
 
 function TableShowTime() {
-  const { obToast, row, toggleShowUpdateShowTimeModal, showUpdateShowTime } = useContext(AdminShowTimeContext);
+  const { obToast, row, DeleteConfirmationDialog } = useContext(AdminShowTimeContext);
 
   const columns = [
     { Header: 'STT', accessor: 'col1', filter: 'fuzzyText' },
@@ -39,28 +37,28 @@ function TableShowTime() {
           <div className={cx('note')}>
             Ghi chú:
             <ul className={cx('note-list')}>
-              <li className={cx('note-item')}>
+              {/* <li className={cx('note-item')}>
                 <UilLabelAlt size={12} className={cx('list-tyle')} />
                 Nhấn vào
                 <Button size="sm" className={cx('btn')} variant="outline-primary">
                   <UilPen size={18} />
                 </Button>
                 để chỉnh sửa lịch chiếu.
-              </li>
+              </li> */}
               <li className={cx('note-item')}>
                 <UilLabelAlt size={12} className={cx('list-tyle')} />
                 Nhấn vào
                 <Button size="sm" className={cx('btn')} variant="outline-danger">
                   <UilTimes size={18} />
                 </Button>
-                để xóa lịch chiếu.
+                để hủy lịch chiếu.
               </li>
             </ul>
           </div>
           <div className={cx('table')}>
             <DataTable columns={columns} data={row} />
           </div>
-          <ModalUpdateShowTime isShow={showUpdateShowTime} handleClose={toggleShowUpdateShowTimeModal} />
+          {DeleteConfirmationDialog()}
           {obToast.content.length > 0 && (
             <ToastMassage dur={3000} isShow={obToast.show} header={obToast.header} content={obToast.content} />
           )}

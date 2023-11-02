@@ -329,7 +329,12 @@ function Calendar() {
                       <div className={cx('payment')}>
                         <div className={cx('temporary')}>
                           <div>Tạm tính</div>
-                          <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)} VND</b>
+                          <b>
+                            {showTime.roomShowTime?.priceTicket > 0
+                              ? numberWithCommas(showTime.roomShowTime?.priceTicket * ticket)
+                              : 0}{' '}
+                            VND
+                          </b>
                         </div>
                         <div>
                           <Button className={cx('btn-book-ticket')} onClick={() => handelShowBuyComboCornWater()}>
