@@ -1,13 +1,14 @@
 import classNames from 'classnames/bind';
 import style from './ModalDetailTicket.module.scss';
 import { Button } from 'react-bootstrap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { userService } from '~/services';
 
 const cx = classNames.bind(style);
 
 function ModalDetailTicket({ toggleX, detailTicket }) {
   const [isHidden, setIsHidden] = useState(false);
-
+  const [detailCombos, setDetailCombos] = useState([]);
   const handleMouseLeave = () => {
     setIsHidden(true);
   };
@@ -44,6 +45,25 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
+
+  const handleGetDetailCombos = async () => {
+    const listUserId = detailTicket.id;
+    const res = await userService.getDetailCombos({ listUserId });
+    if (res.errCode === 0) {
+      setDetailCombos(res.data);
+    }
+  };
+
+  const initialValue = 0;
+  const sumWithInitial = detailCombos.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.quantity * currentValue.detailCornWater.price,
+    initialValue,
+  );
+
+  useEffect(() => {
+    handleGetDetailCombos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div onClick={handelClickHidden} className={cx('wrap')}>
@@ -144,18 +164,19 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
             </ul>
             <div className={cx('corn-water')}>
               <h3>BẮP - NƯỚC</h3>
-              {/* {comboCornWater.map((combo) => {
-                if (getQuantityCombo(combo.id) > 0) {
-                  return (
-                    <div key={combo.id} className={cx('quantity-combo')}>
-                      <b className={cx('name-combo')}>{`${getQuantityCombo(combo.id)} x ${combo.name}`} </b>
-                      <b className={cx('price')}>{numberWithCommas(getQuantityCombo(combo.id) * combo.price)} VND</b>
-                    </div>
-                  );
-                } else {
-                  return <Fragment key={combo.id}></Fragment>;
-                }
-              })} */}
+              {detailCombos.map((combo) => {
+                return (
+                  <div key={combo.id} className={cx('quantity-combo')}>
+                    <b className={cx('name-combo')}>{`${combo.quantity} x ${combo.detailCornWater.name}`} </b>
+                    <b className={cx('price')}>{numberWithCommas(combo.quantity * combo.detailCornWater.price)} VND</b>
+                  </div>
+                );
+              })}
+              {detailCombos.length === 0 && (
+                <div className={cx('quantity-combo')}>
+                  <b className={cx('no-combo')}> Bạn chưa đặt bắp nước.</b>
+                </div>
+              )}
             </div>
           </div>
           <ul>
@@ -167,14 +188,9 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
               </div>
               <div>
                 <b className={cx('color-red')}>
-                  {/* {numberWithCommas(
-                    filmInfo.filmShowTime.roomShowTime.priceTicket * ticket +
-                      (quantityCombo1 * comboCornWater[0].price +
-                        quantityCombo2 * comboCornWater[1].price +
-                        quantityCombo3 * comboCornWater[2].price +
-                        quantityCombo4 * comboCornWater[3].price),
-                  )} */}
-                  {numberWithCommas(detailTicket.film.filmShowTime[0].roomShowTime.priceTicket * detailTicket.ticket)}
+                  {numberWithCommas(
+                    sumWithInitial + detailTicket.film.filmShowTime[0].roomShowTime.priceTicket * detailTicket.ticket,
+                  )}
                   &nbsp;VND
                 </b>
               </div>

@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import Moment from 'react-moment';
-import { Fragment, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import ToastMassage from '../ToastMassage';
 // import vnpay from '../../assets/images/vnpay.png';
 import Paypal from '../PayPal';
@@ -92,7 +92,6 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
         filmInfo.filmShowTime.roomShowTime.id,
       );
     }
-
     handelClickX();
     handelClickBack();
     if (showTime.currUser > 0) {
@@ -105,6 +104,7 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
       );
     } else {
       handleUpdateCurrUser(filmInfo.id, filmInfo.filmShowTime.roomShowTime.id, startDate, startTime, ticket);
+      console.log(ticket);
     }
     return res;
   };
@@ -118,6 +118,8 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
 
   const handleQuantitySeat = () => {
     let seat = '';
+    // const init = showTime.currUser || 0;
+    // const maxUser = showTime.currUser ? showTime.currUser + ticket : ticket;
     for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
       seat = seat + `${i}, `;
     }
@@ -204,7 +206,7 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
                 <div>
                   <span>SỐ GHẾ</span>
                   <div>
-                    <b>{handleQuantitySeat()}</b>
+                    <b>{handleQuantitySeat() || ticket}</b>
                   </div>
                 </div>
               </li>
@@ -217,18 +219,19 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
             </ul>
             <div className={cx('corn-water')}>
               <h3>BẮP - NƯỚC</h3>
-              {comboCornWater.map((combo) => {
-                if (getQuantityCombo(combo.id) > 0) {
-                  return (
-                    <div key={combo.id} className={cx('quantity-combo')}>
-                      <b className={cx('name-combo')}>{`${getQuantityCombo(combo.id)} x ${combo.name}`} </b>
-                      <b className={cx('price')}>{numberWithCommas(getQuantityCombo(combo.id) * combo.price)} VND</b>
-                    </div>
-                  );
-                } else {
-                  return <Fragment key={combo.id}></Fragment>;
-                }
-              })}
+              {comboCornWater
+                .filter((combo) => getQuantityCombo(combo.id) > 0)
+                .map((combo) => (
+                  <div key={combo.id} className={cx('quantity-combo')}>
+                    <b className={cx('name-combo')}>{`${getQuantityCombo(combo.id)} x ${combo.name}`} </b>
+                    <b className={cx('price')}>{numberWithCommas(getQuantityCombo(combo.id) * combo.price)} VND</b>
+                  </div>
+                ))}
+              {quantityCombo1 <= 0 && quantityCombo2 <= 0 && quantityCombo3 <= 0 && quantityCombo4 <= 0 && (
+                <div className={cx('quantity-combo')}>
+                  <b className={cx('name-combo')}>Bạn chưa đặt bắp nước.</b>
+                </div>
+              )}
             </div>
           </div>
           <ul>

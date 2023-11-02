@@ -26,7 +26,6 @@ function Calendar() {
   const [currTime, setCurrTime] = useState(-1);
   const [ticket, setTicket] = useState(1);
   const [startDate, setStartDate] = useState(filmTime.format('YYYY-MM-DD'));
-
   const [startTime, setStartTime] = useState('');
   const [startTimes, setStartTimes] = useState([]);
   const [totalTicket, setTotalTicket] = useState({});
@@ -59,11 +58,11 @@ function Calendar() {
       const res = await filmService.getStartTimeFilm({ filmId, startDate });
       if (res.errCode === 0) {
         setStartTimes(res.data);
-        setStartTime('');
-        setCurrTime(-1);
         setIsLoader(false);
+        setCurrTime(-1);
+        setStartTime('');
       }
-    }, 500);
+    }, 700);
   };
 
   const handleReceive = () => {
@@ -88,13 +87,6 @@ function Calendar() {
     setTotalTicket(res.data);
   };
 
-  const handleGetOneShowTime = async (filmId, roomId, startDate, startTime) => {
-    const res = await adminService.getOneShowTime(filmId, roomId, startDate, startTime);
-    if (res.errCode === 0) {
-      setShowTime(res.data);
-    }
-  };
-
   const getOneListUser = async (startTime) => {
     const res = await filmService.getOneListUser({ userId, filmId, startDate, startTime });
     if (res.errCode === 0) {
@@ -102,12 +94,26 @@ function Calendar() {
     }
   };
 
-  const handleSelectTime = (startTime, index) => {
+  const handleGetOneShowTime = async (filmId, roomId, startDate, startTime) => {
+    const res = await adminService.getOneShowTime(filmId, roomId, startDate, startTime);
+    if (res.errCode === 0) {
+      setShowTime(res.data);
+    }
+  };
+
+  const handleGetRoomId = async (filmId, startDate, startTime) => {
+    const res = await adminService.getRoomId(filmId, startDate, startTime);
+    if (res.errCode === 0) {
+      handleGetOneShowTime(filmId, res.data.roomId, startDate, startTime);
+    }
+  };
+
+  const handleSelectTime = async (startTime, index) => {
     setStartTime(startTime);
     setCurrTime(index);
-    handleGetOneShowTime(filmId, filmInfo?.filmShowTime.roomShowTime.id, startDate, startTime);
     getOneListUser(startTime);
     handelTotalTicket(filmId, startTime);
+    handleGetRoomId(filmId, startDate, startTime);
   };
 
   const handelShowBuyComboCornWater = () => {
@@ -162,9 +168,12 @@ function Calendar() {
     }
   };
 
+  // console.log(showTime);
+
   useEffect(() => {
     handleGetStartTime();
-    // handleGetOneShowTime();
+    handleGetOneShowTime();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, filmId]);
 

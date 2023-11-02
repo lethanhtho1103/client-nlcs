@@ -89,6 +89,17 @@ const adminService = {
     return 'Thiếu tham số truyền vào';
   },
 
+  async getRoomId(filmId, startDate, startTime) {
+    if ((filmId, startTime, startDate)) {
+      const res = await axios.get(
+        `/api/v1/show-time/get-roomId?filmId=${filmId}&startDate=${startDate}&startTime=${startTime}`,
+      );
+      return res.data;
+    }
+
+    return 'Thiếu tham số truyền vào';
+  },
+
   async updateCurrUser(filmId, roomId, startDate, startTime, currUser) {
     try {
       const data = {
