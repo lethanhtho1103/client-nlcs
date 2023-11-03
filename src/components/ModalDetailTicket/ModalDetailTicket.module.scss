@@ -368,8 +368,11 @@
                 z-index: 3;
               }
               .img1 {
-                margin-top: -3px;
-                width: 90%;
+                position: absolute;
+                display: block;
+                top: 25%;
+                left: 22.5%;
+                width: 100%;
                 z-index: 2;
               }
             }

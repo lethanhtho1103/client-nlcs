@@ -3,6 +3,7 @@ import style from './ModalDetailTicket.module.scss';
 import { Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { userService } from '~/services';
+import QRCodeGenerator from '../QRCodeGenerator';
 
 const cx = classNames.bind(style);
 
@@ -60,8 +61,40 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
     initialValue,
   );
 
+  const handelGetStatus = () => {
+    if (detailTicket.status === 0) {
+      return 'Đã bị hủy';
+    }
+    return 'Hoàn thành';
+  };
+
+  const handelGetCornWater = () => {
+    let comboString = '';
+    detailCombos.forEach((combo) => {
+      comboString = comboString + `${combo.quantity} x ${combo.detailCornWater.name}, `;
+    });
+    return comboString.slice(0, comboString.lastIndexOf(','));
+  };
+
+  const handelTotalPrice = () => {
+    return `${numberWithCommas(sumWithInitial + detailTicket.priceTicket * detailTicket.ticket)} VND`;
+  };
+
+  const myTicket = `    Mã vé: ${detailTicket.id}
+    Mã người dùng: ${detailTicket.userId}
+    Tên phim: ${detailTicket.film.name}
+    Ngày chiếu: ${detailTicket.startDate}
+    Giờ chiếu: ${detailTicket.startTime}
+    Phòng chiếu: ${detailTicket.roomId}
+    Số ghế: ${detailTicket.seat}
+    Trạng thái: ${handelGetStatus()}
+    Bắp-nước: ${handelGetCornWater()}
+    Thành tiền: ${handelTotalPrice()}`;
+
   useEffect(() => {
     handleGetDetailCombos();
+    handelGetCornWater();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -216,9 +249,10 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
                   />
                 </div>
                 <div className={cx('qr-image')}>
-                  <canvas height="268" width="268"></canvas>
-                  {/* <img alt="" src="https://homepage.momocdn.net/pwa/images/logoMomox50.png" /> */}
-                  <img className={cx('img1')} alt="" src="https://cdn.ttgtmedia.com/rms/misc/qr_code_barcode.jpg" />
+                  {/* <img className={cx('img1')} alt="" src="https://cdn.ttgtmedia.com/rms/misc/qr_code_barcode.jpg" /> */}
+                  <div className={cx('img1')}>
+                    <QRCodeGenerator value={myTicket} />
+                  </div>
                 </div>
               </div>
             </div>

@@ -47,13 +47,11 @@ function DataTable({ data, columns }) {
 
   const {
     getTableProps,
-    getTableBodyProps,
     headerGroups,
     rows,
     pageOptions,
     page,
     state: { pageIndex, pageSize, globalFilter },
-    gotoPage,
     previousPage,
     nextPage,
     setPageSize,
