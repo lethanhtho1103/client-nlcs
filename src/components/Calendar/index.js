@@ -320,9 +320,15 @@ function Calendar() {
                           </div>
                         </div>
                         {startTime && (
-                          <div className={cx('remaining')}>
-                            <div>Số vé còn lại:</div>
-                            <b>{filmInfo.filmShowTime.roomShowTime.maxUser - totalTicket.totalTicket}</b>
+                          <div className={cx('room-remaining')}>
+                            <div className={cx('room')}>
+                              <div>Phòng chiếu:</div>
+                              <b>{showTime.roomId}</b>
+                            </div>
+                            <div className={cx('remaining')}>
+                              <div>Số vé còn lại:</div>
+                              <b>{filmInfo.filmShowTime.roomShowTime.maxUser - totalTicket.totalTicket}</b>
+                            </div>
                           </div>
                         )}
                       </div>

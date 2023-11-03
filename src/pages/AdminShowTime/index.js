@@ -1,14 +1,11 @@
-import { Col, Row } from 'react-bootstrap';
 import { UilPostcard } from '@iconscout/react-unicons';
 import { UilFileUpload } from '@iconscout/react-unicons';
 import { UilEstate } from '@iconscout/react-unicons';
-import Moment from 'react-moment';
 import NavLeft from '~/components/NavLeft';
 import { useSelector } from 'react-redux';
-import { isLoginSelector, userSelector } from '~/redux/selector';
+import { isLoginSelector } from '~/redux/selector';
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import user from '../../assets/images/avatar.png';
 import classNames from 'classnames/bind';
 import styles from './AdminShowTime.module.scss';
 import TableShowTime from '~/components/TableShowTime';
@@ -38,7 +35,7 @@ const menu = {
 
 function AdminShowTime() {
   const isLogined = useSelector(isLoginSelector);
-  const curUser = useSelector(userSelector);
+
   const navigate = useNavigate();
 
   const controlPage = useCallback(() => {
@@ -65,8 +62,7 @@ function AdminShowTime() {
             </div>
           </div>
         </div>
-        <TableShowTime />
-        <div className={cx('profice')}>
+        {/* <div className={cx('profice')}>
           <div className={cx('info')}>
             <Row>
               <Col className={cx('col-wrap')} md={12}>
@@ -83,25 +79,26 @@ function AdminShowTime() {
                 </span>
               </Col>
 
-              {/* <Col className={cx('col-wrap')} md={12}>
-              <span className={cx('title')}>Email: </span>
-              <span className={cx('content')}>{curUser.email}</span>
-            </Col>
-            <Col className={cx('col-wrap')} md={12}>
-              <span className={cx('title')}>Mã lớp:</span>
-              <span className={cx('content')}>{curUser.className}</span>
-            </Col>
-            <Col className={cx('col-wrap')} md={12}>
-              <span className={cx('title')}>Trực thuộc khoa:</span>
-              <span className={cx('content')}>{curUser.faculty}</span>
-            </Col> */}
+              <Col className={cx('col-wrap')} md={12}>
+                <span className={cx('title')}>Email: </span>
+                <span className={cx('content')}>{curUser.email}</span>
+              </Col>
+              <Col className={cx('col-wrap')} md={12}>
+                <span className={cx('title')}>Mã lớp:</span>
+                <span className={cx('content')}>{curUser.className}</span>
+              </Col>
+              <Col className={cx('col-wrap')} md={12}>
+                <span className={cx('title')}>Trực thuộc khoa:</span>
+                <span className={cx('content')}>{curUser.faculty}</span>
+              </Col>
             </Row>
             <div className={cx('border')}></div>
             <div className={cx('note')}>
               <span>Ghi chú: Bạn đang đăng nhập với tư cách là Admin!</span>
             </div>
           </div>
-        </div>
+        </div> */}
+        <TableShowTime />
       </div>
     </AdminShowTimeProvider>
   );

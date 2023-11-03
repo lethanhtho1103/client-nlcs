@@ -30,11 +30,32 @@ const adminService = {
     }
   },
 
+  async getAllFilmShowTimeCancel() {
+    try {
+      const res = await axios.get('/api/v1/film/get-all-showtime-cancel');
+      return res.data;
+    } catch (error) {
+      console.log('Lỗi');
+    }
+  },
+
   async cancelOneShowTime(filmId, roomId, startDate, startTime) {
     if (filmId && roomId && startDate && startTime) {
       try {
         const res = await axios.patch(
           `/api/v1/list-user/status?filmId=${filmId}&roomId=${roomId}&startDate=${startDate}&startTime=${startTime}`,
+        );
+        return res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  },
+  async deleteOneShowTime(filmId, roomId, startDate, startTime) {
+    if (filmId && roomId && startDate && startTime) {
+      try {
+        const res = await axios.patch(
+          `/api/v1/show-time/cancel-one?filmId=${filmId}&roomId=${roomId}&startDate=${startDate}&startTime=${startTime}`,
         );
         return res.data;
       } catch (error) {

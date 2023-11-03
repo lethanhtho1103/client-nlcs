@@ -275,16 +275,33 @@
                     border-radius: 4px;
                   }
                 }
-                .remaining {
+                .room-remaining {
                   display: flex;
                   align-items: center;
-                  div {
-                    font-size: 1.4rem;
+                  .remaining {
+                    display: flex;
+                    align-items: center;
+                    div {
+                      font-size: 1.4rem;
 
-                    color: rgb(115, 115, 115);
+                      color: rgb(115, 115, 115);
+                    }
+                    b {
+                      margin-left: 4px;
+                    }
                   }
-                  b {
-                    margin-left: 4px;
+                  .room {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 8px;
+                    div {
+                      font-size: 1.4rem;
+
+                      color: rgb(115, 115, 115);
+                    }
+                    b {
+                      margin-left: 4px;
+                    }
                   }
                 }
               }

@@ -38,6 +38,15 @@ const filmService = {
     }
   },
 
+  async getAllFilms() {
+    try {
+      const res = await axios.get('/api/v1/film/get-all');
+      return res.data;
+    } catch (error) {
+      console.log('Lỗi');
+    }
+  },
+
   async getOneFilm({ filmId }) {
     if (filmId) {
       const res = await axios.get('/api/v1/film/get-one', {

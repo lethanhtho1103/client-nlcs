@@ -57,7 +57,25 @@
 
   .title {
     text-align: center;
-    margin: 48px 0;
+    // margin: 48px 0;
+    margin-bottom: 48px;
+  }
+
+  .view-showtime {
+    // position: relative;
+    // top: 30px;
+    // left: 60px;
+    margin-top: 30px;
+    margin-left: 60px;
+    margin: 40px 60px 20px;
+    font-size: 1.3rem;
+    color: #383838;
+    font-style: unset;
+    text-decoration: underline;
+    cursor: pointer;
+    &:hover {
+      color: blue;
+    }
   }
 
   .note {

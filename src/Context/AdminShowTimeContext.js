@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import { adminService, filmService } from '~/services';
 import Moment from 'react-moment';
 import { Modal, Button } from 'react-bootstrap';
-import { UilTimes } from '@iconscout/react-unicons';
+import { UilTimes, UilCheck } from '@iconscout/react-unicons';
 
 export const AdminShowTimeContext = createContext();
 
@@ -10,6 +10,8 @@ export const AdminShowTimeProvider = ({ children }) => {
   const [filmInfo, setFilmInfo] = useState([]);
   const [listRoom, setListRoom] = useState([]);
   const [row, setRow] = useState([]);
+  const [rowCancel, setRowCancel] = useState([]);
+
   const [show, setShow] = useState(false);
   const [filmId, setFilmId] = useState('');
   const [roomId, setRoomId] = useState('');
@@ -28,15 +30,18 @@ export const AdminShowTimeProvider = ({ children }) => {
   const handleClickCancel = async (filmId, roomId, date, startTime) => {
     const dateObject = new Date(date);
     const startDate = formatDate(dateObject);
+    await adminService.deleteOneShowTime(filmId, roomId, date, startTime);
     const res = await adminService.cancelOneShowTime(filmId, roomId, startDate, startTime);
     if (res.errCode === 0) {
       toggleShowToast({ header: 'Xong', content: 'Hủy lịch chiếu thành công!', isShow: true });
       handleGetAllFilmShowTime();
+      handleGetAllFilmShowTimeCancel();
       setTimeout(() => {
         toggleShowToast({});
       }, 3000);
     }
   };
+
   const handleDelete = () => {
     handleClickCancel(filmId, roomId, startDate, startTime);
     handleClose();
@@ -49,7 +54,7 @@ export const AdminShowTimeProvider = ({ children }) => {
   });
 
   const handleGetAllFilm = async () => {
-    const res = await filmService.getAllFilm(15);
+    const res = await filmService.getAllFilms();
     if (res.errCode === 0) {
       setFilmInfo(res.data);
     }
@@ -78,7 +83,7 @@ export const AdminShowTimeProvider = ({ children }) => {
 
   function formatDate(date) {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
@@ -95,15 +100,25 @@ export const AdminShowTimeProvider = ({ children }) => {
         col7: `${numberWithCommas(row.roomShowTime.priceTicket)} VND`,
         col8: (
           <>
-            <Button
-              size="sm"
-              variant="outline-danger"
-              style={{ marginRight: '16px' }}
-              // onClick={() => handleClickCancel(row.filmId, row.roomShowTime.id, row.startDate, row.startTime)}
-              onClick={() => handleShow(row.filmId, row.roomShowTime.id, row.startDate, row.startTime)}
-            >
-              <UilTimes size={18} />
-            </Button>
+            {row.status === 1 ? (
+              <Button
+                size="sm"
+                variant="outline-danger"
+                style={{ marginRight: '16px' }}
+                onClick={() => handleShow(row.filmId, row.roomShowTime.id, row.startDate, row.startTime)}
+              >
+                <UilTimes size={18} />
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                variant="outline-primary"
+                style={{ marginRight: '16px' }}
+                onClick={() => handleShow(row.filmId, row.roomShowTime.id, row.startDate, row.startTime)}
+              >
+                <UilCheck size={18} />
+              </Button>
+            )}
           </>
         ),
         // col6: moment(row.createdAt).format('LL'),
@@ -112,10 +127,32 @@ export const AdminShowTimeProvider = ({ children }) => {
     setRow(dataRow);
   };
 
+  const convertToDataRowCancel = (row) => {
+    const dataRow = row.map((row, index) => {
+      return {
+        col1: index + 1,
+        col2: row.filmShowTime.name,
+        col3: <Moment local="vi" format="DD/MM/YYYY" date={row.startDate} />,
+        col4: row.startTime,
+        col5: `0${row.roomShowTime.id}`,
+        col6: row.roomShowTime.maxUser,
+        col7: `${numberWithCommas(row.roomShowTime.priceTicket)} VND`,
+      };
+    });
+    setRowCancel(dataRow);
+  };
+
   const handleGetAllFilmShowTime = async () => {
     const res = await adminService.getAllFilmShowTime();
     if (res.errCode === 0) {
       convertToDataRow(res.data);
+    }
+  };
+
+  const handleGetAllFilmShowTimeCancel = async () => {
+    const res = await adminService.getAllFilmShowTimeCancel();
+    if (res.errCode === 0) {
+      convertToDataRowCancel(res.data);
     }
   };
 
@@ -140,7 +177,7 @@ export const AdminShowTimeProvider = ({ children }) => {
             padding: '20px 20px 20px',
           }}
         >
-          Bạn có chắc chắn muốn hủy?
+          Nếu hủy lịch chiếu thì sẽ không thể khôi phục lại. Bạn có chắc chắn muốn hủy?
         </Modal.Body>
         <Modal.Footer
           className="modal-footer"
@@ -189,6 +226,7 @@ export const AdminShowTimeProvider = ({ children }) => {
     handleGetAllFilm();
     handleGetAllRoom();
     handleGetAllFilmShowTime();
+    handleGetAllFilmShowTimeCancel();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -197,6 +235,7 @@ export const AdminShowTimeProvider = ({ children }) => {
         filmInfo,
         listRoom,
         row,
+        rowCancel,
         obToast,
         DeleteConfirmationDialog,
         handleGetAllFilmShowTime,
