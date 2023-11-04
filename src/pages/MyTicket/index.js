@@ -135,13 +135,13 @@ function MyTicket() {
                               <span>Cần Thơ</span>
                             </a>
                             <div>
-                              {ticket.status === 1 ? 'Hoàn Thành' : <span style={{ color: '#26aa99' }}>Đã bị hủy</span>}
+                              {ticket.status === 1 ? 'Hoàn Thành' : <span style={{ color: 'red' }}>Đã bị hủy</span>}
                             </div>
                           </div>
                         </div>
                         {ticket.status === 0 && (
                           <div className={cx('cancel-ticket')}>
-                            Vì một số lý do kỹ thuật, lịch chiếu phim đã bị hủy. Xin quý khách vui lòng đến trực tiếp
+                            Vì một số lý do kỹ thuật, lịch chiếu này đã bị hủy. Xin quý khách vui lòng đến trực tiếp
                             quầy vé để hoàn tiền. Xin chân thành xin lỗi!
                           </div>
                         )}

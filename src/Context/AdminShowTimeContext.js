@@ -177,7 +177,7 @@ export const AdminShowTimeProvider = ({ children }) => {
             padding: '20px 20px 20px',
           }}
         >
-          Nếu hủy lịch chiếu thì sẽ không thể khôi phục lại. Bạn có chắc chắn muốn hủy?
+          Nếu hủy lịch chiếu này thì sẽ không thể khôi phục lại. Bạn có chắc chắn muốn hủy?
         </Modal.Body>
         <Modal.Footer
           className="modal-footer"

@@ -118,7 +118,11 @@ function TableShowTime() {
               </ul>
             </div> */}
             <div className={cx('table')}>
-              <DataTable columns={columnsCancel} data={rowCancel} />
+              {rowCancel.length > 0 ? (
+                <DataTable columns={columnsCancel} data={rowCancel} />
+              ) : (
+                <div className={cx('no-show-time')}>Không có lịch chiếu nào bị hủy.</div>
+              )}
             </div>
             {DeleteConfirmationDialog()}
             {obToast.content.length > 0 && (

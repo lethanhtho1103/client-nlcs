@@ -282,12 +282,12 @@ function ModalCreateShowTime({ isShow, handleClose }) {
                   onChange={(e) => changeInput(e, 'startDate')}
                   id="startDate"
                   className={cx('form__field')}
-                  type="datetime-local"
+                  type="date"
                   value={startDate}
                   autoComplete="off"
                 ></input>
                 <label className={cx('form__label')} htmlFor="startDate">
-                  <span>*</span> Ngày khởi chiếu:
+                  <span>*</span> Ngày chiếu:
                 </label>
               </div>
             </div>
@@ -303,7 +303,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
                   id="startTime"
                   className={cx('form__field')}
                   autoComplete="off"
-                  type="input"
+                  type="time"
                   value={startTime}
                   onChange={(e) => changeInput(e, 'startTime')}
                 ></input>

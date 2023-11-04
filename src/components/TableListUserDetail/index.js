@@ -14,7 +14,7 @@ function TableListUserDetail({
   startDate,
   roomId,
   totalTicket,
-  priceTicket,
+  // priceTicket,
 }) {
   const [row, setRow] = useState([]);
   const [sumPrice, setSumPrice] = useState(0);
@@ -23,15 +23,31 @@ function TableListUserDetail({
     { Header: 'STT', accessor: 'col1', filter: 'fuzzyText' },
     { Header: 'Mã người dùng', accessor: 'col2', filter: 'fuzzyText' },
     { Header: 'Tên người dùng', accessor: 'col3', filter: 'fuzzyText' },
-    { Header: 'Số vé', accessor: 'col4', filter: 'fuzzyText' },
+    { Header: 'Số ghế', accessor: 'col4', filter: 'fuzzyText' },
     { Header: 'Combo bắp nước', accessor: 'col5', filter: 'fuzzyText' },
-    { Header: 'Số lượng combo', accessor: 'col6', filter: 'fuzzyText' },
-    { Header: 'Thành tiền', accessor: 'col7', filter: 'fuzzyText' },
+    { Header: 'Thành tiền', accessor: 'col6', filter: 'fuzzyText' },
   ];
 
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
+
+  const handelGetCornWater = (detailCombos) => {
+    let comboString = '';
+    detailCombos?.forEach((combo) => {
+      comboString = comboString + `${combo.quantity} x ${combo.cornWaterId}, `;
+    });
+    return comboString.slice(0, comboString.lastIndexOf(','));
+  };
+
+  const totalComboPrice = (detailCombos) => {
+    const initialValue = 0;
+    const sumWithInitial = detailCombos.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.quantity * currentValue.detailCornWater.price,
+      initialValue,
+    );
+    return sumWithInitial;
+  };
 
   const convertToDataRow = (row) => {
     const dataRow = row.map((row, index) => {
@@ -39,10 +55,9 @@ function TableListUserDetail({
         col1: index + 1,
         col2: row.userId,
         col3: row.userFilm.name,
-        col4: row.ticket,
-        col5: row.cornWaterId || 'Không có',
-        col6: row.quantityCombo || '',
-        col7: `${numberWithCommas(row.priceTicket * row.ticket)} VND`,
+        col4: row.seat,
+        col5: handelGetCornWater(row.detailListUser) || 'Không có',
+        col6: `${numberWithCommas(totalComboPrice(row.detailListUser) + row.priceTicket * row.ticket)} VND`,
         // col6: moment(row.createdAt).format('LL'),
       };
     });

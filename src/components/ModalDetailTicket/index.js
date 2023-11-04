@@ -85,7 +85,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
     Tên phim: ${detailTicket.film.name}
     Ngày chiếu: ${detailTicket.startDate}
     Giờ chiếu: ${detailTicket.startTime}
-    Phòng chiếu: ${detailTicket.roomId}
+    Phòng chiếu: 0${detailTicket.roomId}
     Số ghế: ${detailTicket.seat}
     Trạng thái: ${handelGetStatus()}
     Bắp-nước: ${handelGetCornWater()}
@@ -94,7 +94,6 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
   useEffect(() => {
     handleGetDetailCombos();
     handelGetCornWater();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
