@@ -4,6 +4,8 @@ import classNames from 'classnames/bind';
 import style from './TableListUserDetail.module.scss';
 import { useEffect, useState } from 'react';
 import { adminService } from '~/services';
+import { UilLabelAlt } from '@iconscout/react-unicons';
+
 const cx = classNames.bind(style);
 
 function TableListUserDetail({
@@ -14,7 +16,7 @@ function TableListUserDetail({
   startDate,
   roomId,
   totalTicket,
-  // priceTicket,
+  priceTicket,
 }) {
   const [row, setRow] = useState([]);
   const [sumPrice, setSumPrice] = useState(0);
@@ -74,13 +76,16 @@ function TableListUserDetail({
 
   const handleGetSumPrice = (data) => {
     const initPrice = 0;
-    const sumPrice = data.reduce((acc, curr) => acc + curr.priceTicket * curr.ticket, initPrice);
+    const sumPrice = data.reduce(
+      (acc, curr) => acc + curr.priceTicket * curr.ticket + totalComboPrice(curr.detailListUser),
+      initPrice,
+    );
+
     setSumPrice(sumPrice);
   };
 
   useEffect(() => {
     getListUserDetailTable();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -113,9 +118,36 @@ function TableListUserDetail({
               <span className={cx('more-number')}>{totalTicket}</span>
             </div>
             <div className={cx('wrap-more')}>
-              <span className={cx('more-content')}>Tổng tiền:</span>
-              <span className={cx('more-number', 'tl-right')}>{numberWithCommas(sumPrice)} VND</span>
+              <span className={cx('more-content')}>Đơn giá:</span>
+              <span className={cx('more-number')}>{numberWithCommas(priceTicket)} VND</span>
             </div>
+            <div className={cx('wrap-more')}>
+              <span className={cx('more-content')}>Tổng tiền:</span>
+              <span style={{ color: 'red' }} className={cx('more-number', 'tl-right')}>
+                {numberWithCommas(sumPrice)} VND
+              </span>
+            </div>
+          </div>
+          <div className={cx('note')}>
+            Ghi chú:
+            <ul className={cx('note-list')}>
+              <li className={cx('note-item')}>
+                <UilLabelAlt size={12} className={cx('list-tyle')} />
+                CW01: 01 bắp lớn vị ngọt + 02 nước lớn + 01 xúc xích lốc xoáy. Nhận trong ngày xem phim (181.000 VND)
+              </li>
+              <li className={cx('note-item')}>
+                <UilLabelAlt size={12} className={cx('list-tyle')} />
+                CW02: 01 bắp lớn vị ngọt + 01 nước lớn + 01 khoai lắc. Nhận trong ngày xem phim (150.000 VND)
+              </li>
+              <li className={cx('note-item')}>
+                <UilLabelAlt size={12} className={cx('list-tyle')} />
+                CW03: 01 bắp lớn vị ngọt + 01 nước lớn + 01 xúc xích lốc xoáy. Nhận trong ngày xem phim (150.000 VND)
+              </li>
+              <li className={cx('note-item')}>
+                <UilLabelAlt size={12} className={cx('list-tyle')} />
+                CW04: 01 bắp lớn vị ngọt + 02 nước lớn + 01 khoai lắc. Nhận trong ngày xem phim (179.000 VND)
+              </li>
+            </ul>
           </div>
           <div className={cx('table')}>
             <DataTable columns={columns} data={row} />

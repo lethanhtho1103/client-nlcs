@@ -17,6 +17,7 @@ function ListUserByTicket({ listUser }) {
   //   setTotalTicket(res.data);
   // };
 
+  console.log({ listUser });
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
@@ -58,27 +59,36 @@ function ListUserByTicket({ listUser }) {
       <div className={cx('wrap-item')} ref={workRef}>
         <div className={cx('item')}>
           <div className="row">
-            <Col sm={4} className={cx('title')}>
-              Ngày chiếu
-            </Col>
-            <Col sm={4} className={cx('title')}>
+            <Col sm={3} className={cx('title')}>
               Tên phim
             </Col>
-            <Col sm={4} className={cx('title')}>
+            <Col sm={3} className={cx('title')}>
+              Ngày chiếu
+            </Col>
+
+            <Col sm={3} className={cx('title')}>
               Giờ chiếu
+            </Col>
+
+            <Col sm={3} className={cx('title')}>
+              Phòng chiếu
             </Col>
           </div>
 
           <div className="row mb-2">
-            <Col sm={4} className={cx('name-main')}>
+            <Col sm={3} className={cx('name-main')}>
+              {listUser.film.name}
+            </Col>
+            <Col sm={3} className={cx('name-main')}>
               {/* {moment({listUser.film.startDate}).format('L')} ({moment(listUser.film.startDate).endOf().fromNow()} ) */}
               {listUser.startDate}
             </Col>
-            <Col sm={4} className={cx('name-main')}>
-              {listUser.film.name}
-            </Col>
-            <Col sm={4} className={cx('name-main')}>
+
+            <Col sm={3} className={cx('name-main')}>
               {listUser.startTime}
+            </Col>
+            <Col sm={3} className={cx('name-main')}>
+              0{listUser.roomId}
             </Col>
           </div>
           <div className="row">
@@ -87,7 +97,14 @@ function ListUserByTicket({ listUser }) {
               <h2>Thông tin thêm</h2>
             </Col>
           </div>
-
+          <div className="row">
+            <Col sm={4}>
+              <span className={cx('more-content')}>Trạng thái:</span>
+            </Col>
+            <Col sm={8}>
+              <span className={cx('more-number')}>{listUser.status === 1 ? 'Hoàn Thành' : 'Đã bị hủy'}</span>
+            </Col>
+          </div>
           <div className="row">
             <Col sm={4}>
               <span className={cx('more-content')}>Số vé đã đặt:</span>
@@ -104,7 +121,7 @@ function ListUserByTicket({ listUser }) {
               <span className={cx('more-number')}>{numberWithCommas(listUser.priceTicket)} VND</span>
             </Col>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <Col sm={4}>
               <span className={cx('more-content')}>Thành tiền:</span>
             </Col>
@@ -113,7 +130,8 @@ function ListUserByTicket({ listUser }) {
                 {numberWithCommas(listUser.totalTicket * listUser.priceTicket)} VND
               </span>
             </Col>
-          </div>
+          </div> */}
+
           {/* <div className="row">
             <Col sm={10}>
               <span className={cx('more-content')}>
@@ -123,7 +141,6 @@ function ListUserByTicket({ listUser }) {
             </Col>
           </div> */}
         </div>
-        {/* {!admin && <MoreWork id={id} getWorks={getWorks} />} */}
       </div>
     </div>
   );

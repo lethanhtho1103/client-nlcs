@@ -105,6 +105,32 @@
     padding: 0 8px;
   }
 
+  .note {
+    margin: 20px 0 20px 60px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    line-height: 24px;
+
+    .note-list {
+      list-style: circle;
+
+      .list-tyle {
+        margin-right: 12px;
+      }
+    }
+
+    .note-item {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #383838;
+      font-weight: 400;
+    }
+  }
+
   .table {
     margin: 20px 60px;
 

@@ -2,10 +2,8 @@ import DataTable from '~/components/DataTable';
 import classNames from 'classnames/bind';
 import style from './TableShowTime.module.scss';
 import { useContext, useState } from 'react';
-
 import { Button } from 'react-bootstrap';
-import { UilTimes } from '@iconscout/react-unicons';
-import { UilLabelAlt, UilCheck } from '@iconscout/react-unicons';
+import { UilLabelAlt, UilCheck, UilTimes } from '@iconscout/react-unicons';
 import ToastMassage from '../ToastMassage';
 import { AdminShowTimeContext } from '~/Context/AdminShowTimeContext';
 
