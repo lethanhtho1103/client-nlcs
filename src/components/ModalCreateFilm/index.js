@@ -11,9 +11,9 @@ import classNames from 'classnames/bind';
 import { filmService } from '~/services';
 
 const cx = classNames.bind(style);
-function ModalCreateFilm({ isShow, handleClose, handleOk }) {
+function ModalCreateFilm({ isShow, handleClose }) {
   const [name, setName] = useState('');
-  const [image, setImage] = useState('');
+  // const [image, setImage] = useState('');
   const [type, setType] = useState('');
   const [origin, setOrigin] = useState('');
   const [totalTime, setTotalTime] = useState('');
@@ -22,7 +22,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
   const [content, setContent] = useState('');
 
   const [nameErr, setNameErr] = useState('');
-  const [imageErr, setImageErr] = useState('');
+  // const [imageErr, setImageErr] = useState('');
   const [typeErr, setTypeErr] = useState('');
   const [originErr, setOriginErr] = useState('');
   const [totalTimeErr, setTotalTimeErr] = useState('');
@@ -43,16 +43,20 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
         setName(value);
         break;
       }
-      case 'image': {
-        setImage(value);
-        break;
-      }
+      // case 'image': {
+      //   setImage(value);
+      //   break;
+      // }
       case 'type': {
         setType(value);
         break;
       }
       case 'origin': {
         setOrigin(value);
+        const newSuggestions = filterSuggestions(value);
+        setSuggestions(newSuggestions);
+        setShowSuggestions(newSuggestions.length > 0);
+
         break;
       }
       case 'totalTime': {
@@ -79,10 +83,27 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
     }
   };
 
+  const [suggestions, setSuggestions] = useState(['Mỹ', 'Nhật Bản', 'Việt Nam', 'Thái Lan', 'Hàn Quốc', 'Trung Quốc']);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Hàm này sẽ được gọi khi người dùng chọn một gợi ý từ danh sách
+  const selectSuggestion = (suggestion) => {
+    setOrigin(suggestion);
+    setSuggestions([]);
+    setShowSuggestions(false);
+    setOrigin(suggestion);
+  };
+
+  const filterSuggestions = (value) => {
+    // Thực hiện lọc danh sách gợi ý dựa trên giá trị nhập vào
+    const filtered = suggestions.filter((suggestion) => suggestion.toLowerCase().includes(value.toLowerCase()));
+    return filtered;
+  };
+
   const setDefaultValue = (type) => {
     if (type === 'er') {
       setNameErr('');
-      setImageErr('');
+      // setImageErr('');
       setTypeErr('');
       setOriginErr('');
       setTotalTimeErr('');
@@ -91,7 +112,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
       setContentErr('');
     } else {
       setName('');
-      setImage('');
+      // setImage('');
       setType('');
       setOrigin('');
       setTotalTime('');
@@ -115,7 +136,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
     const res = await filmService.createFilm({
       name,
       type,
-      image,
+      // image,
       origin,
       startDate,
       totalTime,
@@ -135,9 +156,9 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
       case 'name': {
         return nameErr.length > 0;
       }
-      case 'image': {
-        return imageErr.length > 0;
-      }
+      // case 'image': {
+      //   return imageErr.length > 0;
+      // }
       case 'type': {
         return typeErr.length > 0;
       }
@@ -171,12 +192,12 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
       setNameErr('');
     }
 
-    if (!image) {
-      setImageErr('Link poster đang trống!');
-      err = false;
-    } else {
-      setImageErr('');
-    }
+    // if (!image) {
+    //   setImageErr('Link poster đang trống!');
+    //   err = false;
+    // } else {
+    //   setImageErr('');
+    // }
 
     if (!type) {
       setTypeErr('Bạn chưa nhập thể loại phim!');
@@ -251,7 +272,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
           className={cx('table-err', {
             show:
               nameErr ||
-              imageErr ||
+              // imageErr ||
               typeErr ||
               originErr ||
               totalTimeErr ||
@@ -276,14 +297,14 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
                   </label>
                 </li>
               )}
-              {imageErr && (
+              {/* {imageErr && (
                 <li>
                   <label htmlFor="image">
                     <FontAwesomeIcon icon={faCircleExclamation} />
                     {imageErr}
                   </label>
                 </li>
-              )}
+              )} */}
               {typeErr && (
                 <li>
                   <label htmlFor="type">
@@ -361,7 +382,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
                 </label>
               </div>
             </div>
-            <div>
+            {/* <div>
               <div
                 className={cx('form__group', 'field', {
                   err: checkErr('image'),
@@ -381,31 +402,35 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
                   <span>*</span> Link poster:
                 </label>
               </div>
-            </div>
-
-            <div className={cx('row')}>
-              <div className={cx('col-md-6')}>
+            </div> */}
+            <div>
+              <div>
                 <div
-                  className={cx('form__group', 'field', {
+                  className={cx('form__group', 'field', 'section-type', {
                     err: checkErr('type'),
                   })}
                 >
-                  <input
-                    required=""
-                    onChange={(e) => changeInput(e, 'type')}
+                  <select
                     value={type}
                     name="type"
-                    placeholder="type"
                     id="type"
-                    className={cx('form__field')}
-                    type="input"
-                  ></input>
+                    className={cx('type')}
+                    onChange={(e) => changeInput(e, 'type')}
+                  >
+                    <option value="">Chọn thể loại</option>
+                    <option value="Khoa Học Viễn tưởng">Khoa Học Viễn tưởng</option>
+                    <option value="Kinh dị, Ma, Gay cấn">Kinh dị, Ma, Gay cấn</option>
+                    <option value="Hài, Hoạt hình, Phiêu lưu">Hài, Hoạt hình, Phiêu lưu</option>
+                    <option value="Hành động, Hình sự, Gay cấn">Hành động, Hình sự, Gay cấn</option>
+                    <option value="Chính kịch, Tội phạm, Trinh thám">Chính kịch, Tội phạm, Trinh thám</option>
+                    <option value="Lãng mạn, Tình cảm">Lãng mạn, Tình cảm</option>
+                  </select>
                   <label className={cx('form__label')} htmlFor="type">
                     <span>*</span> Thể loại:
                   </label>
                 </div>
               </div>
-              <div className={cx('col-md-6')}>
+              <div>
                 <div
                   className={cx('form__group', 'field', {
                     err: checkErr('origin'),
@@ -413,6 +438,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
                 >
                   <input
                     onChange={(e) => changeInput(e, 'origin')}
+                    onBlur={() => setShowSuggestions(false)}
                     required=""
                     name="origin"
                     min="1"
@@ -422,6 +448,15 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
                     className={cx('form__field')}
                     type="input"
                   ></input>
+                  {showSuggestions && (
+                    <ul>
+                      {suggestions.map((suggestion, index) => (
+                        <li key={index} onClick={() => selectSuggestion(suggestion)}>
+                          {suggestion}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   <label className={cx('form__label')} htmlFor="origin">
                     <span>*</span> Quốc gia:
                   </label>
@@ -483,7 +518,7 @@ function ModalCreateFilm({ isShow, handleClose, handleOk }) {
                   onChange={(e) => changeInput(e, 'startDate')}
                   id="startDate"
                   className={cx('form__field')}
-                  type="datetime-local"
+                  type="date"
                   value={startDate}
                   autoComplete="off"
                 ></input>

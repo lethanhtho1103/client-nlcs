@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import style from './TableShowTime.module.scss';
 import { useContext, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { UilLabelAlt, UilCheck, UilTimes } from '@iconscout/react-unicons';
+import { UilLabelAlt, UilTimes } from '@iconscout/react-unicons';
 import ToastMassage from '../ToastMassage';
 import { AdminShowTimeContext } from '~/Context/AdminShowTimeContext';
 
@@ -61,14 +61,14 @@ function TableShowTime() {
             <div className={cx('note')}>
               Ghi chú:
               <ul className={cx('note-list')}>
-                <li className={cx('note-item')}>
+                {/* <li className={cx('note-item')}>
                   <UilLabelAlt size={12} className={cx('list-tyle')} />
                   Nhấn vào
                   <Button size="sm" className={cx('btn')} variant="outline-primary">
                     <UilCheck size={18} />
                   </Button>
                   để phục hồi lịch chiếu.
-                </li>
+                </li> */}
                 <li className={cx('note-item')}>
                   <UilLabelAlt size={12} className={cx('list-tyle')} />
                   Nhấn vào

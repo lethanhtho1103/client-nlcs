@@ -133,19 +133,19 @@ function TableListUserDetail({
             <ul className={cx('note-list')}>
               <li className={cx('note-item')}>
                 <UilLabelAlt size={12} className={cx('list-tyle')} />
-                CW01: 01 bắp lớn vị ngọt + 02 nước lớn + 01 xúc xích lốc xoáy. Nhận trong ngày xem phim (181.000 VND)
+                CW01: 01 bắp lớn vị ngọt + 02 nước lớn + 01 xúc xích lốc xoáy (181.000 VND)
               </li>
               <li className={cx('note-item')}>
                 <UilLabelAlt size={12} className={cx('list-tyle')} />
-                CW02: 01 bắp lớn vị ngọt + 01 nước lớn + 01 khoai lắc. Nhận trong ngày xem phim (150.000 VND)
+                CW02: 01 bắp lớn vị ngọt + 01 nước lớn + 01 khoai lắc (150.000 VND)
               </li>
               <li className={cx('note-item')}>
                 <UilLabelAlt size={12} className={cx('list-tyle')} />
-                CW03: 01 bắp lớn vị ngọt + 01 nước lớn + 01 xúc xích lốc xoáy. Nhận trong ngày xem phim (150.000 VND)
+                CW03: 01 bắp lớn vị ngọt + 01 nước lớn + 01 xúc xích lốc xoáy (150.000 VND)
               </li>
               <li className={cx('note-item')}>
                 <UilLabelAlt size={12} className={cx('list-tyle')} />
-                CW04: 01 bắp lớn vị ngọt + 02 nước lớn + 01 khoai lắc. Nhận trong ngày xem phim (179.000 VND)
+                CW04: 01 bắp lớn vị ngọt + 02 nước lớn + 01 khoai lắc (179.000 VND)
               </li>
             </ul>
           </div>

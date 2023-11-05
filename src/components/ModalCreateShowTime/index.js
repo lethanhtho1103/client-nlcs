@@ -7,24 +7,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBug } from '@fortawesome/free-solid-svg-icons';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { AdminShowTimeContext } from '~/Context/AdminShowTimeContext';
+import { UilLabelAlt } from '@iconscout/react-unicons';
 import style from './ModalCreateShowTime.module.scss';
 import classNames from 'classnames/bind';
-import { adminService } from '~/services';
+import { adminService, filmService } from '~/services';
 
 const cx = classNames.bind(style);
 
 function ModalCreateShowTime({ isShow, handleClose }) {
-  const [name, setName] = useState('');
+  const [filmId, setFilmId] = useState('');
   const [startDate, setStartDate] = useState();
   const [startTime, setStartTime] = useState('');
   const [roomId, setRoomId] = useState('');
   const [priceTicket, setPriceTicket] = useState();
   const [maxUser, setMaxUser] = useState();
-
-  const [nameErr, setNameErr] = useState('');
+  const [nameErr, setFilmIdErr] = useState('');
   const [startDateErr, setStartDateErr] = useState('');
   const [startTimeErr, setStartTimeErr] = useState('');
   const [roomIdErr, setRoomIdErr] = useState('');
+
+  const [startTimes, setStartTimes] = useState([]);
 
   const { filmInfo, listRoom, handleGetAllFilmShowTime } = useContext(AdminShowTimeContext);
 
@@ -34,15 +36,22 @@ function ModalCreateShowTime({ isShow, handleClose }) {
     isShow: false,
   });
 
-  const changeInput = (e, type) => {
+  const changeInput = async (e, type) => {
     const value = e.target.value;
     switch (type) {
-      case 'name': {
-        setName(value);
+      case 'filmId': {
+        await setFilmId(value);
+        if (startTimes.length > 0) {
+          handleGetStartTime(value, startDate);
+        }
+        if (startDate) {
+          handleGetStartTime(value, startDate);
+        }
         break;
       }
       case 'startDate': {
-        setStartDate(value);
+        await setStartDate(value);
+        handleGetStartTime(filmId, value);
         break;
       }
       case 'startTime': {
@@ -62,12 +71,12 @@ function ModalCreateShowTime({ isShow, handleClose }) {
 
   const setDefaultValue = (type) => {
     if (type === 'er') {
-      setNameErr('');
+      setFilmIdErr('');
       setStartDateErr('');
       setStartTimeErr('');
       setRoomIdErr('');
     } else {
-      setName('');
+      setFilmId('');
       setStartDate('');
       setStartTime('');
       setRoomId('');
@@ -86,7 +95,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
 
   const handleCreateShowTime = async () => {
     const res = await adminService.createShowTime({
-      filmId: name,
+      filmId,
       startDate: startDate.slice(0, 10) + ' 00:00:00',
       startTime,
       roomId,
@@ -126,11 +135,11 @@ function ModalCreateShowTime({ isShow, handleClose }) {
 
   const validate = () => {
     let err = true;
-    if (!name) {
-      setNameErr('Bạn phải điền tên phim!');
+    if (!filmId) {
+      setFilmIdErr('Bạn phải điền tên phim!');
       err = false;
     } else {
-      setNameErr('');
+      setFilmIdErr('');
     }
     if (!startDate) {
       setStartDateErr('Bạn chưa nhập ngày chiếu!');
@@ -174,10 +183,22 @@ function ModalCreateShowTime({ isShow, handleClose }) {
     }
   };
 
+  const handleGetStartTime = async (film, date) => {
+    const filmId = film;
+    const startDate = date;
+    const res = await filmService.getStartTimeFilm({ filmId, startDate });
+    if (res.errCode === 0) {
+      setStartTimes(res.data);
+    }
+  };
+
+  console.log(startTimes);
+
   useEffect(() => {
     handleGetOneRoom();
+    // handleGetStartTime(filmId, startDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId]);
+  }, [roomId, filmId, startDate]);
 
   return (
     <>
@@ -250,15 +271,15 @@ function ModalCreateShowTime({ isShow, handleClose }) {
             <div>
               <div
                 className={cx('form__group', 'field', 'section-name', {
-                  err: checkErr('name'),
+                  err: checkErr('filmId'),
                 })}
               >
                 <select
-                  value={name}
-                  name="name"
-                  id="name"
+                  value={filmId}
+                  name="filmId"
+                  id="filmId"
                   className={cx('name')}
-                  onChange={(e) => changeInput(e, 'name')}
+                  onChange={(e) => changeInput(e, 'filmId')}
                 >
                   <option value="">Chọn tên phim</option>
                   {filmInfo?.map((film, index) => (
@@ -267,7 +288,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
                     </option>
                   ))}
                 </select>
-                <label className={cx('form__label')} htmlFor="name">
+                <label className={cx('form__label')} htmlFor="filmId">
                   <span>*</span> Tên phim:
                 </label>
               </div>
@@ -291,50 +312,72 @@ function ModalCreateShowTime({ isShow, handleClose }) {
                 </label>
               </div>
             </div>
-            <div>
-              <div
-                className={cx('form__group', 'field', {
-                  err: checkErr('startTime'),
-                })}
-              >
-                <input
-                  required=""
-                  placeholder="startTime"
-                  id="startTime"
-                  className={cx('form__field')}
-                  autoComplete="off"
-                  type="time"
-                  value={startTime}
-                  onChange={(e) => changeInput(e, 'startTime')}
-                ></input>
-                <label className={cx('form__label')} htmlFor="startTime">
-                  <span>*</span> Giờ chiếu:
-                </label>
-              </div>
-            </div>
-            <div>
-              <div
-                className={cx('form__group', 'field', 'section-room', {
-                  err: checkErr('roomId'),
-                })}
-              >
-                <select
-                  value={roomId}
-                  name="roomId"
-                  id="roomId"
-                  className={cx('room')}
-                  onChange={(e) => changeInput(e, 'roomId')}
+            <div className={cx('row')}>
+              <div className={cx('col-md-6')}>
+                <div
+                  className={cx('form__group', 'field', {
+                    err: checkErr('startTime'),
+                  })}
                 >
-                  <option value="">Chọn phòng chiếu</option>
-                  {listRoom.map((room, index) => (
-                    <option key={index} value={room.id}>
-                      0{room.id}
-                    </option>
-                  ))}
-                </select>
-                <label className={cx('form__label')} htmlFor="roomId">
-                  <span>*</span> Phòng chiếu:
-                </label>
+                  <input
+                    required=""
+                    placeholder="startTime"
+                    id="startTime"
+                    className={cx('form__field')}
+                    autoComplete="off"
+                    type="time"
+                    value={startTime}
+                    onChange={(e) => changeInput(e, 'startTime')}
+                  ></input>
+                  <label className={cx('form__label')} htmlFor="startTime">
+                    <span>*</span> Giờ chiếu:
+                  </label>
+                </div>
+                <div>
+                  <div
+                    className={cx('form__group', 'field', 'section-room', {
+                      err: checkErr('roomId'),
+                    })}
+                  >
+                    <select
+                      value={roomId}
+                      name="roomId"
+                      id="roomId"
+                      className={cx('room')}
+                      onChange={(e) => changeInput(e, 'roomId')}
+                    >
+                      <option value="">Chọn phòng chiếu</option>
+                      {listRoom.map((room, index) => (
+                        <option key={index} value={room.id}>
+                          0{room.id}
+                        </option>
+                      ))}
+                    </select>
+                    <label className={cx('form__label')} htmlFor="roomId">
+                      <span>*</span> Phòng chiếu:
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className={cx('col-md-6', 'list-start-time')}>
+                {filmId && startDate && (
+                  <>
+                    <div>Danh sách các giờ đã chiếu</div>
+                    {startTimes.length > 0 ? (
+                      <ul>
+                        {startTimes.map((curr) => {
+                          return (
+                            <li key={curr.id}>
+                              <UilLabelAlt size={12} className={cx('list-style')} /> {curr.startTime}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <span>Chưa có giờ chiếu nào!</span>
+                    )}
+                  </>
+                )}
               </div>
             </div>
             <div>
