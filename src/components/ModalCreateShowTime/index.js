@@ -27,7 +27,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
   const [roomIdErr, setRoomIdErr] = useState('');
 
   const [startTimes, setStartTimes] = useState([]);
-
+  const [totalTime, setTotalTime] = useState(1);
   const { filmInfo, listRoom, handleGetAllFilmShowTime } = useContext(AdminShowTimeContext);
 
   const [obToast, setObToast] = useState({
@@ -36,22 +36,43 @@ function ModalCreateShowTime({ isShow, handleClose }) {
     isShow: false,
   });
 
+  function addMinutesToTime(initialTime, minutesToAdd) {
+    const [hour, minute] = initialTime.split(':').map(Number); // Chuyển đổi chuỗi thành số
+    // Tạo đối tượng Date cho mốc thời gian ban đầu
+    const initialTimeObj = new Date();
+    initialTimeObj.setHours(hour);
+    initialTimeObj.setMinutes(minute);
+
+    // Cộng thời gian
+    const addedTime = new Date(initialTimeObj.getTime() + minutesToAdd * 60 * 1000); // Số phút * 60 giây/phút * 1000 ms/giây
+
+    // Lấy giờ và phút từ kết quả
+    const resultHour = addedTime.getHours();
+    const resultMinute = addedTime.getMinutes();
+
+    // Định dạng kết quả để đảm bảo giờ và phút đều là hai số
+    const formattedResult = `${resultHour.toString().padStart(2, '0')}:${resultMinute.toString().padStart(2, '0')}`;
+
+    return formattedResult;
+  }
+
   const changeInput = async (e, type) => {
     const value = e.target.value;
     switch (type) {
       case 'filmId': {
-        await setFilmId(value);
-        if (startTimes.length > 0) {
-          handleGetStartTime(value, startDate);
-        }
-        if (startDate) {
-          handleGetStartTime(value, startDate);
-        }
+        setFilmId(value);
+        handleGetOneTotalTime(value);
         break;
       }
       case 'startDate': {
         await setStartDate(value);
-        handleGetStartTime(filmId, value);
+        handleGetAllStartTime(filmId, value);
+        if (startTimes.length > 0) {
+          handleGetAllStartTime(roomId, value);
+        }
+        if (roomId) {
+          handleGetAllStartTime(roomId, value);
+        }
         break;
       }
       case 'startTime': {
@@ -59,7 +80,13 @@ function ModalCreateShowTime({ isShow, handleClose }) {
         break;
       }
       case 'roomId': {
-        setRoomId(value);
+        await setRoomId(value);
+        if (startTimes.length > 0) {
+          handleGetAllStartTime(value, startDate);
+        }
+        if (startDate) {
+          handleGetAllStartTime(value, startDate);
+        }
         break;
       }
       // eslint-disable-next-line no-fallthrough
@@ -80,6 +107,8 @@ function ModalCreateShowTime({ isShow, handleClose }) {
       setStartDate('');
       setStartTime('');
       setRoomId('');
+      setMaxUser('');
+      setPriceTicket('');
     }
   };
 
@@ -104,7 +133,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
     if (res.errCode === 0) {
       toggleShowToast({ header: 'Xong', content: 'Đã tạo lịch chiếu thành công', isShow: true });
       handleGetAllFilmShowTime();
-      handleClose();
+      // handleClose();
       setDefaultValue();
       setTimeout(() => {
         toggleShowToast({});
@@ -169,9 +198,24 @@ function ModalCreateShowTime({ isShow, handleClose }) {
     return err;
   };
 
-  const handleCLickSuccess = () => {
+  const handleCLickSuccess = async () => {
     if (validate()) {
-      handleCreateShowTime();
+      // eslint-disable-next-line no-unused-vars
+      let flag = 0;
+      startTimes.forEach((item) => {
+        if (
+          (startTime > item.startTime && startTime < addMinutesToTime(item.startTime, totalTime)) ||
+          (addMinutesToTime(startTime, totalTime) > item.startTime &&
+            addMinutesToTime(startTime, totalTime) < addMinutesToTime(item.startTime, totalTime))
+        ) {
+          flag = 1;
+        }
+      });
+      if (flag === 1) {
+        alert('Khoảng thời gian chiếu đã được sắp trước đó . Vui lòng chọn lại giờ hoặc chọn ngày khác!');
+      } else {
+        handleCreateShowTime();
+      }
     }
   };
 
@@ -183,31 +227,30 @@ function ModalCreateShowTime({ isShow, handleClose }) {
     }
   };
 
-  const handleGetStartTime = async (film, date) => {
-    const filmId = film;
+  const handleGetOneTotalTime = async (value) => {
+    const filmId = value;
+    const res = await filmService.getOneFilm({ filmId });
+    if (res.errCode === 0) {
+      setTotalTime(res.data.totalTime);
+    }
+  };
+
+  const handleGetAllStartTime = async (room, date) => {
+    const roomId = room;
     const startDate = date;
-    const res = await filmService.getStartTimeFilm({ filmId, startDate });
+    const res = await filmService.getAllStartTime({ roomId, startDate });
     if (res.errCode === 0) {
       setStartTimes(res.data);
     }
   };
 
-  console.log(startTimes);
-
   useEffect(() => {
     handleGetOneRoom();
-    // handleGetStartTime(filmId, startDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId, filmId, startDate]);
+  }, [roomId, filmId, startDate, startTime]);
 
   return (
-    <>
-      <ToastMassage
-        isShow={obToast.isShow}
-        header={obToast.header}
-        content={obToast.content}
-        handleClose={() => toggleShowToast({})}
-      />
+    <div className={cx('wrap')}>
       <Modal
         show={isShow}
         onHide={() => {
@@ -215,6 +258,12 @@ function ModalCreateShowTime({ isShow, handleClose }) {
           handleClose();
         }}
       >
+        <ToastMassage
+          isShow={obToast.isShow}
+          header={obToast.header}
+          content={obToast.content}
+          handleClose={() => toggleShowToast({})}
+        />
         <div
           className={cx('table-err', {
             show: nameErr || roomIdErr || startDateErr || startTimeErr,
@@ -314,25 +363,6 @@ function ModalCreateShowTime({ isShow, handleClose }) {
             </div>
             <div className={cx('row')}>
               <div className={cx('col-md-6')}>
-                <div
-                  className={cx('form__group', 'field', {
-                    err: checkErr('startTime'),
-                  })}
-                >
-                  <input
-                    required=""
-                    placeholder="startTime"
-                    id="startTime"
-                    className={cx('form__field')}
-                    autoComplete="off"
-                    type="time"
-                    value={startTime}
-                    onChange={(e) => changeInput(e, 'startTime')}
-                  ></input>
-                  <label className={cx('form__label')} htmlFor="startTime">
-                    <span>*</span> Giờ chiếu:
-                  </label>
-                </div>
                 <div>
                   <div
                     className={cx('form__group', 'field', 'section-room', {
@@ -358,9 +388,32 @@ function ModalCreateShowTime({ isShow, handleClose }) {
                     </label>
                   </div>
                 </div>
+                <div
+                  className={cx('form__group', 'field', {
+                    err: checkErr('startTime'),
+                  })}
+                >
+                  <input
+                    required=""
+                    placeholder="startTime"
+                    id="startTime"
+                    className={cx('form__field')}
+                    autoComplete="off"
+                    type="time"
+                    step="60"
+                    value={startTime}
+                    onChange={(e) => changeInput(e, 'startTime')}
+                  ></input>
+                  {startTime && (
+                    <span className={cx('add-total-time')}>~&nbsp;&nbsp;{addMinutesToTime(startTime, totalTime)}</span>
+                  )}
+                  <label className={cx('form__label')} htmlFor="startTime">
+                    <span>*</span> Giờ chiếu:
+                  </label>
+                </div>
               </div>
               <div className={cx('col-md-6', 'list-start-time')}>
-                {filmId && startDate && (
+                {roomId && startDate && (
                   <>
                     <div>Danh sách các giờ đã chiếu</div>
                     {startTimes.length > 0 ? (
@@ -368,7 +421,8 @@ function ModalCreateShowTime({ isShow, handleClose }) {
                         {startTimes.map((curr) => {
                           return (
                             <li key={curr.id}>
-                              <UilLabelAlt size={12} className={cx('list-style')} /> {curr.startTime}
+                              <UilLabelAlt size={12} className={cx('list-style')} /> {curr.startTime} ~{' '}
+                              {addMinutesToTime(curr.startTime, curr.filmShowTime.totalTime)}
                             </li>
                           );
                         })}
@@ -436,7 +490,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
 

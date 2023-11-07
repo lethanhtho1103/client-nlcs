@@ -181,6 +181,20 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
+  async getAllStartTime({ roomId, startDate }) {
+    if ((roomId, startDate)) {
+      const res = await axios.get('/api/v1/show-time/get-all-start-time', {
+        params: {
+          roomId: roomId,
+          startDate: startDate,
+        },
+      });
+      return res.data;
+    }
+
+    return 'Thiếu tham số truyền vào';
+  },
+
   async getAllCommentComboCornWater() {
     const res = await axios.get('/api/v1/film/get-all-combo-corn-water');
     return res.data;

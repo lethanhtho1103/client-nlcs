@@ -51,6 +51,7 @@ const adminService = {
       }
     }
   },
+
   async deleteOneShowTime(filmId, roomId, startDate, startTime) {
     if (filmId && roomId && startDate && startTime) {
       try {

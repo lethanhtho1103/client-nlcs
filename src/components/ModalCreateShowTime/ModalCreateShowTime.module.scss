@@ -1,15 +1,15 @@
 .wrap {
   position: fixed;
-  box-sizing: border-box;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgb(0, 0, 0, 0.5);
+  // box-sizing: border-box;
+  // left: 0;
+  // top: 0;
+  // right: 0;
+  // bottom: 0;
+  // background-color: rgb(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  // z-index: 100000;
+  z-index: 100000 !important;
 }
 
 input[type='number']::-webkit-outer-spin-button,
@@ -121,7 +121,7 @@ input[type='number']::-webkit-inner-spin-button {
     margin-top: 10px;
   }
   &:last-child {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
   .icon {
     position: absolute;
@@ -226,6 +226,7 @@ input[type='number']::-webkit-inner-spin-button {
     border: none;
     margin-top: 14px !important;
     border-bottom: 2px solid #9b9b9b;
+    text-transform: capitalize;
     // max-height: 50px;
     // overflow-y: auto;
     // scrollbar-gutter: both-edges;
@@ -274,4 +275,11 @@ input[type='number']::-webkit-inner-spin-button {
     color: #9b9b9b;
     text-align: center;
   }
+}
+
+.add-total-time {
+  position: relative;
+  top: -32px;
+  left: 44px;
+  font-size: 1.4rem;
 }
