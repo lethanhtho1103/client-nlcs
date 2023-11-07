@@ -133,6 +133,15 @@ const adminService = {
       console.log(error);
     }
   },
+
+  async getStatisticalUserParAndReq({ year }) {
+    const res = await axios.get('api/v1/statistical/user-par-req', {
+      params: {
+        year,
+      },
+    });
+    return res.data;
+  },
 };
 
 export default adminService;

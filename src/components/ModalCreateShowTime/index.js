@@ -247,7 +247,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
   useEffect(() => {
     handleGetOneRoom();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId, filmId, startDate, startTime]);
+  }, [roomId]);
 
   return (
     <div className={cx('wrap')}>

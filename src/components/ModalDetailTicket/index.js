@@ -82,6 +82,7 @@ function ModalDetailTicket({ toggleX, detailTicket }) {
 
   const myTicket = `    Mã vé: ${detailTicket.id}
     Mã người dùng: ${detailTicket.userId}
+    Tên người dùng: ${detailTicket.userFilm.name}
     Tên phim: ${detailTicket.film.name}
     Ngày chiếu: ${detailTicket.startDate}
     Giờ chiếu: ${detailTicket.startTime}

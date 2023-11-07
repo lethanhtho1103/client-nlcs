@@ -10,6 +10,8 @@ import { isLoginSelector } from '~/redux/selector';
 import classNames from 'classnames/bind';
 import styles from './AdminStatistical.module.scss';
 import { AdminShowTimeProvider } from '~/Context/AdminShowTimeContext';
+import { Tab, Tabs } from 'react-bootstrap';
+import UserParStatistical from '~/components/UserParStatistical/UserParStatistical';
 
 const cx = classNames.bind(styles);
 
@@ -51,32 +53,32 @@ function AdminStatistical() {
           <div className={cx('menu-control')}>
             <a href="/">Trang chủ</a>/<span> Thống kê</span>
           </div>
-          {/* <Tabs
-          defaultActiveKey="student-par"
-          id="work"
-          className="mb-3"
-          activeKey={activeTab}
-          onSelect={handleTabSelect}
-        >
-          <Tab
-            eventKey="student-par"
-            tabClassName={cx({
-              active: activeTab === 'student-par',
-            })}
-            title="Sinh viên tham gia tình nguyện"
+          <Tabs
+            defaultActiveKey="student-par"
+            id="work"
+            className="mb-3"
+            activeKey={activeTab}
+            onSelect={handleTabSelect}
           >
-            <StudentParStatistical />
-          </Tab>
-          <Tab
-            eventKey="post"
-            title="Bài Post"
-            tabClassName={cx({
-              active: activeTab === 'post',
-            })}
-          >
-            <PostStatistical />
-          </Tab>
-        </Tabs> */}
+            <Tab
+              eventKey="student-par"
+              tabClassName={cx({
+                active: activeTab === 'student-par',
+              })}
+              title="Số Vé"
+            >
+              <UserParStatistical />
+            </Tab>
+            {/* <Tab
+              eventKey="post"
+              title="Bài Post"
+              tabClassName={cx({
+                active: activeTab === 'post',
+              })}
+            >
+              <PostStatistical />
+            </Tab> */}
+          </Tabs>
         </div>
       </div>
     </AdminShowTimeProvider>
