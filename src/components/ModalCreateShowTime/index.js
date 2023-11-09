@@ -29,7 +29,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
   const [startTimes, setStartTimes] = useState([]);
   const [totalTime, setTotalTime] = useState(1);
   const { filmInfo, listRoom, handleGetAllFilmShowTime } = useContext(AdminShowTimeContext);
-
+  const [isSuccess, setIsSuccess] = useState(true);
   const [obToast, setObToast] = useState({
     header: '',
     content: '',
@@ -77,6 +77,30 @@ function ModalCreateShowTime({ isShow, handleClose }) {
       }
       case 'startTime': {
         setStartTime(value);
+        // startTimes.forEach((item) => {
+        //   if (
+        //     (value >= item.startTime && value <= addMinutesToTime(item.startTime, totalTime)) ||
+        //     (addMinutesToTime(value, totalTime) >= item.startTime &&
+        //       addMinutesToTime(value, totalTime) <= addMinutesToTime(item.startTime, totalTime))
+        //   ) {
+        //     alert(
+        //       `${value} ~ ${addMinutesToTime(
+        //         value,
+        //         totalTime,
+        //       )} đã được sắp trước đó . Vui lòng chọn lại giờ hoặc ngày khác!`,
+        //     );
+        //     setStartTime('');
+        //   }
+        // });
+        startTimes.forEach((item) => {
+          if (
+            (value >= item.startTime && value <= addMinutesToTime(item.startTime, totalTime)) ||
+            (addMinutesToTime(value, totalTime) >= item.startTime &&
+              addMinutesToTime(value, totalTime) <= addMinutesToTime(item.startTime, totalTime))
+          ) {
+            setIsSuccess(false);
+          }
+        });
         break;
       }
       case 'roomId': {
@@ -201,20 +225,17 @@ function ModalCreateShowTime({ isShow, handleClose }) {
   const handleCLickSuccess = async () => {
     if (validate()) {
       // eslint-disable-next-line no-unused-vars
-      let flag = 0;
-      startTimes.forEach((item) => {
-        if (
-          (startTime > item.startTime && startTime < addMinutesToTime(item.startTime, totalTime)) ||
-          (addMinutesToTime(startTime, totalTime) > item.startTime &&
-            addMinutesToTime(startTime, totalTime) < addMinutesToTime(item.startTime, totalTime))
-        ) {
-          flag = 1;
-        }
-      });
-      if (flag === 1) {
-        alert('Khoảng thời gian chiếu đã được sắp trước đó . Vui lòng chọn lại giờ hoặc chọn ngày khác!');
-      } else {
+      if (isSuccess) {
         handleCreateShowTime();
+      } else {
+        alert(
+          `${startTime} ~ ${addMinutesToTime(
+            startTime,
+            totalTime,
+          )} đã được sắp trước đó . Vui lòng chọn lại giờ hoặc ngày khác!`,
+        );
+        setStartTime('');
+        setIsSuccess(true);
       }
     }
   };
@@ -247,7 +268,7 @@ function ModalCreateShowTime({ isShow, handleClose }) {
   useEffect(() => {
     handleGetOneRoom();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId]);
+  }, [roomId, startTime, startDate, filmId]);
 
   return (
     <div className={cx('wrap')}>

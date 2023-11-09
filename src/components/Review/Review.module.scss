@@ -44,6 +44,10 @@
           font-size: 2rem;
           line-height: 2.8rem;
           font-weight: 700;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
           span {
             font-size: 1.4rem;
             line-height: 2rem;

@@ -8,6 +8,8 @@ import classNames from 'classnames/bind';
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { userService } from '~/services';
 import Loader from '~/components/Loader';
+import { useSelector } from 'react-redux';
+import { isLoginSelector } from '~/redux/selector';
 const cx = classNames.bind(styles);
 
 function Register() {
@@ -20,7 +22,7 @@ function Register() {
   const [confPass, setConfPass] = useState('');
   const [isCheckBox, setIsCheckBox] = useState(true);
   const [errInput, setErrInput] = useState('');
-  const [isLoader, setIsloader] = useState(false);
+  const [isLoader, setIsLoader] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
 
   const handleChange = (e, type) => {
@@ -38,11 +40,11 @@ function Register() {
   };
 
   const handelSubmit = async () => {
-    setIsloader(true);
+    setIsLoader(true);
     var idLoader = await setTimeout(async () => {
       const res = await userService.register(fullName, userInput, passInput, confPass);
       setErrInput(res.errMessage);
-      setIsloader(false);
+      setIsLoader(false);
       clearTimeout(idLoader);
       if (res.errCode === 0) {
         setIsRegister(true);
@@ -54,13 +56,17 @@ function Register() {
       }
     }, 500);
   };
+  const isLogined = useSelector(isLoginSelector);
 
   const handleNavigate = useCallback(() => {
     if (isRegister) {
       alert('Đăng ký tài khoản thành công!');
       navigate('/login');
     }
-  }, [isRegister, navigate]);
+    if (isLogined) {
+      navigate('/');
+    }
+  }, [isRegister, isLogined, navigate]);
 
   const handleKeyDownSubmit = () => {
     window.addEventListener('keydown', (e) => {

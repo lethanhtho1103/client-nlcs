@@ -40,7 +40,7 @@ function Header({ active, contact }) {
         <div className={cx('controls')}>
           <ul className={cx('controls-list')}>
             <li className={cx('controls-item', { active })}>
-              <a href="/top-phim">Top phim</a>
+              <a href="/blog-phim">Blog phim</a>
             </li>
             <li className={cx('controls-item', { contact })}>
               <a href="/contact">Liên hệ</a>

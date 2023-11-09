@@ -9,6 +9,9 @@ import classNames from 'classnames/bind';
 
 import { userSlice } from '~/redux/reducer';
 import { userService } from '~/services';
+import { useSelector } from 'react-redux';
+import { isLoginSelector } from '~/redux/selector';
+
 import Loader from '~/components/Loader';
 
 const cx = classNames.bind(styles);
@@ -18,7 +21,7 @@ function Login() {
   const userInputRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLogined, setIsLogined] = useState(false);
+  // const [isLogined, setIsLogined] = useState(false);
   const [isCheckBox, setIsCheckBox] = useState(true);
   const [userInput, setUserInput] = useState('');
   const [passInput, setPassInput] = useState('');
@@ -55,8 +58,9 @@ function Login() {
   const saveUserLogin = (data) => {
     dispatch(userSlice.actions.saveUserLogin(data));
     dispatch(userSlice.actions.toggleUserLogin(true));
-    setIsLogined(true);
+    // setIsLogined(true);
   };
+  const isLogined = useSelector(isLoginSelector);
 
   const handleNavigate = useCallback(() => {
     if (isLogined) {
