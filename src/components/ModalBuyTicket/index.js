@@ -109,6 +109,13 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
     }, 2000);
   };
 
+  let moneyTemporary =
+    showTime.roomShowTime?.priceTicket * ticket +
+    (quantityCombo1 * comboCornWater[0].price +
+      quantityCombo2 * comboCornWater[1].price +
+      quantityCombo3 * comboCornWater[2].price +
+      quantityCombo4 * comboCornWater[3].price);
+
   const handleQuantitySeat = () => {
     let seat = '';
     // const init = showTime.currUser || 0;
@@ -206,7 +213,7 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
               <li>
                 <div></div>
                 <div className={cx('price')}>
-                  <b>{numberWithCommas(filmInfo.filmShowTime.roomShowTime.priceTicket * ticket)}&nbsp;VND</b>
+                  <b>{numberWithCommas(showTime.roomShowTime?.priceTicket * ticket)}&nbsp;VND</b>
                 </div>
               </li>
             </ul>
@@ -236,13 +243,7 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
               </div>
               <div>
                 <b className={cx('color-red')}>
-                  {numberWithCommas(
-                    filmInfo.filmShowTime.roomShowTime.priceTicket * ticket +
-                      (quantityCombo1 * comboCornWater[0].price +
-                        quantityCombo2 * comboCornWater[1].price +
-                        quantityCombo3 * comboCornWater[2].price +
-                        quantityCombo4 * comboCornWater[3].price),
-                  )}
+                  {numberWithCommas(moneyTemporary)}
                   &nbsp;VND
                 </b>
               </div>
@@ -265,7 +266,11 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
         <div className={cx('payment')}>
           <div className={cx('paypal')}>
             <h2>Thanh toán tiền bằng PayPal</h2>
-            <Paypal handleBuyComboCornWater={handleBuyComboCornWater} handleBuyTicket={handleBuyTicket} />
+            <Paypal
+              moneyTemporary={moneyTemporary}
+              handleBuyComboCornWater={handleBuyComboCornWater}
+              handleBuyTicket={handleBuyTicket}
+            />
           </div>
         </div>
       </div>

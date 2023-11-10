@@ -134,8 +134,18 @@ const adminService = {
     }
   },
 
-  async getStatisticalUserParAndReq({ year }) {
-    const res = await axios.get('api/v1/statistical/user-par-req', {
+  async getStatisticalUserParAndReq({ year, filmId }) {
+    const res = await axios.get('api/v1/statistical/film', {
+      params: {
+        year,
+        filmId,
+      },
+    });
+    return res.data;
+  },
+
+  async getStatisticalCornWater({ year }) {
+    const res = await axios.get('api/v1/statistical/corn-water', {
       params: {
         year,
       },

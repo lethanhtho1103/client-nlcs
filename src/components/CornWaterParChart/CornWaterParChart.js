@@ -15,14 +15,14 @@ import {
 import { adminService } from '~/services';
 
 // scss
-import styles from './UserParChart.module.scss';
+import styles from './CornWaterParChart.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 const cx = classNames.bind(styles);
 
 ChartJS.register(ChartDataLabels, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-function UserParChart({ year = new Date().getFullYear() - 1, filmId }) {
+function CornWaterParChart({ year = new Date().getFullYear() - 1 }) {
   const [dataPar, setDataPar] = useState([]);
 
   const options = {
@@ -38,7 +38,7 @@ function UserParChart({ year = new Date().getFullYear() - 1, filmId }) {
       },
       title: {
         display: true,
-        text: `Biểu đồ thống kê doanh thu của bộ phim đã đạt được năm ${year}`,
+        text: `Biểu đồ thống kê doanh thu bán bắp nước đã đạt được năm ${year}`,
         font: {
           size: 20,
         },
@@ -114,7 +114,7 @@ function UserParChart({ year = new Date().getFullYear() - 1, filmId }) {
     labels,
     datasets: [
       {
-        label: 'Doanh thu phim (VND)',
+        label: 'Doanh thu bán bắp nước (VND)',
         data: [...dataPar],
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -127,13 +127,13 @@ function UserParChart({ year = new Date().getFullYear() - 1, filmId }) {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await adminService.getStatisticalUserParAndReq({ year, filmId });
+      const res = await adminService.getStatisticalCornWater({ year });
       if (res.errCode === 0) {
         setDataPar(res.data.Par);
       }
     };
     getData();
-  }, [year, filmId]);
+  }, [year]);
   return (
     <div className={cx('wrap')}>
       <div className={cx('map')}>
@@ -143,4 +143,4 @@ function UserParChart({ year = new Date().getFullYear() - 1, filmId }) {
   );
 }
 
-export default UserParChart;
+export default CornWaterParChart;

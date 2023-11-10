@@ -1,7 +1,4 @@
-// import { Tabs, Tab } from 'react-bootstrap';
 import { useCallback, useEffect, useState } from 'react';
-// import StudentParStatistical from '~/components/StudentParStatistical/StudentParStatistical';
-// import PostStatistical from '~/components/PostStatistical/PostStatistical';
 import { useNavigate } from 'react-router-dom';
 import { UilEstate } from '@iconscout/react-unicons';
 import NavLeft from '~/components/NavLeft';
@@ -12,6 +9,7 @@ import styles from './AdminStatistical.module.scss';
 import { AdminShowTimeProvider } from '~/Context/AdminShowTimeContext';
 import { Tab, Tabs } from 'react-bootstrap';
 import UserParStatistical from '~/components/UserParStatistical/UserParStatistical';
+import CornWaterStatistical from '~/components/CornWaterStatistical/CornWaterStatistical';
 
 const cx = classNames.bind(styles);
 
@@ -65,19 +63,19 @@ function AdminStatistical() {
               tabClassName={cx({
                 active: activeTab === 'student-par',
               })}
-              title="Số Vé"
+              title="Doanh thu phim"
             >
               <UserParStatistical />
             </Tab>
-            {/* <Tab
+            <Tab
               eventKey="post"
-              title="Bài Post"
+              title="Doanh thu bắp nước"
               tabClassName={cx({
                 active: activeTab === 'post',
               })}
             >
-              <PostStatistical />
-            </Tab> */}
+              <CornWaterStatistical />
+            </Tab>
           </Tabs>
         </div>
       </div>

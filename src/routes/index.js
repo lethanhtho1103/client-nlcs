@@ -16,7 +16,7 @@ const publicRoutes = [
     component: Home,
   },
   {
-    path: '/top-phim',
+    path: '/blog-phim',
     component: TopFilm,
   },
   {

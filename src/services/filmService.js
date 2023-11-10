@@ -162,6 +162,15 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
+  async getAllTicketRegisterCancel(userId) {
+    if (userId) {
+      const res = await axios.get(`/api/v1/listuser/film-user-register-cancel?userId=${userId}`);
+      return res.data;
+    }
+
+    return 'Thiếu tham số truyền vào';
+  },
+
   async getAllListUser() {
     const res = await axios.get('/api/v1/film/get-all-listuser');
     return res.data;

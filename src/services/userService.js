@@ -27,6 +27,18 @@ const userService = {
     });
     return res.data;
   },
+
+  async updateUserMoneyRefund(id, moneyRefund) {
+    try {
+      const data = {
+        moneyRefund,
+      };
+      const res = await axios.patch(`/api/v1/user/money-refund?id=${id}`, data);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 export default userService;

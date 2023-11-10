@@ -8,10 +8,11 @@ import styles from './Login.module.scss';
 import classNames from 'classnames/bind';
 
 import { userSlice } from '~/redux/reducer';
-import { userService } from '~/services';
+import { filmService, userService } from '~/services';
 import { useSelector } from 'react-redux';
 import { isLoginSelector } from '~/redux/selector';
 
+import { userSelector } from '~/redux/selector';
 import Loader from '~/components/Loader';
 
 const cx = classNames.bind(styles);
@@ -27,6 +28,7 @@ function Login() {
   const [passInput, setPassInput] = useState('');
   const [errInput, setErrInput] = useState('');
   const [isLoader, setIsloader] = useState(false);
+  const currUser = useSelector(userSelector);
 
   const handleChange = (e, type) => {
     if (type === 'user') {
@@ -60,6 +62,27 @@ function Login() {
     dispatch(userSlice.actions.toggleUserLogin(true));
     // setIsLogined(true);
   };
+  const totalComboPrice = (detailCombos) => {
+    const initialValue = 0;
+    const sumWithInitial = detailCombos.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.quantity * currentValue.detailCornWater.price,
+      initialValue,
+    );
+    return sumWithInitial;
+  };
+
+  const handleGetAllTicketCancel = async () => {
+    const res = await filmService.getAllTicketRegisterCancel(currUser.id);
+    if (res.errCode === 0) {
+      const moneyRefund = res.data.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue.ticket * currentValue.priceTicket + totalComboPrice(currentValue.detailListUser),
+        0,
+      );
+      await userService.updateUserMoneyRefund(currUser.id, moneyRefund);
+    }
+  };
+
   const isLogined = useSelector(isLoginSelector);
 
   const handleNavigate = useCallback(() => {
@@ -77,6 +100,7 @@ function Login() {
   useEffect(() => {
     handleNavigate();
     handleKeyDownSubmit();
+    handleGetAllTicketCancel();
   }, [handleNavigate, isLogined]);
 
   return (

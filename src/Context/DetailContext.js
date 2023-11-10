@@ -202,11 +202,13 @@ export const DetailProvider = ({ children }) => {
     handleUpdateAvgRate();
     getFilmsPlaying();
     getAllComboCornWater();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filmId, userId, avgRate]);
   return (
     <DetailContext.Provider
       value={{
+        currUser,
         filmInfo,
         filmId,
         userId,

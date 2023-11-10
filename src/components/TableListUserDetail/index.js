@@ -5,6 +5,7 @@ import style from './TableListUserDetail.module.scss';
 import { useEffect, useState } from 'react';
 import { adminService } from '~/services';
 import { UilLabelAlt } from '@iconscout/react-unicons';
+import ExportToEx from '../ExportToEx';
 
 const cx = classNames.bind(style);
 
@@ -20,6 +21,7 @@ function TableListUserDetail({
 }) {
   const [row, setRow] = useState([]);
   const [sumPrice, setSumPrice] = useState(0);
+  const [exData, setExData] = useState([]);
 
   const columns = [
     { Header: 'STT', accessor: 'col1', filter: 'fuzzyText' },
@@ -70,7 +72,9 @@ function TableListUserDetail({
     const res = await adminService.getListUserDetailTable({ filmId, startTime, startDate });
     if (res.errCode === 0) {
       convertToDataRow(res.data);
+      setExData(res.data);
       handleGetSumPrice(res.data);
+      console.log(res.data);
     }
   };
 
@@ -117,15 +121,24 @@ function TableListUserDetail({
               <span className={cx('more-content')}>Số vé hiện tại:</span>
               <span className={cx('more-number')}>{totalTicket}</span>
             </div>
-            <div className={cx('wrap-more')}>
+            {/* <div className={cx('wrap-more')}>
               <span className={cx('more-content')}>Đơn giá:</span>
               <span className={cx('more-number')}>{numberWithCommas(priceTicket)} VND</span>
-            </div>
+            </div> */}
             <div className={cx('wrap-more')}>
               <span className={cx('more-content')}>Tổng tiền:</span>
               <span style={{ color: 'red' }} className={cx('more-number', 'tl-right')}>
                 {numberWithCommas(sumPrice)} VND
               </span>
+            </div>
+            <div className={cx('wrap-more')}>
+              <ExportToEx
+                filmName={filmName}
+                totalTicket={totalTicket}
+                totalComboPrice={totalComboPrice}
+                handelGetCornWater={handelGetCornWater}
+                data={exData}
+              />
             </div>
           </div>
           <div className={cx('note')}>
@@ -149,6 +162,7 @@ function TableListUserDetail({
               </li>
             </ul>
           </div>
+
           <div className={cx('table')}>
             <DataTable columns={columns} data={row} />
           </div>
