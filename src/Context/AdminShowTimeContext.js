@@ -36,16 +36,11 @@ export const AdminShowTimeProvider = ({ children }) => {
     return sumWithInitial;
   };
 
-  const handleGetAllTicketCancel = async (userId) => {
-    const res = await filmService.getAllTicketRegisterCancel(userId);
-    console.log(res);
+  const handleGetTicketCancel = async (userId, filmId, roomId, startDate, startTime) => {
+    const res = await filmService.getAllTicketRegisterCancel(userId, filmId, roomId, startDate, startTime);
     if (res.errCode === 0) {
-      const moneyRefund = res.data.reduce(
-        (accumulator, currentValue) =>
-          accumulator + currentValue.ticket * currentValue.priceTicket + totalComboPrice(currentValue.detailListUser),
-        0,
-      );
-      await userService.updateUserMoneyRefund(userId, moneyRefund);
+      const moneyRefund = res.data.ticket * res.data.priceTicket + totalComboPrice(res.data.detailListUser);
+      await userService.updateUserMoneyRefund(userId, moneyRefund + res.data.userFilm.moneyRefund);
     }
   };
 
@@ -56,7 +51,7 @@ export const AdminShowTimeProvider = ({ children }) => {
     const res = await adminService.cancelOneShowTime(filmId, roomId, startDate, startTime);
     if (res.errCode === 0) {
       res.data.forEach((element) => {
-        handleGetAllTicketCancel(element.userId);
+        handleGetTicketCancel(element.userId, filmId, roomId, startDate, startTime);
       });
       toggleShowToast({ header: 'Xong', content: 'Hủy lịch chiếu thành công!', isShow: true });
       handleGetAllFilmShowTime();

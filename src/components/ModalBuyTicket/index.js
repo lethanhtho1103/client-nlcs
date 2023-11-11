@@ -278,7 +278,6 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
                 </b>
               </div>
             </li>
-
             <li>
               <div>
                 <div>
@@ -310,6 +309,9 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
           </div>
         </div>
         <div className={cx('payment')}>
+          {/* <a target="_blank" href="http://localhost:8888/order/create_payment_url" rel="northerner noreferrer">
+            Thanh toán tiền bằng ví VNPAY
+          </a> */}
           <div className={cx('paypal')}>
             <h2>Thanh toán tiền bằng PayPal</h2>
             <Paypal

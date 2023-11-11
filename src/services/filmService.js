@@ -162,9 +162,11 @@ const filmService = {
     return 'Thiếu tham số truyền vào';
   },
 
-  async getAllTicketRegisterCancel(userId) {
+  async getAllTicketRegisterCancel(userId, filmId, roomId, startDate, startTime) {
     if (userId) {
-      const res = await axios.get(`/api/v1/listuser/film-user-register-cancel?userId=${userId}`);
+      const res = await axios.get(
+        `/api/v1/listuser/film-user-register-cancel?userId=${userId}&&filmId=${filmId}&&roomId=${roomId}&&startDate=${startDate}&&startTime=${startTime}`,
+      );
       return res.data;
     }
 
