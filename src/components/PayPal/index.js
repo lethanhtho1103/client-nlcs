@@ -2,24 +2,34 @@ import { PayPalButton } from 'react-paypal-button-v2';
 import { useContext } from 'react';
 import { DetailContext } from '~/Context/DetailContext';
 import { userService } from '~/services';
+import { useDispatch } from 'react-redux';
+import { userSlice } from '~/redux/reducer';
 function Paypal({ moneyTemporary, handleBuyTicket, handleBuyComboCornWater }) {
   const { currUser } = useContext(DetailContext);
+  const dispatch = useDispatch();
 
   const handelUpdateMoneyRefund = async () => {
     if (currUser.moneyRefund - moneyTemporary >= 0) {
-      await userService.updateUserMoneyRefund(currUser.id, currUser.moneyRefund - moneyTemporary);
+      const res = await userService.updateUserMoneyRefund(currUser.id, currUser.moneyRefund - moneyTemporary);
+      if (res.errCode === 0) {
+        dispatch(userSlice.actions.saveUserLogin(res.data));
+        dispatch(userSlice.actions.toggleUserLogin(true));
+      }
       return;
     } else {
-      await userService.updateUserMoneyRefund(currUser.id, 0);
+      const res = await userService.updateUserMoneyRefund(currUser.id, 0);
+      if (res.errCode === 0) {
+        dispatch(userSlice.actions.saveUserLogin(res.data));
+        dispatch(userSlice.actions.toggleUserLogin(true));
+      }
       return;
     }
   };
-  console.log(currUser.moneyRefund, moneyTemporary);
 
   return (
     <>
       <PayPalButton
-        amount={currUser.moneyRefund - moneyTemporary}
+        amount={currUser.moneyRefund - moneyTemporary >= 0 ? 0.01 : moneyTemporary - currUser.moneyRefund}
         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
         onSuccess={async (details, data) => {
           const res = await handleBuyTicket();

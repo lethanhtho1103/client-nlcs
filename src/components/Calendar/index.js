@@ -211,7 +211,7 @@ function Calendar() {
         </div>
         <section>
           <div className={cx('name-province')}>
-            <h2>Lịch chiếu Bộ Đôi Báo Thủ</h2>
+            <h2>Lịch chiếu {filmInfo.name}</h2>
             <a
               target="_blank"
               href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%E1%BA%A7n+Th%C6%A1/@10.0299337,105.7706153,17z/data=!3m1!4b1!4m6!3m5!1s0x31a0895a51d60719:0x9d76b0035f6d53d0!8m2!3d10.0299337!4d105.7706153!16s%2Fm%2F02r6wmy?hl=vi-VN&entry=ttu"

@@ -13,7 +13,6 @@
       align-items: center;
       position: relative;
       padding: 2rem 1rem 1.6rem;
-      border-bottom: 1px solid rgb(229, 229, 229);
       .user-avatar {
         width: 4.8rem;
         height: 4.8rem;
@@ -46,6 +45,14 @@
             margin-left: 4px;
           }
         }
+      }
+    }
+    .user-money-refund {
+      font-size: 1.4rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgb(229, 229, 229);
+      span {
+        font-weight: 600;
       }
     }
     .menu-bar {

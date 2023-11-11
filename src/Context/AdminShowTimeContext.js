@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { adminService, filmService } from '~/services';
+import { adminService, filmService, userService } from '~/services';
 import Moment from 'react-moment';
 import { Modal, Button } from 'react-bootstrap';
 import { UilTimes, UilCheck } from '@iconscout/react-unicons';
@@ -27,12 +27,37 @@ export const AdminShowTimeProvider = ({ children }) => {
     setStartTime(startTime);
   };
 
+  const totalComboPrice = (detailCombos) => {
+    const initialValue = 0;
+    const sumWithInitial = detailCombos.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.quantity * currentValue.detailCornWater.price,
+      initialValue,
+    );
+    return sumWithInitial;
+  };
+
+  const handleGetAllTicketCancel = async (userId) => {
+    const res = await filmService.getAllTicketRegisterCancel(userId);
+    console.log(res);
+    if (res.errCode === 0) {
+      const moneyRefund = res.data.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue.ticket * currentValue.priceTicket + totalComboPrice(currentValue.detailListUser),
+        0,
+      );
+      await userService.updateUserMoneyRefund(userId, moneyRefund);
+    }
+  };
+
   const handleClickCancel = async (filmId, roomId, date, startTime) => {
     const dateObject = new Date(date);
     const startDate = formatDate(dateObject);
     await adminService.deleteOneShowTime(filmId, roomId, date, startTime);
     const res = await adminService.cancelOneShowTime(filmId, roomId, startDate, startTime);
     if (res.errCode === 0) {
+      res.data.forEach((element) => {
+        handleGetAllTicketCancel(element.userId);
+      });
       toggleShowToast({ header: 'Xong', content: 'Hủy lịch chiếu thành công!', isShow: true });
       handleGetAllFilmShowTime();
       handleGetAllFilmShowTimeCancel();

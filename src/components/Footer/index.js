@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import { Container, Row, Col } from 'react-bootstrap';
 import { UilFacebookF } from '@iconscout/react-unicons';
 import { UilInstagram } from '@iconscout/react-unicons';
@@ -29,12 +30,12 @@ function Footer() {
               </div>
               <div className={cx('social')}>
                 <div>
-                  <a href="https://www.facebook.com/chiss.thoss?mibextid=ZbWKwL">
+                  <a target="_blank" href="https://www.facebook.com/chiss.thoss?mibextid=ZbWKwL">
                     <UilFacebookF />
                   </a>
                 </div>
                 <div>
-                  <a href="https://www.instagram.com/_tho1103/">
+                  <a target="_blank" href="https://www.instagram.com/_tho1103/">
                     <UilInstagram />
                   </a>
                 </div>

@@ -72,6 +72,9 @@ function MyTicket() {
                 </span>
               </div>
             </div>
+            <div className={cx('user-money-refund')}>
+              <span>Số tiền còn thừa:&nbsp;&nbsp;</span> {numberWithCommas(currUser.moneyRefund)} VND
+            </div>
             <ul className={cx('menu-bar')}>
               <li>
                 <div className={cx('icon-user')}>
@@ -142,7 +145,7 @@ function MyTicket() {
                         {ticket.status === 0 && (
                           <div className={cx('cancel-ticket')}>
                             Vì một số lý do kỹ thuật, lịch chiếu này đã bị hủy. Xin quý khách vui lòng đến trực tiếp
-                            quầy vé để hoàn tiền. Xin chân thành xin lỗi!
+                            quầy vé để hoàn tiền hoặc giữ lại cho lần đặt vé kế tiếp. Xin chân thành xin lỗi!
                           </div>
                         )}
                         <div className={cx('info-ticket')}>

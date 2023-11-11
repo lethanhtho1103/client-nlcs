@@ -32,6 +32,7 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
     cw02,
     cw03,
     cw04,
+    currUser,
   } = useContext(DetailContext);
 
   const handleMouseLeave = () => {
@@ -47,7 +48,34 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
   const handleClickX = () => {
     handelClickX();
   };
+
   const totalTicket = parseInt(listUserInfo?.ticket) + parseInt(ticket);
+
+  const handleQuantityUpdateSeat = () => {
+    let seat = '';
+    if (listUserInfo.seat.length > 0) {
+      for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
+        seat = seat + `${i}, `;
+      }
+      const index = seat.lastIndexOf(',');
+      return listUserInfo?.seat + ', ' + seat.slice(0, index);
+    } else {
+      for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
+        seat = seat + `${i}, `;
+      }
+      const index = seat.lastIndexOf(',');
+      return seat.slice(0, index);
+    }
+  };
+
+  const handleQuantitySeat = () => {
+    let seat = '';
+    for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
+      seat = seat + `${i}, `;
+    }
+    const index = seat.lastIndexOf(',');
+    return seat.slice(0, index);
+  };
 
   const handleBuyComboCornWater = async (listUserId) => {
     if (quantityCombo1 > 0) {
@@ -74,7 +102,7 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
       res = byTicket(
         filmInfo.id,
         totalTicket,
-        handleQuantitySeat(),
+        handleQuantityUpdateSeat(),
         startTime,
         startDate,
         showTime.roomShowTime.priceTicket,
@@ -84,7 +112,7 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
       res = byTicket(
         filmInfo.id,
         ticket,
-        handleQuantitySeat(),
+        handleQuantityUpdateSeat(),
         startTime,
         startDate,
         showTime.roomShowTime.priceTicket,
@@ -115,17 +143,6 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
       quantityCombo2 * comboCornWater[1].price +
       quantityCombo3 * comboCornWater[2].price +
       quantityCombo4 * comboCornWater[3].price);
-
-  const handleQuantitySeat = () => {
-    let seat = '';
-    // const init = showTime.currUser || 0;
-    // const maxUser = showTime.currUser ? showTime.currUser + ticket : ticket;
-    for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
-      seat = seat + `${i}, `;
-    }
-    const index = seat.lastIndexOf(',');
-    return seat.slice(0, index);
-  };
 
   return (
     <div onClick={handelClickHidden} className={cx('wrap')}>
@@ -242,8 +259,37 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
                 </div>
               </div>
               <div>
-                <b className={cx('color-red')}>
+                <b>
                   {numberWithCommas(moneyTemporary)}
+                  &nbsp;VND
+                </b>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div>
+                  <b>Tiền thừa</b>
+                </div>
+              </div>
+              <div>
+                <b>
+                  {numberWithCommas(currUser.moneyRefund)}
+                  &nbsp;VND
+                </b>
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <div>
+                  <b>Thanh toán</b>
+                </div>
+              </div>
+              <div>
+                <b className={cx('color-red')}>
+                  {numberWithCommas(
+                    currUser.moneyRefund - moneyTemporary >= 0 ? 0 : moneyTemporary - currUser.moneyRefund,
+                  )}
                   &nbsp;VND
                 </b>
               </div>
