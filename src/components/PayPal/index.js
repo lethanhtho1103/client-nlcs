@@ -13,14 +13,14 @@ function Paypal({ moneyTemporary, handleBuyTicket, handleBuyComboCornWater }) {
       const res = await userService.updateUserMoneyRefund(currUser.id, currUser.moneyRefund - moneyTemporary);
       if (res.errCode === 0) {
         dispatch(userSlice.actions.saveUserLogin(res.data));
-        dispatch(userSlice.actions.toggleUserLogin(true));
+        // dispatch(userSlice.actions.toggleUserLogin(true));
       }
       return;
     } else {
       const res = await userService.updateUserMoneyRefund(currUser.id, 0);
       if (res.errCode === 0) {
         dispatch(userSlice.actions.saveUserLogin(res.data));
-        dispatch(userSlice.actions.toggleUserLogin(true));
+        // dispatch(userSlice.actions.toggleUserLogin(true));
       }
       return;
     }
@@ -30,6 +30,7 @@ function Paypal({ moneyTemporary, handleBuyTicket, handleBuyComboCornWater }) {
     <>
       <PayPalButton
         amount={currUser.moneyRefund - moneyTemporary >= 0 ? 0.01 : moneyTemporary - currUser.moneyRefund}
+        // amount={moneyTemporary}
         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
         onSuccess={async (details, data) => {
           const res = await handleBuyTicket();
@@ -37,7 +38,6 @@ function Paypal({ moneyTemporary, handleBuyTicket, handleBuyComboCornWater }) {
             handleBuyComboCornWater(res.data.id);
             handelUpdateMoneyRefund();
           }
-          // alert('Transaction completed by ' + details.payer.name.given_name);
 
           // OPTIONAL: Call your server to save the transaction
           return fetch('/paypal-transaction-complete', {

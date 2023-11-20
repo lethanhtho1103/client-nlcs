@@ -32,7 +32,8 @@ function TopFilmUserSlide() {
               Top phim hay trên <span>NTFMovies</span>
             </h1>
             <h3>
-              Danh sách phim hay được ưa chuộng trên MoMo được cập nhật liên tục với đa dạng các thể loại, quốc gia.
+              Danh sách phim hay được ưa chuộng trên NTFMovies được cập nhật liên tục với đa dạng các thể loại, quốc
+              gia.
             </h3>
             <Row className={cx('list-movie')}>
               <Col className={cx('movie-item')}>

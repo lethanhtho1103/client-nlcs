@@ -9,7 +9,7 @@ import Footer from '~/components/Footer';
 import Header from '~/components/Header';
 import FilmPlaying from '~/components/FilmPlaying';
 import FilmUpcoming from '~/components/FilmUpcoming';
-
+import landing from '~/assets/images/landing1.jpg';
 const cx = classNames.bind(style);
 
 function HomeUser() {
@@ -82,10 +82,7 @@ function HomeUser() {
             </div>
           </Col>
           <Col md={6} className={cx('landing-item')}>
-            <img
-              alt="NTFMovies"
-              src="https://homepage.momocdn.net/blogscontents/momo-upload-api-230324144446-638152658866967300.jpg"
-            />
+            <img alt="NTFMovies" src={landing} />
           </Col>
         </Row>
         <FilmPlaying />

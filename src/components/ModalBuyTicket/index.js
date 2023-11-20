@@ -51,22 +51,22 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
 
   const totalTicket = parseInt(listUserInfo?.ticket) + parseInt(ticket);
 
-  const handleQuantityUpdateSeat = () => {
-    let seat = '';
-    if (listUserInfo.seat.length > 0) {
-      for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
-        seat = seat + `${i}, `;
-      }
-      const index = seat.lastIndexOf(',');
-      return listUserInfo?.seat + ', ' + seat.slice(0, index);
-    } else {
-      for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
-        seat = seat + `${i}, `;
-      }
-      const index = seat.lastIndexOf(',');
-      return seat.slice(0, index);
-    }
-  };
+  // const handleQuantityUpdateSeat = () => {
+  //   let seat = '';
+  //   if (listUserInfo.seat.length > 0) {
+  //     for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
+  //       seat = seat + `${i}, `;
+  //     }
+  //     const index = seat.lastIndexOf(',');
+  //     return listUserInfo?.seat + ', ' + seat.slice(0, index);
+  //   } else {
+  //     for (let i = showTime.currUser + 1; i <= showTime.currUser + ticket; i++) {
+  //       seat = seat + `${i}, `;
+  //     }
+  //     const index = seat.lastIndexOf(',');
+  //     return seat.slice(0, index);
+  //   }
+  // };
 
   const handleQuantitySeat = () => {
     let seat = '';
@@ -102,7 +102,7 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
       res = byTicket(
         filmInfo.id,
         totalTicket,
-        handleQuantityUpdateSeat(),
+        handleQuantitySeat(),
         startTime,
         startDate,
         showTime.roomShowTime.priceTicket,
@@ -112,7 +112,7 @@ function ModalBuyTicket({ byTicket, ticket, listUserInfo, showTime, startTime, s
       res = byTicket(
         filmInfo.id,
         ticket,
-        handleQuantityUpdateSeat(),
+        handleQuantitySeat(),
         startTime,
         startDate,
         showTime.roomShowTime.priceTicket,
