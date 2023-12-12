@@ -80,7 +80,7 @@ function ExportToEx({ data, handelGetCornWater, totalComboPrice, filmName, total
     );
 
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Danh sách vé của khách hàng');
-    XLSX.writeFile(workbook, `volunter_${new Date().getTime()}.xlsx`);
+    XLSX.writeFile(workbook, `NTFMovies_${new Date().getTime()}.xlsx`);
   };
 
   return (
